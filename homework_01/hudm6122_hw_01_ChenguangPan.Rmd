@@ -65,7 +65,7 @@ sapply(colnames(pottery)[1:9], function(x){
 })
 ```  
 Second, I draw the chi-square plot of the data as followed.
-```{r}
+```{r,fig.show='hold',out.width="50%",out.height= "50%"}
 # to drop the last discrete variable
 X <- pottery[,1:9]
 # get each col's mean
@@ -73,8 +73,20 @@ col_mean <-  colMeans(X)
 # get the cov matrix
 S <- cov(X)
 # solve() function can get inverse matrix directly
+# compute the generalised distance
+d <- apply(X, 1, # array; 1= row 2 = col
+           function(X) 
+             t(X - col_mean) %*% solve(S) %*% (X - col_mean))
+plot(qc <- qchisq((1:nrow(X) - 1/2)/ nrow(X), df = 9),
+     sd<- sort(d),
+     xlab = expression(paste(chi[9]^2," Quantile")),
+     ylab = "Odered Distance", xlim = range(qc)*c(1, 1.1))
+oups <- which(rank(abs(qc-sd), ties="random") > nrow(X) - 3)
+text(qc[oups], sd[oups]-1.5, names(oups))
+abline(a=0, b=1)
+```  
+The overall results showed that `TODO`.
 
 
-```
 
 
