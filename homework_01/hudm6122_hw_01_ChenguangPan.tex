@@ -90,7 +90,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -141,6 +141,28 @@ on all complete observations.
 \NormalTok{age     }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.15}  \SpecialCharTok{{-}}\FloatTok{0.12}
 \NormalTok{IQ     }\SpecialCharTok{{-}}\FloatTok{0.15}  \FloatTok{1.00}   \FloatTok{0.75}
 \NormalTok{weight }\SpecialCharTok{{-}}\FloatTok{0.12}  \FloatTok{0.75}   \FloatTok{1.00}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exercise-1.2}{%
+\subsection{Exercise 1.2}\label{exercise-1.2}}
+
+Fill the \texttt{NA} with the column's mean, and recalculate the
+correlation matrix.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# to impute the NA with mean using a for{-}loop}
+\ErrorTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (cols }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)) \{}
+\SpecialCharTok{+}\NormalTok{   my\_data[,cols][}\FunctionTok{is.na}\NormalTok{(my\_data[,cols])] }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(my\_data[,cols], }\AttributeTok{na.rm=}\NormalTok{T)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# create the correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ my\_data\_cor\_2 }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(my\_data[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)]),}\DecValTok{2}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ my\_data\_cor\_2 }
+\NormalTok{         age    IQ weight}
+\NormalTok{age     }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.14}  \SpecialCharTok{{-}}\FloatTok{0.10}
+\NormalTok{IQ     }\SpecialCharTok{{-}}\FloatTok{0.14}  \FloatTok{1.00}   \FloatTok{0.52}
+\NormalTok{weight }\SpecialCharTok{{-}}\FloatTok{0.10}  \FloatTok{0.52}   \FloatTok{1.00}
 \end{Highlighting}
 \end{Shaded}
 
