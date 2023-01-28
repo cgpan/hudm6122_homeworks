@@ -1,0 +1,26 @@
+---
+title: "HUDM6122 Homework_01"
+author: Chenguang Pan
+date: Jan 28, 2023
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: false
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```
+
+## Exercise 1.1  
+First, I make a dataframe of the `Table 1.1`'s original data
