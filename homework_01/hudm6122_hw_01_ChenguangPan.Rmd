@@ -6,7 +6,7 @@ output:
   pdf_document:
     toc: false
     toc_depth: 4
-    number_sections: false
+    number_sections: true
     keep_tex: true
     highlight: tango
 ---
@@ -23,4 +23,19 @@ knitr::opts_chunk$set(
 ```
 
 ## Exercise 1.1  
-First, I make a dataframe of the `Table 1.1`'s original data
+First, I made a xlsx. version of `Table 1.1` to let R read it directly using the package `readxl``. This table is in 10x7 size. The first column is just the index of each observation, so I drop it here. Finally this dataset is in 9x7 size.   
+
+One should notice that the `sex`, `depression`, and `health` are categorical variables. The Pearson Correlation Coefficient is used for continuous rather than categorical variables. Therefore, when calculate the correlation matrix we should drop the categorical ones.    
+
+Note, there are some parameters need to be set. Since the original dataset contains missing value, I construct the correlation matrix based on all complete observations.
+```{r}
+library(readxl)
+table_11 <- read_excel("table_1.1.xlsx")
+my_data <- table_11[,c(2:7)]
+# drop the discrete vars and use only the complete observations
+my_data_cor <- round(cor(my_data[,c(2,3,6)], use = "complete"),2)
+# the output is rounded in two decimals.
+my_data_cor
+```   
+
+
