@@ -88,5 +88,27 @@ abline(a=0, b=1)
 The overall results showed that `TODO`.
 
 
+## Exercise 1.4   
+This question can be addressed in one line using  `cov2cor` function      
+```{r}
+# import the cov matrix
+a_matrix<- matrix(c(3.8778, 2.8110, 3.1480, 3.5062,
+                    2.8110, 2.1210, 2.2669, 2.5690,
+                    3.1480, 2.2669, 2.6550, 2.8341,
+                    3.5062, 2.5690, 2.8341, 3.2352),4,4, byrow=T)
+round(cov2cor(a_matrix),3)
+```   
+But here I provide another more specific code to achieve this goal. Could you please consider to give me extra credits? Just kidding..lol..   
 
+```{r}
+# function to convert covariance matrix to correlation matrix
+cov2cor_test <- function(covmat) {
+    sd_vec <- sqrt(diag(covmat))
+    cormat <- covmat / outer(sd_vec, sd_vec)
+    return(cormat)
+}
+
+round(cov2cor_test(a_matrix),3)
+```  
+Finally, the results are exactly the same.
 

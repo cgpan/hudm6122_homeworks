@@ -261,5 +261,50 @@ Second, I draw the chi-square plot of the data as followed.
 \end{Shaded}
 
 \includegraphics[width=0.5\linewidth,height=0.5\textheight]{hudm6122_hw_01_ChenguangPan_files/figure-latex/unnamed-chunk-4-1}
+The overall results showed that \texttt{TODO}.
+
+\hypertarget{exercise-1.4}{%
+\subsection{Exercise 1.4}\label{exercise-1.4}}
+
+This question can be addressed in one line using \texttt{cov2cor}
+function
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the cov matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ a\_matrix}\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FloatTok{3.8778}\NormalTok{, }\FloatTok{2.8110}\NormalTok{, }\FloatTok{3.1480}\NormalTok{, }\FloatTok{3.5062}\NormalTok{,}
+\SpecialCharTok{+}                     \FloatTok{2.8110}\NormalTok{, }\FloatTok{2.1210}\NormalTok{, }\FloatTok{2.2669}\NormalTok{, }\FloatTok{2.5690}\NormalTok{,}
+\SpecialCharTok{+}                     \FloatTok{3.1480}\NormalTok{, }\FloatTok{2.2669}\NormalTok{, }\FloatTok{2.6550}\NormalTok{, }\FloatTok{2.8341}\NormalTok{,}
+\SpecialCharTok{+}                     \FloatTok{3.5062}\NormalTok{, }\FloatTok{2.5690}\NormalTok{, }\FloatTok{2.8341}\NormalTok{, }\FloatTok{3.2352}\NormalTok{),}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{, }\AttributeTok{byrow=}\NormalTok{T)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cov2cor}\NormalTok{(a\_matrix),}\DecValTok{3}\NormalTok{)}
+\NormalTok{      [,}\DecValTok{1}\NormalTok{]  [,}\DecValTok{2}\NormalTok{]  [,}\DecValTok{3}\NormalTok{]  [,}\DecValTok{4}\NormalTok{]}
+\NormalTok{[}\DecValTok{1}\NormalTok{,] }\FloatTok{1.000} \FloatTok{0.980} \FloatTok{0.981} \FloatTok{0.990}
+\NormalTok{[}\DecValTok{2}\NormalTok{,] }\FloatTok{0.980} \FloatTok{1.000} \FloatTok{0.955} \FloatTok{0.981}
+\NormalTok{[}\DecValTok{3}\NormalTok{,] }\FloatTok{0.981} \FloatTok{0.955} \FloatTok{1.000} \FloatTok{0.967}
+\NormalTok{[}\DecValTok{4}\NormalTok{,] }\FloatTok{0.990} \FloatTok{0.981} \FloatTok{0.967} \FloatTok{1.000}
+\end{Highlighting}
+\end{Shaded}
+
+But here I provide another more specific code to achieve this goal.
+Could you please consider to give me extra credits? Just kidding..lol..
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# function to convert covariance matrix to correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ cov2cor\_test }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(covmat) \{}
+\SpecialCharTok{+}\NormalTok{     sd\_vec }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{diag}\NormalTok{(covmat))}
+\SpecialCharTok{+}\NormalTok{     cormat }\OtherTok{\textless{}{-}}\NormalTok{ covmat }\SpecialCharTok{/} \FunctionTok{outer}\NormalTok{(sd\_vec, sd\_vec)}
+\SpecialCharTok{+}     \FunctionTok{return}\NormalTok{(cormat)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cov2cor\_test}\NormalTok{(a\_matrix),}\DecValTok{3}\NormalTok{)}
+\NormalTok{      [,}\DecValTok{1}\NormalTok{]  [,}\DecValTok{2}\NormalTok{]  [,}\DecValTok{3}\NormalTok{]  [,}\DecValTok{4}\NormalTok{]}
+\NormalTok{[}\DecValTok{1}\NormalTok{,] }\FloatTok{1.000} \FloatTok{0.980} \FloatTok{0.981} \FloatTok{0.990}
+\NormalTok{[}\DecValTok{2}\NormalTok{,] }\FloatTok{0.980} \FloatTok{1.000} \FloatTok{0.955} \FloatTok{0.981}
+\NormalTok{[}\DecValTok{3}\NormalTok{,] }\FloatTok{0.981} \FloatTok{0.955} \FloatTok{1.000} \FloatTok{0.967}
+\NormalTok{[}\DecValTok{4}\NormalTok{,] }\FloatTok{0.990} \FloatTok{0.981} \FloatTok{0.967} \FloatTok{1.000}
+\end{Highlighting}
+\end{Shaded}
+
 
 \end{document}
