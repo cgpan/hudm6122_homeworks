@@ -110,5 +110,47 @@ cov2cor_test <- function(covmat) {
 
 round(cov2cor_test(a_matrix),3)
 ```  
-Finally, the results are exactly the same.
+Finally, the results are exactly the same.  
 
+## Exercise 1.5    
+Here I write a function to get the Euclidean distance matrix for any shape of matrix. Since for any m * n matrix, there number of Eu-dist matrix's columns are always n-1+n-2+...+1. That is, there are n*(n-1)/2 columns in the Euclidean distance. 
+```{r}
+
+# write a function that can get Eu-dist matrix any shape of matrix
+
+eudis_matrix<-function(a_matrix){
+  # first define a function to get the eu distance of any two vectors
+  eu_distance <- function(vec_1, vec_2){
+    eu_dist <- sqrt(sum(vec_1-vec_2)^2)
+    # this
+    return(eu_dist)
+    }
+  
+  m <- nrow(a_matrix)
+  dist_matrix <- matrix(nrow = m, ncol = m)
+  for (i in 1:m ) {
+    for (j in 1:m) {
+      dist_matrix[i,j] <- eu_distance(a_matrix[i,], a_matrix[j,])
+    }
+  }
+  return(dist_matrix)
+}
+```      
+The function seems good. Then, I tried it on the given dataset.
+```{r}
+# import the data
+multi_mat<- matrix(c(3,6,4,0,7,
+                    4,2,7,4,6,
+                    4,0,3,1,5,
+                    6,2,6,1,1,
+                    1,6,2,1,4, 
+                    5,1,2,0,2,
+                    1,1,2,6,1,
+                    1,1,5,4,4,
+                    7,0,1,3,3,
+                    3,3,0,5,1),10,5, byrow=T)
+# create the euclidean dis-matrix on the given dataset.
+eudis_matrix(multi_mat)
+```
+
+Note each row of an empirical data n\*p matrix represents an observation/vector with P dimensions. Therefore, the entry[i, j] on a n\*n Euclidean distance matrix must be a scalar rather than a vector and represents the euclidean distance between ith observation/vector and jth observation/vector. 

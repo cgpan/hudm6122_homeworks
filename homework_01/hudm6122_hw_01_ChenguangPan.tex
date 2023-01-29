@@ -306,5 +306,76 @@ Could you please consider to give me extra credits? Just kidding..lol..
 \end{Highlighting}
 \end{Shaded}
 
+Finally, the results are exactly the same.
+
+\hypertarget{exercise-1.5}{%
+\subsection{Exercise 1.5}\label{exercise-1.5}}
+
+Here I write a function to get the Euclidean distance matrix for any
+shape of matrix. Since for any m * n matrix, there number of Eu-dist
+matrix's columns are always n-1+n-2+\ldots+1. That is, there are
+n*(n-1)/2 columns in the Euclidean distance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# write a function that can get Eu{-}dist matrix any shape of matrix}
+\ErrorTok{\textgreater{}} 
+\ErrorTok{\textgreater{}}\NormalTok{ eudis\_matrix}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(a\_matrix)\{}
+\SpecialCharTok{+}   \CommentTok{\# first define a function to get the eu distance of any two vectors}
+\SpecialCharTok{+}\NormalTok{   eu\_distance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(vec\_1, vec\_2)\{}
+\SpecialCharTok{+}\NormalTok{     eu\_dist }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{sum}\NormalTok{(vec\_1}\SpecialCharTok{{-}}\NormalTok{vec\_2)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\SpecialCharTok{+}     \CommentTok{\# this}
+\SpecialCharTok{+}     \FunctionTok{return}\NormalTok{(eu\_dist)}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}\NormalTok{   m }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(a\_matrix)}
+\SpecialCharTok{+}\NormalTok{   dist\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ m, }\AttributeTok{ncol =}\NormalTok{ m)}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{m ) \{}
+\SpecialCharTok{+}     \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{m) \{}
+\SpecialCharTok{+}\NormalTok{       dist\_matrix[i,j] }\OtherTok{\textless{}{-}} \FunctionTok{eu\_distance}\NormalTok{(a\_matrix[i,], a\_matrix[j,])}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}   \FunctionTok{return}\NormalTok{(dist\_matrix)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+The function seems good. Then, I tried it on the given dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}}\NormalTok{ multi\_mat}\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{7}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{4}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{6}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{4}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{1}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{, }
+\SpecialCharTok{+}                     \DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{2}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{1}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{,}\DecValTok{4}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{7}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}
+\SpecialCharTok{+}                     \DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{10}\NormalTok{,}\DecValTok{5}\NormalTok{, }\AttributeTok{byrow=}\NormalTok{T)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# create the euclidean dis{-}matrix on the given dataset.}
+\ErrorTok{\textgreater{}} \FunctionTok{eudis\_matrix}\NormalTok{(multi\_mat)}
+\NormalTok{      [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{] [,}\DecValTok{3}\NormalTok{] [,}\DecValTok{4}\NormalTok{] [,}\DecValTok{5}\NormalTok{] [,}\DecValTok{6}\NormalTok{] [,}\DecValTok{7}\NormalTok{] [,}\DecValTok{8}\NormalTok{] [,}\DecValTok{9}\NormalTok{] [,}\DecValTok{10}\NormalTok{]}
+\NormalTok{ [}\DecValTok{1}\NormalTok{,]    }\DecValTok{0}    \DecValTok{3}    \DecValTok{7}    \DecValTok{4}    \DecValTok{6}   \DecValTok{10}    \DecValTok{9}    \DecValTok{5}    \DecValTok{6}     \DecValTok{8}
+\NormalTok{ [}\DecValTok{2}\NormalTok{,]    }\DecValTok{3}    \DecValTok{0}   \DecValTok{10}    \DecValTok{7}    \DecValTok{9}   \DecValTok{13}   \DecValTok{12}    \DecValTok{8}    \DecValTok{9}    \DecValTok{11}
+\NormalTok{ [}\DecValTok{3}\NormalTok{,]    }\DecValTok{7}   \DecValTok{10}    \DecValTok{0}    \DecValTok{3}    \DecValTok{1}    \DecValTok{3}    \DecValTok{2}    \DecValTok{2}    \DecValTok{1}     \DecValTok{1}
+\NormalTok{ [}\DecValTok{4}\NormalTok{,]    }\DecValTok{4}    \DecValTok{7}    \DecValTok{3}    \DecValTok{0}    \DecValTok{2}    \DecValTok{6}    \DecValTok{5}    \DecValTok{1}    \DecValTok{2}     \DecValTok{4}
+\NormalTok{ [}\DecValTok{5}\NormalTok{,]    }\DecValTok{6}    \DecValTok{9}    \DecValTok{1}    \DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}     \DecValTok{2}
+\NormalTok{ [}\DecValTok{6}\NormalTok{,]   }\DecValTok{10}   \DecValTok{13}    \DecValTok{3}    \DecValTok{6}    \DecValTok{4}    \DecValTok{0}    \DecValTok{1}    \DecValTok{5}    \DecValTok{4}     \DecValTok{2}
+\NormalTok{ [}\DecValTok{7}\NormalTok{,]    }\DecValTok{9}   \DecValTok{12}    \DecValTok{2}    \DecValTok{5}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}     \DecValTok{1}
+\NormalTok{ [}\DecValTok{8}\NormalTok{,]    }\DecValTok{5}    \DecValTok{8}    \DecValTok{2}    \DecValTok{1}    \DecValTok{1}    \DecValTok{5}    \DecValTok{4}    \DecValTok{0}    \DecValTok{1}     \DecValTok{3}
+\NormalTok{ [}\DecValTok{9}\NormalTok{,]    }\DecValTok{6}    \DecValTok{9}    \DecValTok{1}    \DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}     \DecValTok{2}
+\NormalTok{[}\DecValTok{10}\NormalTok{,]    }\DecValTok{8}   \DecValTok{11}    \DecValTok{1}    \DecValTok{4}    \DecValTok{2}    \DecValTok{2}    \DecValTok{1}    \DecValTok{3}    \DecValTok{2}     \DecValTok{0}
+\end{Highlighting}
+\end{Shaded}
+
+Note each row of an empirical data n*p matrix represents an
+observation/vector with P dimensions. Therefore, the entry{[}i, j{]} on
+a n*n Euclidean distance matrix must be a scalar rather than a vector
+and represents the euclidean distance between ith observation/vector and
+jth observation/vector.
 
 \end{document}
