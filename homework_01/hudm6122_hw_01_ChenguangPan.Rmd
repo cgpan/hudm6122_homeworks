@@ -84,7 +84,8 @@ plot(qc <- qchisq((1:nrow(X) - 1/2)/ nrow(X), df = 9),
 oups <- which(rank(abs(qc-sd), ties="random") > nrow(X) - 3)
 text(qc[oups], sd[oups]-1.5, names(oups))
 abline(a=0, b=1)
-```  
+```      
+
 The overall results showed that `TODO`.
 
 
@@ -161,13 +162,13 @@ Note each row of an empirical data n\*p matrix represents an observation/vector 
 
 ### E1.5 Part 2 Create the City Block Distance Matrix   
 
-Here this question raise alternative concept called `city block distance`.
+Here this question raise alternative concept called `city block distance`. It is  the sum of the absolute differences of the blocks' coordinates.
 ```{r}
 # write a function that can get city block distance
 city_matrix<-function(a_matrix){
   # first define a function to get the eu distance of any two vectors
   city_distance <- function(vec_1, vec_2){
-    city_dist <- sum(vec_1-vec_2)
+    city_dist <- sum(abs(vec_1-vec_2))
     return(city_dist)
     }
   
