@@ -311,22 +311,24 @@ Finally, the results are exactly the same.
 \hypertarget{exercise-1.5}{%
 \subsection{Exercise 1.5}\label{exercise-1.5}}
 
+\hypertarget{e1.5-part-1-create-the-euclidean-distance-matrix}{%
+\subsubsection{E1.5 Part 1 Create the Euclidean Distance
+Matrix}\label{e1.5-part-1-create-the-euclidean-distance-matrix}}
+
 Here I write a function to get the Euclidean distance matrix for any
-shape of matrix. Since for any m * n matrix, there number of Eu-dist
-matrix's columns are always n-1+n-2+\ldots+1. That is, there are
-n*(n-1)/2 columns in the Euclidean distance.
+shape of observed matrix. Since for any m * n matrix, the size of
+euclidean distance is always m * m.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\SpecialCharTok{\textgreater{}} 
-\ErrorTok{\textgreater{}} \CommentTok{\# write a function that can get Eu{-}dist matrix any shape of matrix}
-\ErrorTok{\textgreater{}} 
-\ErrorTok{\textgreater{}}\NormalTok{ eudis\_matrix}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(a\_matrix)\{}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# write a function that can get Eu{-}dist matrix any shape of matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ eudis\_matrix }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(a\_matrix)\{}
 \SpecialCharTok{+}   \CommentTok{\# first define a function to get the eu distance of any two vectors}
 \SpecialCharTok{+}\NormalTok{   eu\_distance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(vec\_1, vec\_2)\{}
-\SpecialCharTok{+}\NormalTok{     eu\_dist }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(}\FunctionTok{sum}\NormalTok{(vec\_1}\SpecialCharTok{{-}}\NormalTok{vec\_2)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
-\SpecialCharTok{+}     \CommentTok{\# this}
-\SpecialCharTok{+}     \FunctionTok{return}\NormalTok{(eu\_dist)}
+\SpecialCharTok{+}\NormalTok{     d\_2\_vec }\OtherTok{\textless{}{-}}\NormalTok{ (vec\_1}\SpecialCharTok{{-}}\NormalTok{vec\_2)}\SpecialCharTok{\^{}}\DecValTok{2}
+\SpecialCharTok{+}\NormalTok{     d\_2 }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(d\_2\_vec)}
+\SpecialCharTok{+}\NormalTok{     d }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(d\_2)}
+\SpecialCharTok{+}     \FunctionTok{return}\NormalTok{(d)}
 \SpecialCharTok{+}\NormalTok{     \}}
 \SpecialCharTok{+}   
 \SpecialCharTok{+}\NormalTok{   m }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(a\_matrix)}
@@ -357,18 +359,18 @@ The function seems good. Then, I tried it on the given dataset.
 \SpecialCharTok{+}                     \DecValTok{7}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}
 \SpecialCharTok{+}                     \DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{5}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{10}\NormalTok{,}\DecValTok{5}\NormalTok{, }\AttributeTok{byrow=}\NormalTok{T)}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# create the euclidean dis{-}matrix on the given dataset.}
-\ErrorTok{\textgreater{}} \FunctionTok{eudis\_matrix}\NormalTok{(multi\_mat)}
-\NormalTok{      [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{] [,}\DecValTok{3}\NormalTok{] [,}\DecValTok{4}\NormalTok{] [,}\DecValTok{5}\NormalTok{] [,}\DecValTok{6}\NormalTok{] [,}\DecValTok{7}\NormalTok{] [,}\DecValTok{8}\NormalTok{] [,}\DecValTok{9}\NormalTok{] [,}\DecValTok{10}\NormalTok{]}
-\NormalTok{ [}\DecValTok{1}\NormalTok{,]    }\DecValTok{0}    \DecValTok{3}    \DecValTok{7}    \DecValTok{4}    \DecValTok{6}   \DecValTok{10}    \DecValTok{9}    \DecValTok{5}    \DecValTok{6}     \DecValTok{8}
-\NormalTok{ [}\DecValTok{2}\NormalTok{,]    }\DecValTok{3}    \DecValTok{0}   \DecValTok{10}    \DecValTok{7}    \DecValTok{9}   \DecValTok{13}   \DecValTok{12}    \DecValTok{8}    \DecValTok{9}    \DecValTok{11}
-\NormalTok{ [}\DecValTok{3}\NormalTok{,]    }\DecValTok{7}   \DecValTok{10}    \DecValTok{0}    \DecValTok{3}    \DecValTok{1}    \DecValTok{3}    \DecValTok{2}    \DecValTok{2}    \DecValTok{1}     \DecValTok{1}
-\NormalTok{ [}\DecValTok{4}\NormalTok{,]    }\DecValTok{4}    \DecValTok{7}    \DecValTok{3}    \DecValTok{0}    \DecValTok{2}    \DecValTok{6}    \DecValTok{5}    \DecValTok{1}    \DecValTok{2}     \DecValTok{4}
-\NormalTok{ [}\DecValTok{5}\NormalTok{,]    }\DecValTok{6}    \DecValTok{9}    \DecValTok{1}    \DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}     \DecValTok{2}
-\NormalTok{ [}\DecValTok{6}\NormalTok{,]   }\DecValTok{10}   \DecValTok{13}    \DecValTok{3}    \DecValTok{6}    \DecValTok{4}    \DecValTok{0}    \DecValTok{1}    \DecValTok{5}    \DecValTok{4}     \DecValTok{2}
-\NormalTok{ [}\DecValTok{7}\NormalTok{,]    }\DecValTok{9}   \DecValTok{12}    \DecValTok{2}    \DecValTok{5}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}     \DecValTok{1}
-\NormalTok{ [}\DecValTok{8}\NormalTok{,]    }\DecValTok{5}    \DecValTok{8}    \DecValTok{2}    \DecValTok{1}    \DecValTok{1}    \DecValTok{5}    \DecValTok{4}    \DecValTok{0}    \DecValTok{1}     \DecValTok{3}
-\NormalTok{ [}\DecValTok{9}\NormalTok{,]    }\DecValTok{6}    \DecValTok{9}    \DecValTok{1}    \DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}    \DecValTok{1}    \DecValTok{0}     \DecValTok{2}
-\NormalTok{[}\DecValTok{10}\NormalTok{,]    }\DecValTok{8}   \DecValTok{11}    \DecValTok{1}    \DecValTok{4}    \DecValTok{2}    \DecValTok{2}    \DecValTok{1}    \DecValTok{3}    \DecValTok{2}     \DecValTok{0}
+\ErrorTok{\textgreater{}} \FunctionTok{round}\NormalTok{(}\FunctionTok{eudis\_matrix}\NormalTok{(multi\_mat),}\DecValTok{2}\NormalTok{)}
+\NormalTok{       [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{] [,}\DecValTok{3}\NormalTok{] [,}\DecValTok{4}\NormalTok{] [,}\DecValTok{5}\NormalTok{] [,}\DecValTok{6}\NormalTok{]  [,}\DecValTok{7}\NormalTok{] [,}\DecValTok{8}\NormalTok{] [,}\DecValTok{9}\NormalTok{] [,}\DecValTok{10}\NormalTok{]}
+\NormalTok{ [}\DecValTok{1}\NormalTok{,]  }\FloatTok{0.00} \FloatTok{6.56} \FloatTok{6.56} \FloatTok{8.12} \FloatTok{4.24} \FloatTok{7.62} \FloatTok{10.25} \FloatTok{7.42} \FloatTok{9.27}  \FloatTok{9.27}
+\NormalTok{ [}\DecValTok{2}\NormalTok{,]  }\FloatTok{6.56} \FloatTok{0.00} \FloatTok{5.48} \FloatTok{6.24} \FloatTok{7.94} \FloatTok{7.68}  \FloatTok{8.00} \FloatTok{4.24} \FloatTok{7.68}  \FloatTok{8.77}
+\NormalTok{ [}\DecValTok{3}\NormalTok{,]  }\FloatTok{6.56} \FloatTok{5.48} \FloatTok{0.00} \FloatTok{5.74} \FloatTok{6.86} \FloatTok{3.61}  \FloatTok{7.21} \FloatTok{4.90} \FloatTok{4.58}  \FloatTok{7.14}
+\NormalTok{ [}\DecValTok{4}\NormalTok{,]  }\FloatTok{8.12} \FloatTok{6.24} \FloatTok{5.74} \FloatTok{0.00} \FloatTok{8.12} \FloatTok{4.47}  \FloatTok{8.19} \FloatTok{6.71} \FloatTok{6.16}  \FloatTok{7.87}
+\NormalTok{ [}\DecValTok{5}\NormalTok{,]  }\FloatTok{4.24} \FloatTok{7.94} \FloatTok{6.86} \FloatTok{8.12} \FloatTok{0.00} \FloatTok{6.78}  \FloatTok{7.68} \FloatTok{6.56} \FloatTok{8.83}  \FloatTok{6.48}
+\NormalTok{ [}\DecValTok{6}\NormalTok{,]  }\FloatTok{7.62} \FloatTok{7.68} \FloatTok{3.61} \FloatTok{4.47} \FloatTok{6.78} \FloatTok{0.00}  \FloatTok{7.28} \FloatTok{6.71} \FloatTok{4.00}  \FloatTok{6.16}
+\NormalTok{ [}\DecValTok{7}\NormalTok{,] }\FloatTok{10.25} \FloatTok{8.00} \FloatTok{7.21} \FloatTok{8.19} \FloatTok{7.68} \FloatTok{7.28}  \FloatTok{0.00} \FloatTok{4.69} \FloatTok{7.14}  \FloatTok{3.61}
+\NormalTok{ [}\DecValTok{8}\NormalTok{,]  }\FloatTok{7.42} \FloatTok{4.24} \FloatTok{4.90} \FloatTok{6.71} \FloatTok{6.56} \FloatTok{6.71}  \FloatTok{4.69} \FloatTok{0.00} \FloatTok{7.42}  \FloatTok{6.56}
+\NormalTok{ [}\DecValTok{9}\NormalTok{,]  }\FloatTok{9.27} \FloatTok{7.68} \FloatTok{4.58} \FloatTok{6.16} \FloatTok{8.83} \FloatTok{4.00}  \FloatTok{7.14} \FloatTok{7.42} \FloatTok{0.00}  \FloatTok{5.83}
+\NormalTok{[}\DecValTok{10}\NormalTok{,]  }\FloatTok{9.27} \FloatTok{8.77} \FloatTok{7.14} \FloatTok{7.87} \FloatTok{6.48} \FloatTok{6.16}  \FloatTok{3.61} \FloatTok{6.56} \FloatTok{5.83}  \FloatTok{0.00}
 \end{Highlighting}
 \end{Shaded}
 
@@ -377,5 +379,54 @@ observation/vector with P dimensions. Therefore, the entry{[}i, j{]} on
 a n*n Euclidean distance matrix must be a scalar rather than a vector
 and represents the euclidean distance between ith observation/vector and
 jth observation/vector.
+
+\hypertarget{e1.5-part-2-create-the-city-block-distance-matrix}{%
+\subsubsection{E1.5 Part 2 Create the City Block Distance
+Matrix}\label{e1.5-part-2-create-the-city-block-distance-matrix}}
+
+Here this question raise alternative concept called
+\texttt{city\ block\ distance}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# write a function that can get city block distance}
+\ErrorTok{\textgreater{}}\NormalTok{ city\_matrix}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(a\_matrix)\{}
+\SpecialCharTok{+}   \CommentTok{\# first define a function to get the eu distance of any two vectors}
+\SpecialCharTok{+}\NormalTok{   city\_distance }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(vec\_1, vec\_2)\{}
+\SpecialCharTok{+}\NormalTok{     city\_dist }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(vec\_1}\SpecialCharTok{{-}}\NormalTok{vec\_2)}
+\SpecialCharTok{+}     \FunctionTok{return}\NormalTok{(city\_dist)}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}\NormalTok{   m }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(a\_matrix)}
+\SpecialCharTok{+}\NormalTok{   c\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\AttributeTok{nrow =}\NormalTok{ m, }\AttributeTok{ncol =}\NormalTok{ m)}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{m ) \{}
+\SpecialCharTok{+}     \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{m) \{}
+\SpecialCharTok{+}\NormalTok{       c\_matrix[i,j] }\OtherTok{\textless{}{-}} \FunctionTok{city\_distance}\NormalTok{(a\_matrix[i,], a\_matrix[j,])}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}   \FunctionTok{return}\NormalTok{(c\_matrix)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+This function seems to work well. Try it on the given data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{city\_matrix}\NormalTok{(multi\_mat)}
+\NormalTok{      [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{] [,}\DecValTok{3}\NormalTok{] [,}\DecValTok{4}\NormalTok{] [,}\DecValTok{5}\NormalTok{] [,}\DecValTok{6}\NormalTok{] [,}\DecValTok{7}\NormalTok{] [,}\DecValTok{8}\NormalTok{] [,}\DecValTok{9}\NormalTok{] [,}\DecValTok{10}\NormalTok{]}
+\NormalTok{ [}\DecValTok{1}\NormalTok{,]    }\DecValTok{0}   \SpecialCharTok{{-}}\DecValTok{3}    \DecValTok{7}    \DecValTok{4}    \DecValTok{6}   \DecValTok{10}    \DecValTok{9}    \DecValTok{5}    \DecValTok{6}     \DecValTok{8}
+\NormalTok{ [}\DecValTok{2}\NormalTok{,]    }\DecValTok{3}    \DecValTok{0}   \DecValTok{10}    \DecValTok{7}    \DecValTok{9}   \DecValTok{13}   \DecValTok{12}    \DecValTok{8}    \DecValTok{9}    \DecValTok{11}
+\NormalTok{ [}\DecValTok{3}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{7}  \SpecialCharTok{{-}}\DecValTok{10}    \DecValTok{0}   \SpecialCharTok{{-}}\DecValTok{3}   \SpecialCharTok{{-}}\DecValTok{1}    \DecValTok{3}    \DecValTok{2}   \SpecialCharTok{{-}}\DecValTok{2}   \SpecialCharTok{{-}}\DecValTok{1}     \DecValTok{1}
+\NormalTok{ [}\DecValTok{4}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{4}   \SpecialCharTok{{-}}\DecValTok{7}    \DecValTok{3}    \DecValTok{0}    \DecValTok{2}    \DecValTok{6}    \DecValTok{5}    \DecValTok{1}    \DecValTok{2}     \DecValTok{4}
+\NormalTok{ [}\DecValTok{5}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{6}   \SpecialCharTok{{-}}\DecValTok{9}    \DecValTok{1}   \SpecialCharTok{{-}}\DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}   \SpecialCharTok{{-}}\DecValTok{1}    \DecValTok{0}     \DecValTok{2}
+\NormalTok{ [}\DecValTok{6}\NormalTok{,]  }\SpecialCharTok{{-}}\DecValTok{10}  \SpecialCharTok{{-}}\DecValTok{13}   \SpecialCharTok{{-}}\DecValTok{3}   \SpecialCharTok{{-}}\DecValTok{6}   \SpecialCharTok{{-}}\DecValTok{4}    \DecValTok{0}   \SpecialCharTok{{-}}\DecValTok{1}   \SpecialCharTok{{-}}\DecValTok{5}   \SpecialCharTok{{-}}\DecValTok{4}    \SpecialCharTok{{-}}\DecValTok{2}
+\NormalTok{ [}\DecValTok{7}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{9}  \SpecialCharTok{{-}}\DecValTok{12}   \SpecialCharTok{{-}}\DecValTok{2}   \SpecialCharTok{{-}}\DecValTok{5}   \SpecialCharTok{{-}}\DecValTok{3}    \DecValTok{1}    \DecValTok{0}   \SpecialCharTok{{-}}\DecValTok{4}   \SpecialCharTok{{-}}\DecValTok{3}    \SpecialCharTok{{-}}\DecValTok{1}
+\NormalTok{ [}\DecValTok{8}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{5}   \SpecialCharTok{{-}}\DecValTok{8}    \DecValTok{2}   \SpecialCharTok{{-}}\DecValTok{1}    \DecValTok{1}    \DecValTok{5}    \DecValTok{4}    \DecValTok{0}    \DecValTok{1}     \DecValTok{3}
+\NormalTok{ [}\DecValTok{9}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{6}   \SpecialCharTok{{-}}\DecValTok{9}    \DecValTok{1}   \SpecialCharTok{{-}}\DecValTok{2}    \DecValTok{0}    \DecValTok{4}    \DecValTok{3}   \SpecialCharTok{{-}}\DecValTok{1}    \DecValTok{0}     \DecValTok{2}
+\NormalTok{[}\DecValTok{10}\NormalTok{,]   }\SpecialCharTok{{-}}\DecValTok{8}  \SpecialCharTok{{-}}\DecValTok{11}   \SpecialCharTok{{-}}\DecValTok{1}   \SpecialCharTok{{-}}\DecValTok{4}   \SpecialCharTok{{-}}\DecValTok{2}    \DecValTok{2}    \DecValTok{1}   \SpecialCharTok{{-}}\DecValTok{3}   \SpecialCharTok{{-}}\DecValTok{2}     \DecValTok{0}
+\end{Highlighting}
+\end{Shaded}
+
 
 \end{document}
