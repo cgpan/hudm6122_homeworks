@@ -30,6 +30,68 @@ t(z)%*%y
 # if they are the same  or close we can say normal distributed
 # how to interpret the chi-quantile plot ????? 
 
+#-----------------
+# 02.01.2023
+#------------------
+# note the apply() function 
+# to get the mean of each vector
+z <- matrix(rnorm(20),5,4)
+m <- rep(0, 4)
+for (i in 1:4){
+  m[i] <- mean(z[, i])
+}
+m
+
+# try to use the apply function to get the mean vector in oneline
+# MARGIN is to indicate the row or column. it represent the dimension
+apply(z, MARGIN=2, FUN = mean)
+apply(z, MARGIN=2, FUN = sd)
+# you can also omited the argument
+apply(z, 2, mean)
+
+#-----------------
+# 02.01.2023
+# chapter 2 how to visualize the multivariate data
+#------------------
+data("USairpollution", package = "HSAUR2")
+
+plot(popul~ manu, data = USairpollution)
+# to add the corresponding label on the x and y axises
+rug(USairpollution$manu, side =1)
+rug(USairpollution$popul, side =2)
+
+# one way to arrange the output layout
+# chapter 2.1.1
+
+z <- c(2,5,8,-1)
+# a negative number means to exclude that number 
+z[-3]
+
+#----------------------------------------
+# parametric and non-parametric estimation
+#---------------------------------------
+
+n <- 100
+# seq is to create a sequence of number from A to B with the 
+# interval of C, and the length.out argument is to define the length
+# to generate a sequence from -3 to 3 with the length of n
+z <- seq(-3,3, length.out =n)
+x <- rnorm(n, mean = 0, sd=1)
+# set the freq = F to give density on the Y-axis
+# if freq = T, it will return the frequency
+hist(x,freq = F)
+# draw a line using  the z as x-axis and a 100 normal distributed number as Y
+# this is what we called the true density
+lines(z, dnorm(z, mean = 0, sd =1, log = F), col=2, lwd=4)
+# parametric estimator is you use the historical data to estimate
+lines(z, dnorm(z, mean = mean(x), sd = sd(x), log = F), col=3, lwd=4)
+# kernel density function is used at you don't know how the data is distributed.
+# you use a small kernel with normal/bimodal/triangular distribution to cover each
+# observation and then culmulate all the distribution together to have a overall
+# view of the dataset.
+lines(density(x)$x, density(x)$y, col=4, lwd=4)  
+
+
 ###################################################
 ### MVA:tab:hypo
 ###################################################
