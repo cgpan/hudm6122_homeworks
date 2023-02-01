@@ -51,13 +51,13 @@ my_data_cor_2
 ```   
 
 ## Exercise 1.3   
-The authors may not clearly say where can readers find the original dataset. After seeing the code underlying in this book's R package `MVA`, and run this argument `demo("Ch-MVA")`, one can find the `table 1.3`'s dataset information at the paragraph named `code chunk number 5`. It is in another package called `HSAUR2`. First, I draw the normal probability plots of each variable.
+The authors may not clearly say where readers can find the original dataset. After seeing the code underlying in this book's R package `MVA`, and run this argument `demo("Ch-MVA")`, one can find the `table 1.3`'s dataset information at the paragraph named `code chunk number 5`. It is in another package called `HSAUR2`. First, I draw the normal probability plots of each variable.
 ```{r, results='asis', fig.show='hold',out.width="33%",out.height= "25%"}
 # load the Table 1.3's original dataset 
 library(HSAUR2)
-dim(pottery)
-names(pottery) # the dataset is the same
-#layout(matrix(1:10, nc = 3))
+# dim(pottery)
+# names(pottery) # the dataset is the same
+# layout(matrix(1:10, nc = 3))
 sapply(colnames(pottery)[1:9], function(x){
   # use double bracket can directly return the col
   qqnorm(pottery[[x]], main = x)
@@ -86,7 +86,7 @@ text(qc[oups], sd[oups]-1.5, names(oups))
 abline(a=0, b=1)
 ```      
 
-The overall results showed that `TODO`.
+From the Q-Q plots, one can see most of the elements do not perfectly follow the normal distribution except the `AL2O3` and the `BaO` present relatively good normal distribution. As for the Chi-square plot, if all the data are normally distributed, they should correspond to each others. Therefore, from the plot, we can easily find the outliers are the 5th, 6th, and the 44th observations.
 
 
 ## Exercise 1.4   
