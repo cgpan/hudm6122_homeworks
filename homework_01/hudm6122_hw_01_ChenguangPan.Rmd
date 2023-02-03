@@ -34,9 +34,14 @@ table_11 <- read_excel("table_1.1.xlsx")
 my_data <- table_11[,c(2:7)]
 # drop the discrete vars and use only the complete observations
 my_data_cor <- round(cor(my_data[,c(2,3,6)], use = "complete"),2)
-# the output is rounded in two decimals.
+# the output is rounded in two decimals. Therefore, the correlation matrix is
 my_data_cor
+# the Variance-covariance matrix is 
+my_data_cov <- round(cov(my_data[,c(2,3,6)], use = "complete"),2)
+my_data_cov
 ```     
+One thing should be noted that when you try different strategies in dealing with the missing data,
+the results are not the same. Therefore, the argument `use = ` matters here. Based on [the discussion on stackflow](https://stackoverflow.com/questions/18892051/complete-obs-of-cor-function),  `use = complete.obs` argument will discard the entire row if an NA is present. However,     `pairwise.complete.obs` uses the non-NA values when calculating the correlation between variables.
 
 ## Exercise 1.2   
 Fill the `NA` with the column's mean, and recalculate the correlation matrix.  
@@ -86,7 +91,7 @@ text(qc[oups], sd[oups]-1.5, names(oups))
 abline(a=0, b=1)
 ```      
 
-From the Q-Q plots, one can see most of the elements do not perfectly follow the normal distribution except the `AL2O3` and the `BaO` present relatively good normal distribution. As for the Chi-square plot, if all the data are normally distributed, they should correspond to each others. Therefore, from the plot, we can easily find the outliers are the 5th, 6th, and the 44th observations.
+From the Q-Q plots, one can see most of the elements do not perfectly follow the normal distribution except the `AL2O3` and the `BaO`. These two variables present relatively good normal distribution. As for the Chi-square plot, if all the data are normally distributed, they should correspond to each others. Therefore, from the plot, we can easily find the outliers are the 5th, 6th, and the 44th observations.
 
 
 ## Exercise 1.4   
@@ -162,7 +167,7 @@ Note each row of an empirical data n\*p matrix represents an observation/vector 
 
 ### E1.5 Part 2 Create the City Block Distance Matrix   
 
-Here this question raise alternative concept called `city block distance`. It is  the sum of the absolute differences of the blocks' coordinates.
+Here this question raises alternative concept called `city block distance`. It is  the sum of the absolute differences of the blocks' coordinates.
 ```{r}
 # write a function that can get city block distance
 city_matrix<-function(a_matrix){
@@ -187,4 +192,4 @@ This function seems to work well. Try it on the given data:
 city_matrix(multi_mat)
 ```
 
-
+Certainly, there is a simpler way to calculate the distance by using the `dist()`function. Here, I want to practice and hone my understanding about R coding and basic logic of types of distance. Therefore, this script might look not that concise and elegant. Thanks!

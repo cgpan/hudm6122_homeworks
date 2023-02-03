@@ -135,14 +135,30 @@ on all complete observations.
 \SpecialCharTok{\textgreater{}}\NormalTok{ my\_data }\OtherTok{\textless{}{-}}\NormalTok{ table\_11[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{7}\NormalTok{)]}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# drop the discrete vars and use only the complete observations}
 \ErrorTok{\textgreater{}}\NormalTok{ my\_data\_cor }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(my\_data[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)], }\AttributeTok{use =} \StringTok{"complete"}\NormalTok{),}\DecValTok{2}\NormalTok{)}
-\SpecialCharTok{\textgreater{}} \CommentTok{\# the output is rounded in two decimals.}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# the output is rounded in two decimals. Therefore, the correlation matrix is}
 \ErrorTok{\textgreater{}}\NormalTok{ my\_data\_cor}
 \NormalTok{         age    IQ weight}
 \NormalTok{age     }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.15}  \SpecialCharTok{{-}}\FloatTok{0.12}
 \NormalTok{IQ     }\SpecialCharTok{{-}}\FloatTok{0.15}  \FloatTok{1.00}   \FloatTok{0.75}
 \NormalTok{weight }\SpecialCharTok{{-}}\FloatTok{0.12}  \FloatTok{0.75}   \FloatTok{1.00}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# the Variance{-}covariance matrix is }
+\ErrorTok{\textgreater{}}\NormalTok{ my\_data\_cov }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cov}\NormalTok{(my\_data[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{6}\NormalTok{)], }\AttributeTok{use =} \StringTok{"complete"}\NormalTok{),}\DecValTok{2}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ my\_data\_cov}
+\NormalTok{           age      IQ weight}
+\NormalTok{age     }\FloatTok{932.81} \SpecialCharTok{{-}}\FloatTok{135.74} \SpecialCharTok{{-}}\FloatTok{74.76}
+\NormalTok{IQ     }\SpecialCharTok{{-}}\FloatTok{135.74}  \FloatTok{884.62} \FloatTok{438.21}
+\NormalTok{weight  }\SpecialCharTok{{-}}\FloatTok{74.76}  \FloatTok{438.21} \FloatTok{389.29}
 \end{Highlighting}
 \end{Shaded}
+
+One thing should be noted that when you try different strategies in
+dealing with the missing data, the results are not the same. Therefore,
+the argument \texttt{use\ =} matters here. Based on
+\href{https://stackoverflow.com/questions/18892051/complete-obs-of-cor-function}{the
+discussion on stackflow}, \texttt{use\ =\ complete.obs} argument will
+discard the entire row if an NA is present. However,
+\texttt{pairwise.complete.obs} uses the non-NA values when calculating
+the correlation between variables.
 
 \hypertarget{exercise-1.2}{%
 \subsection{Exercise 1.2}\label{exercise-1.2}}
@@ -248,10 +264,11 @@ Second, I draw the chi-square plot of the data as followed.
 
 From the Q-Q plots, one can see most of the elements do not perfectly
 follow the normal distribution except the \texttt{AL2O3} and the
-\texttt{BaO} present relatively good normal distribution. As for the
-Chi-square plot, if all the data are normally distributed, they should
-correspond to each others. Therefore, from the plot, we can easily find
-the outliers are the 5th, 6th, and the 44th observations.
+\texttt{BaO}. These two variables present relatively good normal
+distribution. As for the Chi-square plot, if all the data are normally
+distributed, they should correspond to each others. Therefore, from the
+plot, we can easily find the outliers are the 5th, 6th, and the 44th
+observations.
 
 \hypertarget{exercise-1.4}{%
 \subsection{Exercise 1.4}\label{exercise-1.4}}
@@ -374,7 +391,7 @@ jth observation/vector.
 \subsubsection{E1.5 Part 2 Create the City Block Distance
 Matrix}\label{e1.5-part-2-create-the-city-block-distance-matrix}}
 
-Here this question raise alternative concept called
+Here this question raises alternative concept called
 \texttt{city\ block\ distance}. It is the sum of the absolute
 differences of the blocks' coordinates.
 
@@ -419,5 +436,9 @@ This function seems to work well. Try it on the given data:
 \end{Highlighting}
 \end{Shaded}
 
+Certainly, there is a simpler way to calculate the distance by using the
+\texttt{dist()}function. Here, I want to practice and hone my
+understanding about R coding and basic logic of types of distance.
+Therefore, this script might look not that concise and elegant. Thanks!
 
 \end{document}
