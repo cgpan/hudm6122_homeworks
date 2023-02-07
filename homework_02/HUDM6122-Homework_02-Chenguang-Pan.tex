@@ -113,6 +113,13 @@
 \hypertarget{ex.-2.1}{%
 \subsection{Ex. 2.1}\label{ex.-2.1}}
 
+\emph{Use the bivariate boxplot on the scatterplot of each pair of
+variables in the air pollution data to identify any outliers. Calculate
+the correlation between each pair of variables using all the data and
+the data with any identified outliers removed. Comment on the results.}
+
+\textbf{MY SOLUTION:}
+
 Several techniques worth to be noted: - use a for-loop within a for-loop
 to map all pairs - use \texttt{text()} to give each point a name. - the
 bivariate boxplot function \texttt{bvbox} is inclueded in the package
@@ -206,6 +213,100 @@ observations are ``Chicago'', ``Detroit'',
 \end{Highlighting}
 \end{Shaded}
 
-Then remove all the outliers.
+After dropping all the identified outliers, some of the correlation
+coefficients has changed to the opposite direction, like from positive
+to negative, others shrink or increase. It is reasonable since some
+outliers are with high leverage.
+
+\hypertarget{ex.-2.2}{%
+\subsection{Ex. 2.2}\label{ex.-2.2}}
+
+\emph{Compare the chi-plots with the corresponding scatterplots for each
+pair of variables in the air pollution data. Do you think that there is
+any advantage in the former?}
+
+\textbf{MY SOLUTION:}\\
+Several details should be noted.\\
+- For drawing many graphs in \texttt{Rmd} file with \texttt{knit}, it
+always reports error or \texttt{no\ such\ file\ or\ directory}. One can
+clear all the cache in R and cache file and Tex file in the file folder,
+and do not use the layout function \texttt{par()}.\\
+- The \texttt{chiplot} function is included in the package \texttt{MVA}.
+If two variables are independent, these value are asymptotically normal
+with mean zero; the xi values should show a non-systematic random
+fluctuation around zero.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{7}\NormalTok{) \{}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ i}\SpecialCharTok{:}\DecValTok{7}\NormalTok{) \{}
+\SpecialCharTok{+}     \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{!=}\NormalTok{ j) \{}
+\SpecialCharTok{+}       \FunctionTok{plot}\NormalTok{(USairpollution[,i],USairpollution[,j],}
+\SpecialCharTok{+}            \AttributeTok{xlab =} \FunctionTok{names}\NormalTok{(USairpollution)[i], }\AttributeTok{ylab=}\FunctionTok{names}\NormalTok{(USairpollution)[j])}
+\SpecialCharTok{+}       \FunctionTok{chiplot}\NormalTok{(USairpollution[,i],USairpollution[,j],}
+\SpecialCharTok{+}               \AttributeTok{main =} \FunctionTok{paste}\NormalTok{(}\FunctionTok{names}\NormalTok{(USairpollution)[i],}
+\SpecialCharTok{+}                            \StringTok{"vs"}\NormalTok{, }
+\SpecialCharTok{+}                            \FunctionTok{names}\NormalTok{(USairpollution)[j]))}
+\SpecialCharTok{+}\NormalTok{     \} }
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-1}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-2}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-3}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-4}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-5}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-6}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-7}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-8}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-9}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-10}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-11}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-12}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-13}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-14}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-15}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-16}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-17}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-18}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-19}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-20}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-21}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-22}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-23}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-24}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-25}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-26}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-27}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-28}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-29}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-30}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-31}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-32}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-33}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-34}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-35}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-36}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-37}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-38}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-39}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-40}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-41}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-42}
+From the results, one can easily find that the scatter plots are
+sometimes difficult to identify the independence between two variables.
+But, comparatively the \texttt{chiplot} presents more straightforward
+way to tell this attribute. For example, it is hard to find the relation
+from the scattorplot for \texttt{manu} and \texttt{predays}, but the
+chiplot clearly demonstrates that these two varriables are independent.
+
+\hypertarget{ex.-2.3}{%
+\subsection{Ex. 2.3}\label{ex.-2.3}}
+
+\emph{Compare the chi-plots with the corresponding scatterplots for each
+pair of variables in the air pollution data. Do you think that there is
+any advantage in the former?}
 
 \end{document}

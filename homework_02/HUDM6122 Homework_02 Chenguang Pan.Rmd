@@ -23,6 +23,10 @@ knitr::opts_chunk$set(
 ```
 
 ## Ex. 2.1  
+*Use the bivariate boxplot on the scatterplot of each pair of variables in the air pollution data to identify any outliers. Calculate the correlation between each pair of variables using all the data and the data with any identified outliers removed. Comment on the results.*
+
+**MY SOLUTION:**  
+
 Several techniques worth to be noted:
 - use a for-loop within a for-loop to map all pairs
 - use `text()` to give each point a name.
@@ -62,3 +66,31 @@ drop_city <- match(c("Chicago", "Detroit","Cleveland",
 round(cor(USairpollution[-drop_city,]),2)
 ```   
 After dropping all the identified outliers, some of the correlation coefficients has changed to the opposite direction, like from positive to negative, others shrink or increase. It is reasonable since some outliers are with high leverage.
+
+## Ex. 2.2  
+*Compare the chi-plots with the corresponding scatterplots for each pair of variables in the air pollution data. Do you think that there is any advantage in the former?*  
+
+**MY SOLUTION:**   
+Several details should be noted.  
+- For drawing many graphs in `Rmd` file with `knit`, it always reports error or `no such file or directory`. One can clear all the cache in R and cache file and Tex file in the file folder, and do not use the layout function `par()`.  
+- The `chiplot` function is included in the package `MVA`. If two variables are independent, these value are asymptotically normal with mean zero; the xi values should show a non-systematic random fluctuation around zero.
+
+```{r,fig.show='hold',out.width="33%",out.height= "25%"}
+for (i in 1:7) {
+  for (j in i:7) {
+    if (i != j) {
+      plot(USairpollution[,i],USairpollution[,j],
+           xlab = names(USairpollution)[i], ylab=names(USairpollution)[j])
+      chiplot(USairpollution[,i],USairpollution[,j],
+              main = paste(names(USairpollution)[i],
+                           "vs", 
+                           names(USairpollution)[j]))
+    } 
+  }
+}
+```   
+From the results, one can easily find that the scatter plots are sometimes difficult to identify the independence between two variables. But, comparatively the `chiplot` presents more straightforward way to tell this attribute. For example, it is hard to find the relation from the scattorplot for `manu` and `predays`, but the chiplot clearly demonstrates that these two varriables are independent.  
+
+## Ex. 2.3  
+*Compare the chi-plots with the corresponding scatterplots for each pair of variables in the air pollution data. Do you think that there is any advantage in the former?*  
+
