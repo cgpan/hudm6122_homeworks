@@ -1,0 +1,64 @@
+---
+title: "HUDM6122 Homework_02"
+author: "Chenguang Pan"
+date: "2023-02-06"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: true
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```
+
+## Ex. 2.1  
+Several techniques worth to be noted:
+- use a for-loop within a for-loop to map all pairs
+- use `text()` to give each point a name.
+- the bivariate boxplot function `bvbox` is inclueded in the package `MVA`
+
+```{r, fig.show='hold',out.width="33%",out.height= "25%"}
+# import the data
+library(HSAUR2)
+library(MVA)
+attach(USairpollution)
+head(USairpollution)
+dim(USairpollution)
+# draw the bivariate boxplot of each pair of variables with a for-loop
+for (i in 1:7) {
+  for (j in i:7) {
+    if (i != j) {
+      var_pair <- USairpollution[, c(i, j)]
+      bvbox(var_pair, 
+            xlab = names(USairpollution)[i],
+            ylab = names(USairpollution)[j])
+      text(USairpollution[,i],USairpollution[,j],
+          row.names(USairpollution), # to add the point name
+          pos=2,col = "blue")
+    } 
+  }
+}
+```    
+From the graphs, we can easily find that the outliers among the observations are "Chicago", "Detroit", "Cleveland","Philadelphia", "Miami", "Phoenix","Albuquerque", "Providence". I run the correlation matrix on all observations first.  
+```{r}
+# create the correaltion matrix on all observations
+round(cor(USairpollution),2)
+# remove all identified outliers
+drop_city <- match(c("Chicago", "Detroit","Cleveland",
+                     "Philadelphia", "Miami","Phoenix",
+                     "Albuquerque", "Providence"), rownames(USairpollution))
+
+round(cor(USairpollution[-drop_city,]),2)
+```   
+After dropping all the identified outliers, some of the correlation coefficients has changed to the opposite direction, like from positive to negative, others shrink or increase. It is reasonable since some outliers are with high leverage.

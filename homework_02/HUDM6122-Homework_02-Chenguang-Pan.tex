@@ -1,0 +1,211 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={HUDM6122 Homework\_02},
+  pdfauthor={Chenguang Pan},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HUDM6122 Homework\_02}
+\author{Chenguang Pan}
+\date{2023-02-06}
+
+\begin{document}
+\maketitle
+
+\hypertarget{ex.-2.1}{%
+\subsection{Ex. 2.1}\label{ex.-2.1}}
+
+Several techniques worth to be noted: - use a for-loop within a for-loop
+to map all pairs - use \texttt{text()} to give each point a name. - the
+bivariate boxplot function \texttt{bvbox} is inclueded in the package
+\texttt{MVA}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}} \FunctionTok{library}\NormalTok{(HSAUR2)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(MVA)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{attach}\NormalTok{(USairpollution)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{head}\NormalTok{(USairpollution)}
+\NormalTok{            SO2 temp manu popul wind precip predays}
+\NormalTok{Albany       }\DecValTok{46} \FloatTok{47.6}   \DecValTok{44}   \DecValTok{116}  \FloatTok{8.8}  \FloatTok{33.36}     \DecValTok{135}
+\NormalTok{Albuquerque  }\DecValTok{11} \FloatTok{56.8}   \DecValTok{46}   \DecValTok{244}  \FloatTok{8.9}   \FloatTok{7.77}      \DecValTok{58}
+\NormalTok{Atlanta      }\DecValTok{24} \FloatTok{61.5}  \DecValTok{368}   \DecValTok{497}  \FloatTok{9.1}  \FloatTok{48.34}     \DecValTok{115}
+\NormalTok{Baltimore    }\DecValTok{47} \FloatTok{55.0}  \DecValTok{625}   \DecValTok{905}  \FloatTok{9.6}  \FloatTok{41.31}     \DecValTok{111}
+\NormalTok{Buffalo      }\DecValTok{11} \FloatTok{47.1}  \DecValTok{391}   \DecValTok{463} \FloatTok{12.4}  \FloatTok{36.11}     \DecValTok{166}
+\NormalTok{Charleston   }\DecValTok{31} \FloatTok{55.2}   \DecValTok{35}    \DecValTok{71}  \FloatTok{6.5}  \FloatTok{40.75}     \DecValTok{148}
+\SpecialCharTok{\textgreater{}} \FunctionTok{dim}\NormalTok{(USairpollution)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{41}  \DecValTok{7}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# draw the bivariate boxplot of each pair of variables with a for{-}loop}
+\ErrorTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{7}\NormalTok{) \{}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in}\NormalTok{ i}\SpecialCharTok{:}\DecValTok{7}\NormalTok{) \{}
+\SpecialCharTok{+}     \ControlFlowTok{if}\NormalTok{ (i }\SpecialCharTok{!=}\NormalTok{ j) \{}
+\SpecialCharTok{+}\NormalTok{       var\_pair }\OtherTok{\textless{}{-}}\NormalTok{ USairpollution[, }\FunctionTok{c}\NormalTok{(i, j)]}
+\SpecialCharTok{+}       \FunctionTok{bvbox}\NormalTok{(var\_pair, }
+\SpecialCharTok{+}             \AttributeTok{xlab =} \FunctionTok{names}\NormalTok{(USairpollution)[i],}
+\SpecialCharTok{+}             \AttributeTok{ylab =} \FunctionTok{names}\NormalTok{(USairpollution)[j])}
+\SpecialCharTok{+}       \FunctionTok{text}\NormalTok{(USairpollution[,i],USairpollution[,j],}
+\SpecialCharTok{+}           \FunctionTok{row.names}\NormalTok{(USairpollution), }\CommentTok{\# to add the point name}
+\SpecialCharTok{+}           \AttributeTok{pos=}\DecValTok{2}\NormalTok{,}\AttributeTok{col =} \StringTok{"blue"}\NormalTok{)}
+\SpecialCharTok{+}\NormalTok{     \} }
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-1}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-2}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-3}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-4}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-5}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-6}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-7}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-8}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-9}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-10}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-11}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-12}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-13}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-14}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-15}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-16}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-17}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-18}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-19}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-20}
+\includegraphics[width=0.33\linewidth,height=0.25\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-21}
+From the graphs, we can easily find that the outliers among the
+observations are ``Chicago'', ``Detroit'',
+``Cleveland'',``Philadelphia'', ``Miami'', ``Phoenix'',``Albuquerque'',
+``Providence''. I run the correlation matrix on all observations first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# create the correaltion matrix on all observations}
+\ErrorTok{\textgreater{}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(USairpollution),}\DecValTok{2}\NormalTok{)}
+\NormalTok{          SO2  temp  manu popul  wind precip predays}
+\NormalTok{SO2      }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.43}  \FloatTok{0.64}  \FloatTok{0.49}  \FloatTok{0.09}   \FloatTok{0.05}    \FloatTok{0.37}
+\NormalTok{temp    }\SpecialCharTok{{-}}\FloatTok{0.43}  \FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.19} \SpecialCharTok{{-}}\FloatTok{0.06} \SpecialCharTok{{-}}\FloatTok{0.35}   \FloatTok{0.39}   \SpecialCharTok{{-}}\FloatTok{0.43}
+\NormalTok{manu     }\FloatTok{0.64} \SpecialCharTok{{-}}\FloatTok{0.19}  \FloatTok{1.00}  \FloatTok{0.96}  \FloatTok{0.24}  \SpecialCharTok{{-}}\FloatTok{0.03}    \FloatTok{0.13}
+\NormalTok{popul    }\FloatTok{0.49} \SpecialCharTok{{-}}\FloatTok{0.06}  \FloatTok{0.96}  \FloatTok{1.00}  \FloatTok{0.21}  \SpecialCharTok{{-}}\FloatTok{0.03}    \FloatTok{0.04}
+\NormalTok{wind     }\FloatTok{0.09} \SpecialCharTok{{-}}\FloatTok{0.35}  \FloatTok{0.24}  \FloatTok{0.21}  \FloatTok{1.00}  \SpecialCharTok{{-}}\FloatTok{0.01}    \FloatTok{0.16}
+\NormalTok{precip   }\FloatTok{0.05}  \FloatTok{0.39} \SpecialCharTok{{-}}\FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.01}   \FloatTok{1.00}    \FloatTok{0.50}
+\NormalTok{predays  }\FloatTok{0.37} \SpecialCharTok{{-}}\FloatTok{0.43}  \FloatTok{0.13}  \FloatTok{0.04}  \FloatTok{0.16}   \FloatTok{0.50}    \FloatTok{1.00}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# remove all identified outliers}
+\ErrorTok{\textgreater{}}\NormalTok{ drop\_city }\OtherTok{\textless{}{-}} \FunctionTok{match}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"Chicago"}\NormalTok{, }\StringTok{"Detroit"}\NormalTok{,}\StringTok{"Cleveland"}\NormalTok{,}
+\SpecialCharTok{+}                      \StringTok{"Philadelphia"}\NormalTok{, }\StringTok{"Miami"}\NormalTok{,}\StringTok{"Phoenix"}\NormalTok{,}
+\SpecialCharTok{+}                      \StringTok{"Albuquerque"}\NormalTok{, }\StringTok{"Providence"}\NormalTok{), }\FunctionTok{rownames}\NormalTok{(USairpollution))}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{round}\NormalTok{(}\FunctionTok{cor}\NormalTok{(USairpollution[}\SpecialCharTok{{-}}\NormalTok{drop\_city,]),}\DecValTok{2}\NormalTok{)}
+\NormalTok{          SO2  temp  manu popul  wind precip predays}
+\NormalTok{SO2      }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.40}  \FloatTok{0.10} \SpecialCharTok{{-}}\FloatTok{0.16} \SpecialCharTok{{-}}\FloatTok{0.26}  \SpecialCharTok{{-}}\FloatTok{0.03}    \FloatTok{0.39}
+\NormalTok{temp    }\SpecialCharTok{{-}}\FloatTok{0.40}  \FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.02}  \FloatTok{0.25} \SpecialCharTok{{-}}\FloatTok{0.21}   \FloatTok{0.64}   \SpecialCharTok{{-}}\FloatTok{0.41}
+\NormalTok{manu     }\FloatTok{0.10} \SpecialCharTok{{-}}\FloatTok{0.02}  \FloatTok{1.00}  \FloatTok{0.82}  \FloatTok{0.26}  \SpecialCharTok{{-}}\FloatTok{0.15}   \SpecialCharTok{{-}}\FloatTok{0.06}
+\NormalTok{popul   }\SpecialCharTok{{-}}\FloatTok{0.16}  \FloatTok{0.25}  \FloatTok{0.82}  \FloatTok{1.00}  \FloatTok{0.29}   \FloatTok{0.03}   \SpecialCharTok{{-}}\FloatTok{0.13}
+\NormalTok{wind    }\SpecialCharTok{{-}}\FloatTok{0.26} \SpecialCharTok{{-}}\FloatTok{0.21}  \FloatTok{0.26}  \FloatTok{0.29}  \FloatTok{1.00}  \SpecialCharTok{{-}}\FloatTok{0.26}   \SpecialCharTok{{-}}\FloatTok{0.13}
+\NormalTok{precip  }\SpecialCharTok{{-}}\FloatTok{0.03}  \FloatTok{0.64} \SpecialCharTok{{-}}\FloatTok{0.15}  \FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.26}   \FloatTok{1.00}    \FloatTok{0.28}
+\NormalTok{predays  }\FloatTok{0.39} \SpecialCharTok{{-}}\FloatTok{0.41} \SpecialCharTok{{-}}\FloatTok{0.06} \SpecialCharTok{{-}}\FloatTok{0.13} \SpecialCharTok{{-}}\FloatTok{0.13}   \FloatTok{0.28}    \FloatTok{1.00}
+\end{Highlighting}
+\end{Shaded}
+
+Then remove all the outliers.
+
+\end{document}
