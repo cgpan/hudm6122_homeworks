@@ -92,5 +92,198 @@ for (i in 1:7) {
 From the results, one can easily find that the scatter plots are sometimes difficult to identify the independence between two variables. But, comparatively the `chiplot` presents more straightforward way to tell this attribute. For example, it is hard to find the relation from the scattorplot for `manu` and `predays`, but the chiplot clearly demonstrates that these two varriables are independent.  
 
 ## Ex. 2.3  
-*Compare the chi-plots with the corresponding scatterplots for each pair of variables in the air pollution data. Do you think that there is any advantage in the former?*  
+*Construct a scatterplot matrix of the body measurements data that has the appropriate boxplot on the diagonal panels and bivariate boxplots on the other panels. Compare the plot with Figure 2.17, and say which diagram you find more informative about the data.*    
+
+**MY SOLUTION:**   
+The body measure dataset is not included in any packages. We need to create the dataset by ourselves. First, based on the codes offered by Prof. Motta, Giovanni, I created measure data
+```{r}
+# create the  body measure data. Codes offered by Prof.Motta.
+measure <-
+  structure(list(V1 = 1:20, V2 = c(34L, 37L, 38L, 36L, 38L, 43L,
+                 40L, 38L, 40L, 41L, 36L, 36L, 34L, 33L, 36L, 37L, 34L, 36L, 38L,
+                 35L), V3 = c(30L, 32L, 30L, 33L, 29L, 32L, 33L, 30L, 30L, 32L,
+                 24L, 25L, 24L, 22L, 26L, 26L, 25L, 26L, 28L, 23L), V4 = c(32L,
+                 37L, 36L, 39L, 33L, 38L, 42L, 40L, 37L, 39L, 35L, 37L, 37L, 34L,
+                 38L, 37L, 38L, 37L, 40L, 35L)), .Names = c("V1", "V2", "V3",
+                 "V4"), class = "data.frame", row.names = c(NA, -20L))
+measure <- measure[,-1]
+names(measure) <- c("chest", "waist", "hips")
+measure$gender <- gl(2, 10)
+levels(measure$gender) <- c("male", "female")
+
+# to only extract the continuous data
+measures <- measure[,c(1:3)]
+par(mfrow=c(3, 3))
+for (i in 1:3) {
+  for (j in 1:ncol(measures)) {
+    if(i != j) {
+      bvbox(measures[, c(i, j)])
+    }
+    else {
+      boxplot(measures[[i]])
+    }
+  }
+}
+```  
+It is quite challenging to draw the graph in the author's way! First, `par("usr")` will return the coordiante of your current plot in the unit your data in `(xmin,xmax,ymin,ymax)` order.
+```{r, include=FALSE}
+# another way to draw more good-looking scatterplot matrix
+panel.box <- function(x, ...)
+{
+  # use the par("usr") to get the coordinate of current plot
+  usr <- par("usr");on.exit(par(usr));on.exit(par(usr))
+  # reset the coordinate
+  par(usr = c(usr[1:2], 0, 1.5) )
+  boxplot(x)
+}
+# 
+# pairs(measure,
+#       diag.panel=panel.box,
+#       panel = function(x,y) {
+#         bvbox(cbind(x,y), add = T)})
+#       
+```  
+
+
+## Ex. 2.4  
+*Construct a further scatterplot matrix of the body measurements data that labels each point in a panel with the gender of the individual, and plot on each scatterplot the separate estimated bivariate densities for men and women.*    
+
+**MY SOLUTION:**   
+
+```{r,out.width="100%",out.height= "200%"}
+ncols <- 3 # only the first 3 columns are numeric
+par(mfrow=c(ncols, ncols))
+for (i in 1:ncols) {
+  for (j in 1:ncols) {
+    plot(measure[, i], measure[, j], xlab = names(measure)[i], ylab=names(measure)[j])
+    if(i != j) {
+      bvbox(measure[measure$gender == "male", c(i, j)], add=TRUE)
+      bvbox(measure[measure$gender == "female", c(i, j)], add=TRUE)
+    }
+    points(measure[measure$gender == "male", c(i, j)], col="blue")
+    points(measure[measure$gender == "female", c(i, j)], col="red")
+  }
+}
+```   
+
+## Ex. 2.5  
+*Construct a scatterplot matrix of the chemical composition of Romano-British pottery given in Chapter 1 (Table 1.3), identifying each unit by its kiln number and showing the estimated bivariate density on each panel. What does the resulting diagram tell you?*    
+
+**MY SOLUTION:**   
+
+```{r, eval=FALSE, include=FALSE}
+ncols <- ncol(pottery)-1 # only the first 3 columns are numeric
+par(mar = c(1, 1, 1, 1))
+par(mfrow=c(ncols, ncols))
+for (i in 1:ncols) {
+  for (j in 1:ncols) {
+    plot(pottery[, i], pottery[, j], xlab = names(pottery)[i], ylab=names(pottery)[j])
+    if(i != j) {
+      bvbox(pottery[pottery$kiln == 1, c(i, j)], add=TRUE)
+      bvbox(pottery[pottery$kiln == 2, c(i, j)], add=TRUE)
+      bvbox(pottery[pottery$kiln == 3, c(i, j)], add=TRUE)
+      bvbox(pottery[pottery$kiln == 4, c(i, j)], add=TRUE)
+      bvbox(pottery[pottery$kiln == 5, c(i, j)], add=TRUE)
+    }
+    points(pottery[pottery$kiln == 1, c(i, j)], col=1)
+    points(pottery[pottery$kiln == 2, c(i, j)], col=2)
+    points(pottery[pottery$kiln == 3, c(i, j)], col=3)
+    points(pottery[pottery$kiln == 4, c(i, j)], col=4)
+    points(pottery[pottery$kiln == 5, c(i, j)], col=5)
+  }
+}
+```
+```{r}
+# pairs(measure, panel = function(x, y) plot(density(cbind(x, y)), add = TRUE))
+library("KernSmooth")
+par(mar = c(1, 1, 1, 1))
+n = ncol(pottery) - 1
+par(mfrow = c(n, n))
+for (i in 1:n) {
+  for(j in 1:n){
+    
+    if(i == j){
+      #d = density(pottery[, i])
+      #plot(d, main = colnames(pottery)[i])
+      #text(d, cex = 0.6,
+           #labels = abbreviate(pottery$kiln))
+      par(mar = c(0,0,0,0))
+      plot(c(0, 1), c(0, 1), ann = F, bty = 'n', type = 'n', xaxt = 'n', yaxt = 'n')
+      
+      text(x = 0.3, y = 0.5, paste(colnames(pottery)[i]), 
+           cex = 1.5, col = "black", family="serif", font=2, adj=0.5)
+    }
+    else{
+      measured = bkde2D(pottery[, c(i, j)], 
+                bandwidth = sapply(pottery[, c(i, j)], dpik))
+      
+      plot(pottery[, c(i, j)],
+           xlab = colnames(pottery)[i],
+           ylab = colnames(pottery)[j])
+      contour(x = measured$x1, y = measured$x2,
+              z = measured$fhat, add = TRUE)
+      text(pottery[,i], pottery[,j], cex = 0.6,
+           labels = abbreviate(pottery$kiln))
+      
+    }
+  }
+  
+}
+```
+
+
+## Ex. 2.6  
+*Ex. 2.6 Construct a bubble plot of the earthquake data using latitude and longitude as the scatterplot and depth as the circles, with greater depths giving smaller circles. In addition, divide the magnitudes into three equal ranges and label the points in your bubble plot with a different symbol depending on the magnitude group into which the point falls.* 
+
+```{r,eval=FALSE, include= FALSE,fig.show='hold',out.width="33%",out.height= "25%"}
+library(lattice)
+par(mfrow = c(1, 1))
+#ylim <- with(quakes, range(long)) * c(0.95, 1)
+sub1 = subset(quakes, subset = mag > 4 & mag <= 4.8)
+sub2 = subset(quakes, subset = mag > 4.8 & mag <= 5.6)
+sub3 = subset(quakes, subset = mag >5.6 & mag <= 6.4)
+
+plot(sub1$lat, sub1$long, data = sub1,
+     xlab = "Latitude",ylab = "Longitude", pch=10,
+     )
+with(sub1, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.3, add = T, col="red"))
+plot(sub2$lat, sub2$long, data = sub2,
+     xlab = "Latitude",ylab = "Longitude", pch=10,
+     )
+with(sub2, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.3, add = T, col="green"))
+plot(sub3$lat, sub3$long, data = sub3,
+     xlab = "Latitude",ylab = "Longitude", pch=10,
+     )
+with(sub3, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.3, add = T, col="blue"))
+```
+
+```{r}
+library(lattice)
+par(mfrow = c(1, 1))
+#ylim <- with(quakes, range(long)) * c(0.95, 1)
+sub1 = subset(quakes, subset = mag > 4 & mag <= 4.8)
+sub2 = subset(quakes, subset = mag > 4.8 & mag <= 5.6)
+sub3 = subset(quakes, subset = mag >5.6 & mag <= 6.4)
+
+
+attach(quakes)
+plot(lat, long,
+     xlab = "Latitude",ylab = "Longitude", pch=10)
+
+with(sub1, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.2, add = T, fg="green"))
+with(sub2, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.2, add = T, fg="red"))
+with(sub3, symbols(lat, long, circles = 1000- depth,
+                   inches = 0.2, add = T, fg="blue"))
+legend(-38,173, legend = c("4 < mag <= 4.8", 
+                       "4.8 < mag <= 5.6",
+                       "5.6 < mag <= 6.4"), fill=c("green","red","blue"))
+
+```
+
+
 

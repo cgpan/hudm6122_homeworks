@@ -305,8 +305,171 @@ chiplot clearly demonstrates that these two varriables are independent.
 \hypertarget{ex.-2.3}{%
 \subsection{Ex. 2.3}\label{ex.-2.3}}
 
-\emph{Compare the chi-plots with the corresponding scatterplots for each
-pair of variables in the air pollution data. Do you think that there is
-any advantage in the former?}
+\emph{Construct a scatterplot matrix of the body measurements data that
+has the appropriate boxplot on the diagonal panels and bivariate
+boxplots on the other panels. Compare the plot with Figure 2.17, and say
+which diagram you find more informative about the data.}
+
+\textbf{MY SOLUTION:}\\
+The body measure dataset is not included in any packages. We need to
+create the dataset by ourselves. First, based on the codes offered by
+Prof.~Motta, Giovanni, I created measure data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# create the  body measure data. Codes offered by Prof.Motta.}
+\ErrorTok{\textgreater{}}\NormalTok{ measure }\OtherTok{\textless{}{-}}
+\SpecialCharTok{+}   \FunctionTok{structure}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\AttributeTok{V1 =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{20}\NormalTok{, }\AttributeTok{V2 =} \FunctionTok{c}\NormalTok{(34L, 37L, 38L, 36L, 38L, 43L,}
+\SpecialCharTok{+}\NormalTok{                  40L, 38L, 40L, 41L, 36L, 36L, 34L, 33L, 36L, 37L, 34L, 36L, 38L,}
+\SpecialCharTok{+}\NormalTok{                  35L), }\AttributeTok{V3 =} \FunctionTok{c}\NormalTok{(30L, 32L, 30L, 33L, 29L, 32L, 33L, 30L, 30L, 32L,}
+\SpecialCharTok{+}\NormalTok{                  24L, 25L, 24L, 22L, 26L, 26L, 25L, 26L, 28L, 23L), }\AttributeTok{V4 =} \FunctionTok{c}\NormalTok{(32L,}
+\SpecialCharTok{+}\NormalTok{                  37L, 36L, 39L, 33L, 38L, 42L, 40L, 37L, 39L, 35L, 37L, 37L, 34L,}
+\SpecialCharTok{+}\NormalTok{                  38L, 37L, 38L, 37L, 40L, 35L)), }\AttributeTok{.Names =} \FunctionTok{c}\NormalTok{(}\StringTok{"V1"}\NormalTok{, }\StringTok{"V2"}\NormalTok{, }\StringTok{"V3"}\NormalTok{,}
+\SpecialCharTok{+}                  \StringTok{"V4"}\NormalTok{), }\AttributeTok{class =} \StringTok{"data.frame"}\NormalTok{, }\AttributeTok{row.names =} \FunctionTok{c}\NormalTok{(}\ConstantTok{NA}\NormalTok{, }\SpecialCharTok{{-}}\NormalTok{20L))}
+\SpecialCharTok{\textgreater{}}\NormalTok{ measure }\OtherTok{\textless{}{-}}\NormalTok{ measure[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{]}
+\SpecialCharTok{\textgreater{}} \FunctionTok{names}\NormalTok{(measure) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"chest"}\NormalTok{, }\StringTok{"waist"}\NormalTok{, }\StringTok{"hips"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ measure}\SpecialCharTok{$}\NormalTok{gender }\OtherTok{\textless{}{-}} \FunctionTok{gl}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{levels}\NormalTok{(measure}\SpecialCharTok{$}\NormalTok{gender) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"male"}\NormalTok{, }\StringTok{"female"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# to only extract the continuous data}
+\ErrorTok{\textgreater{}}\NormalTok{ measures }\OtherTok{\textless{}{-}}\NormalTok{ measure[,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)]}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{) \{}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{ncol}\NormalTok{(measures)) \{}
+\SpecialCharTok{+}     \ControlFlowTok{if}\NormalTok{(i }\SpecialCharTok{!=}\NormalTok{ j) \{}
+\SpecialCharTok{+}       \FunctionTok{bvbox}\NormalTok{(measures[, }\FunctionTok{c}\NormalTok{(i, j)])}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}     \ControlFlowTok{else}\NormalTok{ \{}
+\SpecialCharTok{+}       \FunctionTok{boxplot}\NormalTok{(measures[[i]])}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-4-1.pdf}
+It is quite challenging to draw the graph in the author's way! First,
+\texttt{par("usr")} will return the coordiante of your current plot in
+the unit your data in \texttt{(xmin,xmax,ymin,ymax)} order.
+
+\hypertarget{ex.-2.4}{%
+\subsection{Ex. 2.4}\label{ex.-2.4}}
+
+\emph{Construct a further scatterplot matrix of the body measurements
+data that labels each point in a panel with the gender of the
+individual, and plot on each scatterplot the separate estimated
+bivariate densities for men and women.}
+
+\textbf{MY SOLUTION:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ ncols }\OtherTok{\textless{}{-}} \DecValTok{3} \CommentTok{\# only the first 3 columns are numeric}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(ncols, ncols))}
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{ncols) \{}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{ncols) \{}
+\SpecialCharTok{+}     \FunctionTok{plot}\NormalTok{(measure[, i], measure[, j], }\AttributeTok{xlab =} \FunctionTok{names}\NormalTok{(measure)[i], }\AttributeTok{ylab=}\FunctionTok{names}\NormalTok{(measure)[j])}
+\SpecialCharTok{+}     \ControlFlowTok{if}\NormalTok{(i }\SpecialCharTok{!=}\NormalTok{ j) \{}
+\SpecialCharTok{+}       \FunctionTok{bvbox}\NormalTok{(measure[measure}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{"male"}\NormalTok{, }\FunctionTok{c}\NormalTok{(i, j)], }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{)}
+\SpecialCharTok{+}       \FunctionTok{bvbox}\NormalTok{(measure[measure}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{"female"}\NormalTok{, }\FunctionTok{c}\NormalTok{(i, j)], }\AttributeTok{add=}\ConstantTok{TRUE}\NormalTok{)}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}     \FunctionTok{points}\NormalTok{(measure[measure}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{"male"}\NormalTok{, }\FunctionTok{c}\NormalTok{(i, j)], }\AttributeTok{col=}\StringTok{"blue"}\NormalTok{)}
+\SpecialCharTok{+}     \FunctionTok{points}\NormalTok{(measure[measure}\SpecialCharTok{$}\NormalTok{gender }\SpecialCharTok{==} \StringTok{"female"}\NormalTok{, }\FunctionTok{c}\NormalTok{(i, j)], }\AttributeTok{col=}\StringTok{"red"}\NormalTok{)}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=1\linewidth,height=2\textheight]{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-6-1}
+
+\hypertarget{ex.-2.5}{%
+\subsection{Ex. 2.5}\label{ex.-2.5}}
+
+\emph{Construct a scatterplot matrix of the chemical composition of
+Romano-British pottery given in Chapter 1 (Table 1.3), identifying each
+unit by its kiln number and showing the estimated bivariate density on
+each panel. What does the resulting diagram tell you?}
+
+\textbf{MY SOLUTION:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# pairs(measure, panel = function(x, y) plot(density(cbind(x, y)), add = TRUE))}
+\ErrorTok{\textgreater{}} \FunctionTok{library}\NormalTok{(}\StringTok{"KernSmooth"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\SpecialCharTok{\textgreater{}}\NormalTok{ n }\OtherTok{=} \FunctionTok{ncol}\NormalTok{(pottery) }\SpecialCharTok{{-}} \DecValTok{1}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(n, n))}
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n) \{}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{(j }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n)\{}
+\SpecialCharTok{+}     
+\SpecialCharTok{+}     \ControlFlowTok{if}\NormalTok{(i }\SpecialCharTok{==}\NormalTok{ j)\{}
+\SpecialCharTok{+}       \CommentTok{\#d = density(pottery[, i])}
+\SpecialCharTok{+}       \CommentTok{\#plot(d, main = colnames(pottery)[i])}
+\SpecialCharTok{+}       \CommentTok{\#text(d, cex = 0.6,}
+\SpecialCharTok{+}            \CommentTok{\#labels = abbreviate(pottery$kiln))}
+\SpecialCharTok{+}       \FunctionTok{par}\NormalTok{(}\AttributeTok{mar =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{))}
+\SpecialCharTok{+}       \FunctionTok{plot}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{ann =}\NormalTok{ F, }\AttributeTok{bty =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{, }\AttributeTok{type =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{, }\AttributeTok{xaxt =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{, }\AttributeTok{yaxt =} \StringTok{\textquotesingle{}n\textquotesingle{}}\NormalTok{)}
+\SpecialCharTok{+}       
+\SpecialCharTok{+}       \FunctionTok{text}\NormalTok{(}\AttributeTok{x =} \FloatTok{0.3}\NormalTok{, }\AttributeTok{y =} \FloatTok{0.5}\NormalTok{, }\FunctionTok{paste}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(pottery)[i]), }
+\SpecialCharTok{+}            \AttributeTok{cex =} \FloatTok{1.5}\NormalTok{, }\AttributeTok{col =} \StringTok{"black"}\NormalTok{, }\AttributeTok{family=}\StringTok{"serif"}\NormalTok{, }\AttributeTok{font=}\DecValTok{2}\NormalTok{, }\AttributeTok{adj=}\FloatTok{0.5}\NormalTok{)}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}     \ControlFlowTok{else}\NormalTok{\{}
+\SpecialCharTok{+}\NormalTok{       measured }\OtherTok{=} \FunctionTok{bkde2D}\NormalTok{(pottery[, }\FunctionTok{c}\NormalTok{(i, j)], }
+\SpecialCharTok{+}                 \AttributeTok{bandwidth =} \FunctionTok{sapply}\NormalTok{(pottery[, }\FunctionTok{c}\NormalTok{(i, j)], dpik))}
+\SpecialCharTok{+}       
+\SpecialCharTok{+}       \FunctionTok{plot}\NormalTok{(pottery[, }\FunctionTok{c}\NormalTok{(i, j)],}
+\SpecialCharTok{+}            \AttributeTok{xlab =} \FunctionTok{colnames}\NormalTok{(pottery)[i],}
+\SpecialCharTok{+}            \AttributeTok{ylab =} \FunctionTok{colnames}\NormalTok{(pottery)[j])}
+\SpecialCharTok{+}       \FunctionTok{contour}\NormalTok{(}\AttributeTok{x =}\NormalTok{ measured}\SpecialCharTok{$}\NormalTok{x1, }\AttributeTok{y =}\NormalTok{ measured}\SpecialCharTok{$}\NormalTok{x2,}
+\SpecialCharTok{+}               \AttributeTok{z =}\NormalTok{ measured}\SpecialCharTok{$}\NormalTok{fhat, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{)}
+\SpecialCharTok{+}       \FunctionTok{text}\NormalTok{(pottery[,i], pottery[,j], }\AttributeTok{cex =} \FloatTok{0.6}\NormalTok{,}
+\SpecialCharTok{+}            \AttributeTok{labels =} \FunctionTok{abbreviate}\NormalTok{(pottery}\SpecialCharTok{$}\NormalTok{kiln))}
+\SpecialCharTok{+}       
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+\hypertarget{ex.-2.6}{%
+\subsection{Ex. 2.6}\label{ex.-2.6}}
+
+\emph{Ex. 2.6 Construct a bubble plot of the earthquake data using
+latitude and longitude as the scatterplot and depth as the circles, with
+greater depths giving smaller circles. In addition, divide the
+magnitudes into three equal ranges and label the points in your bubble
+plot with a different symbol depending on the magnitude group into which
+the point falls.}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(lattice)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \CommentTok{\#ylim \textless{}{-} with(quakes, range(long)) * c(0.95, 1)}
+\ErrorTok{\textgreater{}}\NormalTok{ sub1 }\OtherTok{=} \FunctionTok{subset}\NormalTok{(quakes, }\AttributeTok{subset =}\NormalTok{ mag }\SpecialCharTok{\textgreater{}} \DecValTok{4} \SpecialCharTok{\&}\NormalTok{ mag }\SpecialCharTok{\textless{}=} \FloatTok{4.8}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ sub2 }\OtherTok{=} \FunctionTok{subset}\NormalTok{(quakes, }\AttributeTok{subset =}\NormalTok{ mag }\SpecialCharTok{\textgreater{}} \FloatTok{4.8} \SpecialCharTok{\&}\NormalTok{ mag }\SpecialCharTok{\textless{}=} \FloatTok{5.6}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ sub3 }\OtherTok{=} \FunctionTok{subset}\NormalTok{(quakes, }\AttributeTok{subset =}\NormalTok{ mag }\SpecialCharTok{\textgreater{}}\FloatTok{5.6} \SpecialCharTok{\&}\NormalTok{ mag }\SpecialCharTok{\textless{}=} \FloatTok{6.4}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{attach}\NormalTok{(quakes)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(lat, long,}
+\SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Latitude"}\NormalTok{,}\AttributeTok{ylab =} \StringTok{"Longitude"}\NormalTok{, }\AttributeTok{pch=}\DecValTok{10}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{with}\NormalTok{(sub1, }\FunctionTok{symbols}\NormalTok{(lat, long, }\AttributeTok{circles =} \DecValTok{1000}\SpecialCharTok{{-}}\NormalTok{ depth,}
+\SpecialCharTok{+}                    \AttributeTok{inches =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{add =}\NormalTok{ T, }\AttributeTok{fg=}\StringTok{"green"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \FunctionTok{with}\NormalTok{(sub2, }\FunctionTok{symbols}\NormalTok{(lat, long, }\AttributeTok{circles =} \DecValTok{1000}\SpecialCharTok{{-}}\NormalTok{ depth,}
+\SpecialCharTok{+}                    \AttributeTok{inches =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{add =}\NormalTok{ T, }\AttributeTok{fg=}\StringTok{"red"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \FunctionTok{with}\NormalTok{(sub3, }\FunctionTok{symbols}\NormalTok{(lat, long, }\AttributeTok{circles =} \DecValTok{1000}\SpecialCharTok{{-}}\NormalTok{ depth,}
+\SpecialCharTok{+}                    \AttributeTok{inches =} \FloatTok{0.2}\NormalTok{, }\AttributeTok{add =}\NormalTok{ T, }\AttributeTok{fg=}\StringTok{"blue"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \FunctionTok{legend}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{38}\NormalTok{,}\DecValTok{173}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"4 \textless{} mag \textless{}= 4.8"}\NormalTok{, }
+\SpecialCharTok{+}                        \StringTok{"4.8 \textless{} mag \textless{}= 5.6"}\NormalTok{,}
+\SpecialCharTok{+}                        \StringTok{"5.6 \textless{} mag \textless{}= 6.4"}\NormalTok{), }\AttributeTok{fill=}\FunctionTok{c}\NormalTok{(}\StringTok{"green"}\NormalTok{,}\StringTok{"red"}\NormalTok{,}\StringTok{"blue"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_02-Chenguang-Pan_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 \end{document}
