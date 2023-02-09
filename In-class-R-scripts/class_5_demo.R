@@ -40,5 +40,11 @@ f.hat <- density(Xi, n=200,
 
 lines(x.fhat, y.fhat, col="blue", lty=3,lwd=2)
 
+# --------------
+# how to get the eigenvalue and eigenvector
+
+
+S <- cov(measure[,1:3])
+S 
 
 

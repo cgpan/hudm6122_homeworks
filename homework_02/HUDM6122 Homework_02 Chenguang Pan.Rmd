@@ -142,15 +142,14 @@ panel.box <- function(x, ...)
 #       panel = function(x,y) {
 #         bvbox(cbind(x,y), add = T)})
 #       
-```  
-
+```   
+This scatterplot matrix can easily help reader find the outlier and the descriptive information of each variable, like the quantile. In contrasr, the figure 2.17 can help reader to find the joint distribution of each pair and the distribution of the variable itself. I tend to think the plot above is more infomrative.
 
 ## Ex. 2.4  
 *Construct a further scatterplot matrix of the body measurements data that labels each point in a panel with the gender of the individual, and plot on each scatterplot the separate estimated bivariate densities for men and women.*    
 
 **MY SOLUTION:**   
-
-```{r,out.width="100%",out.height= "200%"}
+```{r}
 ncols <- 3 # only the first 3 columns are numeric
 par(mfrow=c(ncols, ncols))
 for (i in 1:ncols) {
@@ -229,8 +228,8 @@ for (i in 1:n) {
   }
   
 }
-```
-
+```  
+The results is actually not very good-looking, but it still presents the joint distribution of each pair. These joint distributions seems not follow any regular probability distribution. 
 
 ## Ex. 2.6  
 *Ex. 2.6 Construct a bubble plot of the earthquake data using latitude and longitude as the scatterplot and depth as the circles, with greater depths giving smaller circles. In addition, divide the magnitudes into three equal ranges and label the points in your bubble plot with a different symbol depending on the magnitude group into which the point falls.* 
