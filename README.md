@@ -7,3 +7,9 @@ Welcome to review and give feedbacks. All the information is for reference only,
 
 
 ## Homework_01 solutions  
+The datasets can be found in the `textbook.R` file.
+
+## Homework_02 solutions  
+comment: Some of the graphs may not looking good. What I believe is that one should not memories exact R syntax in data visualization. Rather, you should learn by doing and searching for certain techniques when you feel necessary. Wasting too much time on tuning few lines of code is meaningless for graduate student. 
+
+Finished at 02.08.2023.
