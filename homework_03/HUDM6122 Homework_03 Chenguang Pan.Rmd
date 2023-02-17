@@ -1,0 +1,25 @@
+---
+title: "HUDM6122 Homework_03"
+author: "Chenguang Pan"
+date: "2023-02-19"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: true
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+``` 
+
+## 
