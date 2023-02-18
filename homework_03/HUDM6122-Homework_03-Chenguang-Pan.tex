@@ -155,16 +155,13 @@ predictive of sulphur dioxide levels?}
 
 \textbf{MY SOLUTION:}
 
-To solve this questions, I used the \texttt{ggplot2} to draw each graph
-and use \texttt{gridExtra} to arrange the output's layout.
+To solve this questions, I used the \texttt{ggplot2} to draw each graph.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \SpecialCharTok{\textgreater{}} \CommentTok{\# try to use a for{-}loop to get all the maps in fewer lines}
 \ErrorTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
 \SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{7}\NormalTok{)) \{}
-\SpecialCharTok{+}\NormalTok{   var\_name }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"p"}\NormalTok{,i}\DecValTok{{-}1}\NormalTok{)}
-\SpecialCharTok{+}   
 \SpecialCharTok{+}\NormalTok{   p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(USairpollution, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ USairpollution[,i], }\AttributeTok{y =}\NormalTok{ SO2)) }\SpecialCharTok{+} 
 \SpecialCharTok{+}                 \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
 \SpecialCharTok{+}                 \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}

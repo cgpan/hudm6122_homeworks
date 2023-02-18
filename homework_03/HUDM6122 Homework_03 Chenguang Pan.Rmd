@@ -49,7 +49,7 @@ Comparing to the unenhanced scatter plot matrix, this mixed graph can help to ea
 
 **MY SOLUTION:**   
 
-To solve this questions, I used the `ggplot2` to draw each graph and use `gridExtra` to arrange the output's layout.
+To solve this questions, I used the `ggplot2` to draw each graph.
 
 ```{r,eval=FALSE, include=FALSE}
 # import the dataset
@@ -108,8 +108,6 @@ grid.arrange(p1, p2, p3, p4, p5, p6,
 # try to use a for-loop to get all the maps in fewer lines
 par(mfrow=c(2,3))
 for (i in c(2:7)) {
-  var_name <- paste0("p",i-1)
-  
   p <- ggplot(USairpollution, aes(x = USairpollution[,i], y = SO2)) + 
                 geom_point() +
                 geom_smooth(method = "lm", se = FALSE, color = "blue") +
