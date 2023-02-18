@@ -187,4 +187,52 @@ From six graphs above, we can not easily tell what the strongest
 predictor is for predicting the \(SO_2\) concentration, since there are
 some outliers with high leverage in each graph.
 
+\hypertarget{ex-3.3}{%
+\subsection{Ex 3.3}\label{ex-3.3}}
+
+\emph{Find the principal components of the following correlation matrix
+given by MacDonnell (1902) from measurements of seven physical char-
+acteristics in each of 3000 convicted criminals: How would you interpret
+the derived components?}
+
+\textbf{MY SOLUTION}\\
+First, by using \texttt{forceSymmetric()} function in the package
+\texttt{Matrix} to transform the low triangular correlation matrix into
+a complete correlation matrix. And then, I use \texttt{prcomp()} to get
+the components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(Matrix)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ corr\_lower }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.402}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.396}\NormalTok{, }\FloatTok{0.618}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.301}\NormalTok{, }\FloatTok{0.150}\NormalTok{, }\FloatTok{0.321}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.305}\NormalTok{, }\FloatTok{0.135}\NormalTok{, }\FloatTok{0.289}\NormalTok{, }\FloatTok{0.846}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.339}\NormalTok{, }\FloatTok{0.206}\NormalTok{, }\FloatTok{0.363}\NormalTok{, }\FloatTok{0.759}\NormalTok{, }\FloatTok{0.797}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.340}\NormalTok{, }\FloatTok{0.183}\NormalTok{, }\FloatTok{0.345}\NormalTok{, }\FloatTok{0.661}\NormalTok{, }\FloatTok{0.800}\NormalTok{, }\FloatTok{0.736}\NormalTok{, }\DecValTok{1}\NormalTok{),}\DecValTok{7}\NormalTok{,}\DecValTok{7}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# generate a complete correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ corr\_symmetric }\OtherTok{\textless{}{-}} \FunctionTok{forceSymmetric}\NormalTok{(corr\_lower, }\AttributeTok{uplo=}\StringTok{"L"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# use prcomp to calculate the principal components}
+\ErrorTok{\textgreater{}}\NormalTok{ pca }\OtherTok{\textless{}{-}} \FunctionTok{prcomp}\NormalTok{(corr\_symmetric, }\AttributeTok{scale. =} \ConstantTok{FALSE}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the PCA results}
+\ErrorTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(pca)}
+\NormalTok{Importance of components}\SpecialCharTok{:}
+\NormalTok{                          PC1    PC2     PC3     PC4     PC5     PC6       PC7}
+\NormalTok{Standard deviation     }\FloatTok{0.7063} \FloatTok{0.2677} \FloatTok{0.15376} \FloatTok{0.13851} \FloatTok{0.09832} \FloatTok{0.04686} \FloatTok{3.458e{-}17}
+\NormalTok{Proportion of Variance }\FloatTok{0.7979} \FloatTok{0.1146} \FloatTok{0.03781} \FloatTok{0.03069} \FloatTok{0.01546} \FloatTok{0.00351} \FloatTok{0.000e+00}
+\NormalTok{Cumulative Proportion  }\FloatTok{0.7979} \FloatTok{0.9125} \FloatTok{0.95034} \FloatTok{0.98103} \FloatTok{0.99649} \FloatTok{1.00000} \FloatTok{1.000e+00}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# draw the scree plot }
+\ErrorTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(pca, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }
+\SpecialCharTok{+}      \AttributeTok{main =} \StringTok{"Scree Plot"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.7\linewidth,height=0.5\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-4-1}
+
+The first two components can explain 91.25\% variance of the total.
+Therefore, I will choose to use the first two components to represent
+this dataset.
+
 \end{document}

@@ -124,5 +124,33 @@ for (i in c(2:7)) {
 From six graphs above, we can not easily tell what the strongest predictor is for predicting the $SO_2$ concentration, since there are some outliers with high leverage in each graph.
 
 
+## Ex 3.3   
+*Find the principal components of the following correlation matrix given by MacDonnell (1902) from measurements of seven physical char- acteristics in each of 3000 convicted criminals: How would you interpret the derived components?*  
+
+**MY SOLUTION**  
+First, by using `forceSymmetric()` function in the package `Matrix` to transform the low triangular correlation matrix into a complete correlation matrix. And then, I use `prcomp()` to get the components.
+```{r,fig.show='hold',out.width="70%",out.height= "50%"}
+library(Matrix)
+# import the correlation matrix
+corr_lower <- matrix(c(1, 0, 0, 0, 0, 0, 0,
+                      0.402, 1, 0,0,0,0,0,
+                      0.396, 0.618, 1,0,0,0,0,
+                      0.301, 0.150, 0.321, 1,0,0,0,
+                      0.305, 0.135, 0.289, 0.846, 1,0,0,
+                      0.339, 0.206, 0.363, 0.759, 0.797, 1,0,
+                      0.340, 0.183, 0.345, 0.661, 0.800, 0.736, 1),7,7, byrow = T)
+# generate a complete correlation matrix
+corr_symmetric <- forceSymmetric(corr_lower, uplo="L")
+# use prcomp to calculate the principal components
+pca <- prcomp(corr_symmetric, scale. = FALSE)
+# get the PCA results
+summary(pca)
+# draw the scree plot 
+plot(pca, type = "l", 
+     main = "Scree Plot")
+```   
+
+The first two components can explain 91.25% variance of the total. Therefore, I will choose to use the first two components to represent this dataset.  
+
 
 
