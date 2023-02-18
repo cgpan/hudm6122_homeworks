@@ -22,4 +22,25 @@ knitr::opts_chunk$set(
   message = FALSE)
 ``` 
 
-## 
+## Ex 3.1  
+**MY SOLUTION:**  
+```{r}
+# import the package
+library(MVA)
+library(HSAUR2)
+data(heptathlon)
+# Create a scatterplot matrix with density contours
+pairs(heptathlon[, -ncol(heptathlon)], upper.panel = function(x, y) {
+  points(x, y)
+  den <- MASS::kde2d(x, y)
+  contour(den, add = TRUE, col = "red", lwd = 2)})
+```  
+Here, I use the `MASS::kde2d()` function to estimate the bivariate density of the data, and plot the contours of the density using the `contour()` function.
+
+Comparing to the unenhanced scatter plot matrix, this mixed graph can help to easily find the specific characteristics of joint distribution of each pair, like the where is the center of the distribution.  
+
+## Ex 3.2  
+**MY SOLUTION:** 
+
+
+
