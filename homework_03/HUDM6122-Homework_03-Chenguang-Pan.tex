@@ -113,7 +113,15 @@
 \hypertarget{ex-3.1}{%
 \subsection{Ex 3.1}\label{ex-3.1}}
 
+\emph{Construct the scatterplot of the heptathlon data showing the
+contours of the estimated bivariate density function on each panel. Is
+this graphic more useful than the unenhanced scatterplot matrix?}
+
 \textbf{MY SOLUTION:}
+
+Here, I use the \texttt{MASS::kde2d()} function to estimate the
+bivariate density of the data, and plot the contours of the density
+using the \texttt{contour()} function.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -130,9 +138,6 @@
 \end{Shaded}
 
 \includegraphics{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-1-1.pdf}
-Here, I use the \texttt{MASS::kde2d()} function to estimate the
-bivariate density of the data, and plot the contours of the density
-using the \texttt{contour()} function.
 
 Comparing to the unenhanced scatter plot matrix, this mixed graph can
 help to easily find the specific characteristics of joint distribution
@@ -141,6 +146,48 @@ of each pair, like the where is the center of the distribution.
 \hypertarget{ex-3.2}{%
 \subsection{Ex 3.2}\label{ex-3.2}}
 
+\emph{Construct a diagram that shows the SO2 variable in the air
+pollution data plotted against each of the six explanatory variables,
+and in each of the scatterplots show the fitted linear regression and a
+fitted locally weighted regression. Does this diagram help in deciding
+on the most appropriate model for determining the variables most
+predictive of sulphur dioxide levels?}
+
 \textbf{MY SOLUTION:}
+
+To solve this questions, I used the \texttt{ggplot2} to draw each graph
+and use \texttt{gridExtra} to arrange the output's layout.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# try to use a for{-}loop to get all the maps in fewer lines}
+\ErrorTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\SpecialCharTok{:}\DecValTok{7}\NormalTok{)) \{}
+\SpecialCharTok{+}\NormalTok{   var\_name }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"p"}\NormalTok{,i}\DecValTok{{-}1}\NormalTok{)}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}\NormalTok{   p }\OtherTok{\textless{}{-}} \FunctionTok{ggplot}\NormalTok{(USairpollution, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ USairpollution[,i], }\AttributeTok{y =}\NormalTok{ SO2)) }\SpecialCharTok{+} 
+\SpecialCharTok{+}                 \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+}
+\SpecialCharTok{+}                 \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{method =} \StringTok{"lm"}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"blue"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}                 \FunctionTok{geom\_smooth}\NormalTok{(}\AttributeTok{span =} \DecValTok{1}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{color =} \StringTok{"red"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}                 \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{paste0}\NormalTok{(}\StringTok{"SO2 vs "}\NormalTok{, }\FunctionTok{colnames}\NormalTok{(USairpollution)[i]))}\SpecialCharTok{+}
+\SpecialCharTok{+}                 \CommentTok{\# to remove the un{-}elegant x{-}axis name}
+\SpecialCharTok{+}                 \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+\SpecialCharTok{+}                       \AttributeTok{axis.text.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+\SpecialCharTok{+}                       \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{())}
+\SpecialCharTok{+}   \CommentTok{\# assign(var\_name, p)}
+\SpecialCharTok{+}   \FunctionTok{print}\NormalTok{(p)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-1}
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-2}
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-3}
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-4}
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-5}
+\includegraphics[width=0.5\linewidth,height=0.33\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-3-6}
+From six graphs above, we can not easily tell what the strongest
+predictor is for predicting the \(SO_2\) concentration, since there are
+some outliers with high leverage in each graph.
 
 \end{document}

@@ -23,7 +23,13 @@ knitr::opts_chunk$set(
 ``` 
 
 ## Ex 3.1  
+*Construct the scatterplot of the heptathlon data showing the contours of the estimated bivariate density function on each panel. Is this graphic more useful than the unenhanced scatterplot matrix?*  
+  
+  
 **MY SOLUTION:**  
+
+Here, I use the `MASS::kde2d()` function to estimate the bivariate density of the data, and plot the contours of the density using the `contour()` function.  
+
 ```{r}
 # import the package
 library(MVA)
@@ -35,12 +41,90 @@ pairs(heptathlon[, -ncol(heptathlon)], upper.panel = function(x, y) {
   den <- MASS::kde2d(x, y)
   contour(den, add = TRUE, col = "red", lwd = 2)})
 ```  
-Here, I use the `MASS::kde2d()` function to estimate the bivariate density of the data, and plot the contours of the density using the `contour()` function.
 
 Comparing to the unenhanced scatter plot matrix, this mixed graph can help to easily find the specific characteristics of joint distribution of each pair, like the where is the center of the distribution.  
 
 ## Ex 3.2  
-**MY SOLUTION:** 
+*Construct a diagram that shows the SO2 variable in the air pollution data plotted against each of the six explanatory variables, and in each of the scatterplots show the fitted linear regression and a fitted locally weighted regression. Does this diagram help in deciding on the most appropriate model for determining the variables most predictive of sulphur dioxide levels?*
+
+**MY SOLUTION:**   
+
+To solve this questions, I used the `ggplot2` to draw each graph and use `gridExtra` to arrange the output's layout.
+
+```{r,eval=FALSE, include=FALSE}
+# import the dataset
+data(USairpollution)
+library(ggplot2)
+library(gridExtra)
+
+# to get the variable's name
+colnames(USairpollution)
+
+span_range <- 1
+
+p1 <- ggplot(USairpollution, aes(x = temp, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs Temp")
+
+p2 <- ggplot(USairpollution, aes(x = manu, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs manu")
+
+p3 <- ggplot(USairpollution, aes(x = popul, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs popul")
+
+p4 <- ggplot(USairpollution, aes(x = wind, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs wind")
+
+p5 <- ggplot(USairpollution, aes(x = precip, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs precip")
+
+p6 <- ggplot(USairpollution, aes(x = predays, y = SO2)) + 
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(span = span_range, se = FALSE, color = "red") +
+  labs(title = "SO2 vs predays")
+
+# Combine all the plots into one grid
+grid.arrange(p1, p2, p3, p4, p5, p6, 
+             nrow = 2, 
+             top = "SO2 vs Explanatory Variables")
+```
+
+```{r, eval=TRUE, include=TRUE,fig.show='hold',out.width="50%",out.height= "33%"}
+# try to use a for-loop to get all the maps in fewer lines
+par(mfrow=c(2,3))
+for (i in c(2:7)) {
+  var_name <- paste0("p",i-1)
+  
+  p <- ggplot(USairpollution, aes(x = USairpollution[,i], y = SO2)) + 
+                geom_point() +
+                geom_smooth(method = "lm", se = FALSE, color = "blue") +
+                geom_smooth(span = 1, se = FALSE, color = "red") +
+                labs(title = paste0("SO2 vs ", colnames(USairpollution)[i]))+
+                # to remove the un-elegant x-axis name
+                theme(axis.title.x = element_blank(),
+                      axis.text.x = element_blank(),
+                      axis.ticks.x = element_blank())
+  # assign(var_name, p)
+  print(p)
+}
+```    
+From six graphs above, we can not easily tell what the strongest predictor is for predicting the $SO_2$ concentration, since there are some outliers with high leverage in each graph.
+
 
 
 
