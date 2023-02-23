@@ -152,5 +152,9 @@ plot(pca, type = "l",
 
 The first two components can explain 91.25% variance of the total. Therefore, I will choose to use the first two components to represent this dataset.  
 
+## Ex 3.4   
+*Not all canonical correlations may be statistically significant. An approximate test proposed by Bartlett (1947) can be used to deter- mine how many significant relationships exist. The test statistic for testing that at least one canonical correlation is significant is*  
+
+**MY SOLUTION**  
 
 
