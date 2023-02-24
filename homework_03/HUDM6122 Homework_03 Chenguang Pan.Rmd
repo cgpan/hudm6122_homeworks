@@ -46,7 +46,7 @@ pairs(heptathlon[, -ncol(heptathlon)], upper.panel = function(x, y) {
   contour(den, add = TRUE, col = "red", lwd = 2)})
 ```  
 
-Comparing to the unenhanced scatter plot matrix, this mixed graph can help to easily find the specific characteristics of joint distribution of each pair, like the where is the center of the distribution.  
+Comparing to the unenhanced scatter plot matrix, this mixed graph can help to easily find the specific characteristics of joint distribution of each pair, like the center of the distribution.  
 
 ## Ex 3.2  
 *Construct a diagram that shows the SO2 variable in the air pollution data plotted against each of the six explanatory variables, and in each of the scatterplots show the fitted linear regression and a fitted locally weighted regression. Does this diagram help in deciding on the most appropriate model for determining the variables most predictive of sulphur dioxide levels?*
@@ -170,9 +170,7 @@ This dataset is called `frets` included in the package `boot`. The `l1` and `l2`
 First, I write a function to calculate the chi-square value. Although the book does not mention, one should notice that the `n`is the number of observations.
 ```{r}
 cc_test <- function(eigenvalues, n, q1,q2){
-  # eigenvalues is a list of a eigenvalues computed by hand.
-  # s_df is the df of the s matrix, ie., the n in the equation
-  # p_q is
+  # n is the number of observations
   # write a for-loop to load the sum of log eigenvalues
   sum_log_eigen <- 0
   for (i in c(1:min(q1,q2))) {
@@ -184,7 +182,7 @@ cc_test <- function(eigenvalues, n, q1,q2){
   return(p_value)
 }
 ```  
-Write separate code chunk to calculate the eigenvalues of `headsize` dataset. Based on the dimension of dataset, we can easily find the `q1` = 2, `q2` = 2, and the df of s matrix is 
+Then write a separate code chunk to calculate the eigenvalues of `headsize` dataset. Based on the dimension of dataset, we can easily find the `q1` = 2, `q2` = 2.
 ```{r}
 # import the data
 data("frets", package = "boot")
@@ -198,7 +196,6 @@ r11 <- R[1:2, 1:2]
 r22 <- R[-(1:2), -(1:2)]
 r12 <- R[1:2, -(1:2)]
 r21 <- R[-(1:2), 1:2]
-# since the eigenvalues are the same for E1 and E2, here I only compute E1
 E1 <- solve(r11)%*%r12%*%solve(r22)%*%r21
 E2 <- solve(r22)%*%r21%*%solve(r11)%*%r12
 # get the eigenvector of two dataset

@@ -148,7 +148,7 @@ using the \texttt{contour()} function.
 
 Comparing to the unenhanced scatter plot matrix, this mixed graph can
 help to easily find the specific characteristics of joint distribution
-of each pair, like the where is the center of the distribution.
+of each pair, like the center of the distribution.
 
 \hypertarget{ex-3.2}{%
 \subsection{Ex 3.2}\label{ex-3.2}}
@@ -267,9 +267,7 @@ number of observations.
 \begin{Shaded}
 \begin{Highlighting}[]
 \SpecialCharTok{\textgreater{}}\NormalTok{ cc\_test }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(eigenvalues, n, q1,q2)\{}
-\SpecialCharTok{+}   \CommentTok{\# eigenvalues is a list of a eigenvalues computed by hand.}
-\SpecialCharTok{+}   \CommentTok{\# s\_df is the df of the s matrix, ie., the n in the equation}
-\SpecialCharTok{+}   \CommentTok{\# p\_q is}
+\SpecialCharTok{+}   \CommentTok{\# n is the number of observations}
 \SpecialCharTok{+}   \CommentTok{\# write a for{-}loop to load the sum of log eigenvalues}
 \SpecialCharTok{+}\NormalTok{   sum\_log\_eigen }\OtherTok{\textless{}{-}} \DecValTok{0}
 \SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(q1,q2))) \{}
@@ -283,10 +281,9 @@ number of observations.
 \end{Highlighting}
 \end{Shaded}
 
-Write separate code chunk to calculate the eigenvalues of
+Then write a separate code chunk to calculate the eigenvalues of
 \texttt{headsize} dataset. Based on the dimension of dataset, we can
-easily find the \texttt{q1} = 2, \texttt{q2} = 2, and the df of s matrix
-is
+easily find the \texttt{q1} = 2, \texttt{q2} = 2.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -302,8 +299,7 @@ is
 \SpecialCharTok{\textgreater{}}\NormalTok{ r22 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
 \SpecialCharTok{\textgreater{}}\NormalTok{ r12 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
 \SpecialCharTok{\textgreater{}}\NormalTok{ r21 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
-\SpecialCharTok{\textgreater{}} \CommentTok{\# since the eigenvalues are the same for E1 and E2, here I only compute E1}
-\ErrorTok{\textgreater{}}\NormalTok{ E1 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}
+\SpecialCharTok{\textgreater{}}\NormalTok{ E1 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}
 \SpecialCharTok{\textgreater{}}\NormalTok{ E2 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# get the eigenvector of two dataset}
 \ErrorTok{\textgreater{}}\NormalTok{ e1 }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(E1)}\SpecialCharTok{$}\NormalTok{values}
