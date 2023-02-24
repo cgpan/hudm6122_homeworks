@@ -1,7 +1,7 @@
 ---
 title: "HUDM6122 Homework_03"
 author: "Chenguang Pan"
-date: "2023-02-19"
+date: "2023-02-23"
 output:
   pdf_document:
     toc: false
@@ -21,6 +21,10 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE)
 ``` 
+
+## Github Address  
+All my up-to-date homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.
+
 
 ## Ex 3.1  
 *Construct the scatterplot of the heptathlon data showing the contours of the estimated bivariate density function on each panel. Is this graphic more useful than the unenhanced scatterplot matrix?*  
@@ -235,6 +239,46 @@ e2 <- eigen(E2)$values
 cc_test(e1,294,2,4)
 ```  
 The p value of a chi-square test at the degree of freedom 8 is far less than than the significant level .05. Therefore, we reject the null hypothesis. That is, at least one of the canonical correlation is significant.   
+
+## Ex 3.5   
+*Repeat the regression analysis for the air pollution data described in the text after removing whatever cities you think should be regarded as outliers. For the results given in the text and the results from the outliers-removed data, produce scatterplots of sulphur dioxide concentration against each of the principal component scores. Interpret your results.* 
+
+**MY SOLUTION** 
+
+```{r}
+# import the data
+data("USairpollution")
+head(USairpollution)
+# drop the outliers 
+out_cities <- c("Chicago", "Phoenix", "Philadelphia")
+df <- USairpollution[!(row.names(USairpollution) %in% out_cities),]
+dim(df)
+# to get the correlation matrix
+cor(df[,-1])
+# get the PCAs
+usair_pca <- princomp(df[,-1], cor = TRUE)
+# check the PCAs' details
+summary(usair_pca, loadings =T)
+```  
+The PCA analysis looks good. Next, I run the regression analysis.
+```{r}
+# run the regression function
+usair_reg <- lm(SO2 ~ usair_pca$scores, data = df)
+summary(usair_reg)
+```  
+Next, I draw the scatter plots of SO2 against each principle components.
+```{r,fig.show='hold',out.width="50%",out.height= "80%"}
+#par(mfrow=c(3,2))
+out <- sapply(1:6, function(i) {
+  plot(df$SO2, usair_pca$scores[,i],
+       xlab = paste("PC",i,sep = ""),
+       ylab = "SO2")
+})
+```  
+
+After dropping the outliers, the results from the principle component regression show that the third and the fifth components are significantly associated with the SO2. In addition, the first principle component is no longer the most predictive of SO2. It also indicates that principle component with small variance may have large correlations with the outcome.
+
+
 
 
 

@@ -105,10 +105,17 @@
 
 \title{HUDM6122 Homework\_03}
 \author{Chenguang Pan}
-\date{2023-02-19}
+\date{2023-02-23}
 
 \begin{document}
 \maketitle
+
+\hypertarget{github-address}{%
+\subsection{Github Address}\label{github-address}}
+
+All my up-to-date homework can be found on Github:
+\url{https://github.com/cgpan/hudm6122_homeworks} . Thanks for checking
+if interested.
 
 \hypertarget{ex-3.1}{%
 \subsection{Ex 3.1}\label{ex-3.1}}
@@ -356,5 +363,128 @@ The p value of a chi-square test at the degree of freedom 8 is far less
 than than the significant level .05. Therefore, we reject the null
 hypothesis. That is, at least one of the canonical correlation is
 significant.
+
+\hypertarget{ex-3.5}{%
+\subsection{Ex 3.5}\label{ex-3.5}}
+
+\emph{Repeat the regression analysis for the air pollution data
+described in the text after removing whatever cities you think should be
+regarded as outliers. For the results given in the text and the results
+from the outliers-removed data, produce scatterplots of sulphur dioxide
+concentration against each of the principal component scores. Interpret
+your results.}
+
+\textbf{MY SOLUTION}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}} \FunctionTok{data}\NormalTok{(}\StringTok{"USairpollution"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{head}\NormalTok{(USairpollution)}
+\NormalTok{            SO2 temp manu popul wind precip predays}
+\NormalTok{Albany       }\DecValTok{46} \FloatTok{47.6}   \DecValTok{44}   \DecValTok{116}  \FloatTok{8.8}  \FloatTok{33.36}     \DecValTok{135}
+\NormalTok{Albuquerque  }\DecValTok{11} \FloatTok{56.8}   \DecValTok{46}   \DecValTok{244}  \FloatTok{8.9}   \FloatTok{7.77}      \DecValTok{58}
+\NormalTok{Atlanta      }\DecValTok{24} \FloatTok{61.5}  \DecValTok{368}   \DecValTok{497}  \FloatTok{9.1}  \FloatTok{48.34}     \DecValTok{115}
+\NormalTok{Baltimore    }\DecValTok{47} \FloatTok{55.0}  \DecValTok{625}   \DecValTok{905}  \FloatTok{9.6}  \FloatTok{41.31}     \DecValTok{111}
+\NormalTok{Buffalo      }\DecValTok{11} \FloatTok{47.1}  \DecValTok{391}   \DecValTok{463} \FloatTok{12.4}  \FloatTok{36.11}     \DecValTok{166}
+\NormalTok{Charleston   }\DecValTok{31} \FloatTok{55.2}   \DecValTok{35}    \DecValTok{71}  \FloatTok{6.5}  \FloatTok{40.75}     \DecValTok{148}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# drop the outliers }
+\ErrorTok{\textgreater{}}\NormalTok{ out\_cities }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Chicago"}\NormalTok{, }\StringTok{"Phoenix"}\NormalTok{, }\StringTok{"Philadelphia"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ df }\OtherTok{\textless{}{-}}\NormalTok{ USairpollution[}\SpecialCharTok{!}\NormalTok{(}\FunctionTok{row.names}\NormalTok{(USairpollution) }\SpecialCharTok{\%in\%}\NormalTok{ out\_cities),]}
+\SpecialCharTok{\textgreater{}} \FunctionTok{dim}\NormalTok{(df)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\DecValTok{38}  \DecValTok{7}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# to get the correlation matrix}
+\ErrorTok{\textgreater{}} \FunctionTok{cor}\NormalTok{(df[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\NormalTok{               temp        manu       popul        wind      precip     predays}
+\NormalTok{temp     }\FloatTok{1.00000000} \SpecialCharTok{{-}}\FloatTok{0.17663356}  \FloatTok{0.05950795} \SpecialCharTok{{-}}\FloatTok{0.24910331}  \FloatTok{0.59678776} \SpecialCharTok{{-}}\FloatTok{0.33153165}
+\NormalTok{manu    }\SpecialCharTok{{-}}\FloatTok{0.17663356}  \FloatTok{1.00000000}  \FloatTok{0.83132399}  \FloatTok{0.31627175} \SpecialCharTok{{-}}\FloatTok{0.09682994}  \FloatTok{0.18024864}
+\NormalTok{popul    }\FloatTok{0.05950795}  \FloatTok{0.83132399}  \FloatTok{1.00000000}  \FloatTok{0.27804217} \SpecialCharTok{{-}}\FloatTok{0.02047793}  \FloatTok{0.02622103}
+\NormalTok{wind    }\SpecialCharTok{{-}}\FloatTok{0.24910331}  \FloatTok{0.31627175}  \FloatTok{0.27804217}  \FloatTok{1.00000000} \SpecialCharTok{{-}}\FloatTok{0.19721151} \SpecialCharTok{{-}}\FloatTok{0.02599336}
+\NormalTok{precip   }\FloatTok{0.59678776} \SpecialCharTok{{-}}\FloatTok{0.09682994} \SpecialCharTok{{-}}\FloatTok{0.02047793} \SpecialCharTok{{-}}\FloatTok{0.19721151}  \FloatTok{1.00000000}  \FloatTok{0.38212783}
+\NormalTok{predays }\SpecialCharTok{{-}}\FloatTok{0.33153165}  \FloatTok{0.18024864}  \FloatTok{0.02622103} \SpecialCharTok{{-}}\FloatTok{0.02599336}  \FloatTok{0.38212783}  \FloatTok{1.00000000}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the PCAs}
+\ErrorTok{\textgreater{}}\NormalTok{ usair\_pca }\OtherTok{\textless{}{-}} \FunctionTok{princomp}\NormalTok{(df[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], }\AttributeTok{cor =} \ConstantTok{TRUE}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# check the PCAs\textquotesingle{} details}
+\ErrorTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(usair\_pca, }\AttributeTok{loadings =}\NormalTok{T)}
+\NormalTok{Importance of components}\SpecialCharTok{:}
+\NormalTok{                          Comp}\FloatTok{.1}\NormalTok{    Comp}\FloatTok{.2}\NormalTok{    Comp}\FloatTok{.3}\NormalTok{    Comp}\FloatTok{.4}\NormalTok{     Comp}\FloatTok{.5}
+\NormalTok{Standard deviation     }\FloatTok{1.4600118} \FloatTok{1.2635806} \FloatTok{1.1299528} \FloatTok{0.8675059} \FloatTok{0.37362330}
+\NormalTok{Proportion of Variance }\FloatTok{0.3552724} \FloatTok{0.2661060} \FloatTok{0.2127989} \FloatTok{0.1254278} \FloatTok{0.02326573}
+\NormalTok{Cumulative Proportion  }\FloatTok{0.3552724} \FloatTok{0.6213784} \FloatTok{0.8341773} \FloatTok{0.9596050} \FloatTok{0.98287073}
+\NormalTok{                           Comp}\FloatTok{.6}
+\NormalTok{Standard deviation     }\FloatTok{0.32058638}
+\NormalTok{Proportion of Variance }\FloatTok{0.01712927}
+\NormalTok{Cumulative Proportion  }\FloatTok{1.00000000}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{        Comp}\FloatTok{.1}\NormalTok{ Comp}\FloatTok{.2}\NormalTok{ Comp}\FloatTok{.3}\NormalTok{ Comp}\FloatTok{.4}\NormalTok{ Comp}\FloatTok{.5}\NormalTok{ Comp}\FloatTok{.6}
+\NormalTok{temp     }\FloatTok{0.330}  \FloatTok{0.524}  \FloatTok{0.467}  \FloatTok{0.122}  \FloatTok{0.101}  \FloatTok{0.611}
+\NormalTok{manu    }\SpecialCharTok{{-}}\FloatTok{0.596}  \FloatTok{0.286}        \SpecialCharTok{{-}}\FloatTok{0.238} \SpecialCharTok{{-}}\FloatTok{0.680}  \FloatTok{0.209}
+\NormalTok{popul   }\SpecialCharTok{{-}}\FloatTok{0.529}  \FloatTok{0.385}  \FloatTok{0.232} \SpecialCharTok{{-}}\FloatTok{0.214}  \FloatTok{0.626} \SpecialCharTok{{-}}\FloatTok{0.282}
+\NormalTok{wind    }\SpecialCharTok{{-}}\FloatTok{0.414} \SpecialCharTok{{-}}\FloatTok{0.114}         \FloatTok{0.896}              
+\NormalTok{precip   }\FloatTok{0.272}  \FloatTok{0.653} \SpecialCharTok{{-}}\FloatTok{0.216}  \FloatTok{0.283} \SpecialCharTok{{-}}\FloatTok{0.246} \SpecialCharTok{{-}}\FloatTok{0.558}
+\NormalTok{predays }\SpecialCharTok{{-}}\FloatTok{0.102}  \FloatTok{0.235} \SpecialCharTok{{-}}\FloatTok{0.820}         \FloatTok{0.272}  \FloatTok{0.432}
+\end{Highlighting}
+\end{Shaded}
+
+The PCA analysis looks good. Next, I run the regression analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# run the regression function}
+\ErrorTok{\textgreater{}}\NormalTok{ usair\_reg }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(SO2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ usair\_pca}\SpecialCharTok{$}\NormalTok{scores, }\AttributeTok{data =}\NormalTok{ df)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(usair\_reg)}
+
+\NormalTok{Call}\SpecialCharTok{:}
+\FunctionTok{lm}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ SO2 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ usair\_pca}\SpecialCharTok{$}\NormalTok{scores, }\AttributeTok{data =}\NormalTok{ df)}
+
+\NormalTok{Residuals}\SpecialCharTok{:}
+\NormalTok{    Min      1Q  Median      3Q     Max }
+\SpecialCharTok{{-}}\FloatTok{22.828}  \SpecialCharTok{{-}}\FloatTok{8.998}  \SpecialCharTok{{-}}\FloatTok{2.146}   \FloatTok{6.729}  \FloatTok{45.087} 
+
+\NormalTok{Coefficients}\SpecialCharTok{:}
+\NormalTok{                       Estimate Std. Error t value }\FunctionTok{Pr}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{t}\SpecialCharTok{|}\NormalTok{)    }
+\NormalTok{(Intercept)             }\FloatTok{27.4474}     \FloatTok{2.3942}  \FloatTok{11.464} \FloatTok{1.11e{-}12} \SpecialCharTok{**}\ErrorTok{*}
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.1}  \SpecialCharTok{{-}}\FloatTok{2.6115}     \FloatTok{1.6399}  \SpecialCharTok{{-}}\FloatTok{1.592} \FloatTok{0.121427}    
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.2}  \SpecialCharTok{{-}}\FloatTok{0.8596}     \FloatTok{1.8948}  \SpecialCharTok{{-}}\FloatTok{0.454} \FloatTok{0.653234}    
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.3}  \SpecialCharTok{{-}}\FloatTok{8.2642}     \FloatTok{2.1189}  \SpecialCharTok{{-}}\FloatTok{3.900} \FloatTok{0.000482} \SpecialCharTok{**}\ErrorTok{*}
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.4}  \SpecialCharTok{{-}}\FloatTok{2.6787}     \FloatTok{2.7599}  \SpecialCharTok{{-}}\FloatTok{0.971} \FloatTok{0.339281}    
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.5} \SpecialCharTok{{-}}\FloatTok{21.6998}     \FloatTok{6.4082}  \SpecialCharTok{{-}}\FloatTok{3.386} \FloatTok{0.001941} \SpecialCharTok{**} 
+\NormalTok{usair\_pca}\SpecialCharTok{$}\NormalTok{scoresComp}\FloatTok{.6}  \SpecialCharTok{{-}}\FloatTok{5.1290}     \FloatTok{7.4683}  \SpecialCharTok{{-}}\FloatTok{0.687} \FloatTok{0.497336}    
+\SpecialCharTok{{-}{-}{-}}
+\NormalTok{Signif. codes}\SpecialCharTok{:}  \DecValTok{0} \StringTok{\textquotesingle{}***\textquotesingle{}} \FloatTok{0.001} \StringTok{\textquotesingle{}**\textquotesingle{}} \FloatTok{0.01} \StringTok{\textquotesingle{}*\textquotesingle{}} \FloatTok{0.05} \StringTok{\textquotesingle{}.\textquotesingle{}} \FloatTok{0.1} \StringTok{\textquotesingle{} \textquotesingle{}} \DecValTok{1}
+
+\NormalTok{Residual standard error}\SpecialCharTok{:} \FloatTok{14.76}\NormalTok{ on }\DecValTok{31}\NormalTok{ degrees of freedom}
+\NormalTok{Multiple R}\SpecialCharTok{{-}}\NormalTok{squared}\SpecialCharTok{:}  \FloatTok{0.4987}\NormalTok{,    Adjusted R}\SpecialCharTok{{-}}\NormalTok{squared}\SpecialCharTok{:}  \FloatTok{0.4016} 
+\NormalTok{F}\SpecialCharTok{{-}}\NormalTok{statistic}\SpecialCharTok{:} \FloatTok{5.139}\NormalTok{ on }\DecValTok{6}\NormalTok{ and }\DecValTok{31}\NormalTok{ DF,  p}\SpecialCharTok{{-}}\NormalTok{value}\SpecialCharTok{:} \FloatTok{0.0009116}
+\end{Highlighting}
+\end{Shaded}
+
+Next, I draw the scatter plots of SO2 against each principle components.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\#par(mfrow=c(3,2))}
+\ErrorTok{\textgreater{}}\NormalTok{ out }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(i) \{}
+\SpecialCharTok{+}   \FunctionTok{plot}\NormalTok{(df}\SpecialCharTok{$}\NormalTok{SO2, usair\_pca}\SpecialCharTok{$}\NormalTok{scores[,i],}
+\SpecialCharTok{+}        \AttributeTok{xlab =} \FunctionTok{paste}\NormalTok{(}\StringTok{"PC"}\NormalTok{,i,}\AttributeTok{sep =} \StringTok{""}\NormalTok{),}
+\SpecialCharTok{+}        \AttributeTok{ylab =} \StringTok{"SO2"}\NormalTok{)}
+\SpecialCharTok{+}\NormalTok{ \})}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-1}
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-2}
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-3}
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-4}
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-5}
+\includegraphics[width=0.5\linewidth,height=0.8\textheight]{HUDM6122-Homework_03-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-6}
+
+After dropping the outliers, the results from the principle component
+regression show that the third and the fifth components are
+significantly associated with the SO2. In addition, the first principle
+component is no longer the most predictive of SO2. It also indicates
+that principle component with small variance may have large correlations
+with the outcome.
 
 \end{document}
