@@ -235,4 +235,126 @@ The first two components can explain 91.25\% variance of the total.
 Therefore, I will choose to use the first two components to represent
 this dataset.
 
+\hypertarget{ex-3.4}{%
+\subsection{Ex 3.4}\label{ex-3.4}}
+
+\emph{Not all canonical correlations may be statistically significant.
+An approximate test proposed by Bartlett (1947) can be used to deter-
+mine how many significant relationships exist. The test statistic for
+testing that at least one canonical correlation is significant is}
+
+\textbf{MY SOLUTION}\\
+This dataset is called \texttt{frets} included in the package
+\texttt{boot}. The \texttt{l1} and \texttt{l2} variables represent the
+length and the \texttt{b1} and \texttt{b2} are for the breadth. The
+index number \texttt{1} represents the first son and \texttt{2} for the
+second son in one family. Note, the code for \texttt{headsize.std}
+provided on \emph{Page.97} in the textbook MVA is \textbf{wrong}! Each
+columns divided by the standard deviation cannot be called
+``standardized''! One should let each column subtract the mean first!!
+
+First, I write a function to calculate the chi-square value. Although
+the book does not mention, one should notice that the \texttt{n}is the
+number of observations.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ cc\_test }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(eigenvalues, n, q1,q2)\{}
+\SpecialCharTok{+}   \CommentTok{\# eigenvalues is a list of a eigenvalues computed by hand.}
+\SpecialCharTok{+}   \CommentTok{\# s\_df is the df of the s matrix, ie., the n in the equation}
+\SpecialCharTok{+}   \CommentTok{\# p\_q is}
+\SpecialCharTok{+}   \CommentTok{\# write a for{-}loop to load the sum of log eigenvalues}
+\SpecialCharTok{+}\NormalTok{   sum\_log\_eigen }\OtherTok{\textless{}{-}} \DecValTok{0}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\FunctionTok{min}\NormalTok{(q1,q2))) \{}
+\SpecialCharTok{+}\NormalTok{     sum\_log\_eigen }\OtherTok{\textless{}{-}}\NormalTok{ sum\_log\_eigen }\SpecialCharTok{+} \FunctionTok{log}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{eigenvalues[i])}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+} 
+\SpecialCharTok{+}\NormalTok{   phi\_2 }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\NormalTok{(n }\SpecialCharTok{{-}} \FloatTok{0.5}\SpecialCharTok{*}\NormalTok{(q1}\SpecialCharTok{+}\NormalTok{q2}\SpecialCharTok{+}\DecValTok{1}\NormalTok{))}\SpecialCharTok{*}\NormalTok{sum\_log\_eigen}
+\SpecialCharTok{+}\NormalTok{   p\_value }\OtherTok{\textless{}{-}} \FunctionTok{pchisq}\NormalTok{(}\AttributeTok{q =}\NormalTok{ phi\_2, }\AttributeTok{df =}\NormalTok{ q1}\SpecialCharTok{*}\NormalTok{q2, }\AttributeTok{lower.tail =}\NormalTok{ F)}
+\SpecialCharTok{+}   \FunctionTok{return}\NormalTok{(p\_value)}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+Write separate code chunk to calculate the eigenvalues of
+\texttt{headsize} dataset. Based on the dimension of dataset, we can
+easily find the \texttt{q1} = 2, \texttt{q2} = 2, and the df of s matrix
+is
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}} \FunctionTok{data}\NormalTok{(}\StringTok{"frets"}\NormalTok{, }\AttributeTok{package =} \StringTok{"boot"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ headsize }\OtherTok{\textless{}{-}}\NormalTok{ frets}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# use scale to get the standardized headsize dataset}
+\ErrorTok{\textgreater{}}\NormalTok{ headsize\_std }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{scale}\NormalTok{(headsize))}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ R }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(headsize\_std)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# subset the correlation matrix to get the cor matrix for all first son}
+\ErrorTok{\textgreater{}}\NormalTok{ r11 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r22 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r12 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r21 }\OtherTok{\textless{}{-}}\NormalTok{ R[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# since the eigenvalues are the same for E1 and E2, here I only compute E1}
+\ErrorTok{\textgreater{}}\NormalTok{ E1 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}
+\SpecialCharTok{\textgreater{}}\NormalTok{ E2 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the eigenvector of two dataset}
+\ErrorTok{\textgreater{}}\NormalTok{ e1 }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(E1)}\SpecialCharTok{$}\NormalTok{values}
+\SpecialCharTok{\textgreater{}}\NormalTok{ e2 }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(E2)}\SpecialCharTok{$}\NormalTok{values}
+\end{Highlighting}
+\end{Shaded}
+
+Now, plug the values from the analysis above to the initial
+\texttt{cc\_test} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{cc\_test}\NormalTok{(e1, }\CommentTok{\# the eigenvalues are quite identical, here I use e1}
+\SpecialCharTok{+}         \DecValTok{25}\NormalTok{, }\CommentTok{\# number of observations}
+\SpecialCharTok{+}         \DecValTok{2}\NormalTok{, }\CommentTok{\# number of q1}
+\SpecialCharTok{+}         \DecValTok{2}\NormalTok{) }\CommentTok{\# number of q2}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{0.0002060779}
+\end{Highlighting}
+\end{Shaded}
+
+The p value of a chi-square test at the degree of freedom 4 is far less
+than than the significant level .05. Therefore, we reject the null
+hypothesis. That is, at least one of the canonical correlation is
+significant.
+
+Follow the same method, I first analyzed the dataset \texttt{LAdepr} to
+get the basic information and then plug them into the \texttt{cc\_test}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}}\NormalTok{ depr }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+\SpecialCharTok{+}            \FloatTok{0.212}\NormalTok{,}
+\SpecialCharTok{+}            \FloatTok{0.124}\NormalTok{,  }\FloatTok{0.098}\NormalTok{,}
+\SpecialCharTok{+}           \SpecialCharTok{{-}}\FloatTok{0.164}\NormalTok{,  }\FloatTok{0.308}\NormalTok{,  }\FloatTok{0.044}\NormalTok{,}
+\SpecialCharTok{+}           \SpecialCharTok{{-}}\FloatTok{0.101}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.207}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.106}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.208}\NormalTok{,}
+\SpecialCharTok{+}           \SpecialCharTok{{-}}\FloatTok{0.158}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.183}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.180}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.192}\NormalTok{, }\FloatTok{0.492}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ LAdepr }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\DecValTok{6}\NormalTok{) }\SpecialCharTok{/} \DecValTok{2}
+\SpecialCharTok{\textgreater{}}\NormalTok{ LAdepr[}\FunctionTok{upper.tri}\NormalTok{(LAdepr)] }\OtherTok{\textless{}{-}}\NormalTok{ depr}
+\SpecialCharTok{\textgreater{}}\NormalTok{ LAdepr }\OtherTok{\textless{}{-}}\NormalTok{ LAdepr }\SpecialCharTok{+} \FunctionTok{t}\NormalTok{(LAdepr)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{rownames}\NormalTok{(LAdepr) }\OtherTok{\textless{}{-}} \FunctionTok{colnames}\NormalTok{(LAdepr) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"CESD"}\NormalTok{, }\StringTok{"Health"}\NormalTok{, }\StringTok{"Gender"}\NormalTok{, }\StringTok{"Age"}\NormalTok{, }\StringTok{"Edu"}\NormalTok{, }\StringTok{"Income"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# LAdepr \textless{}{-} as.data.frame(LAdepr)}
+\ErrorTok{\textgreater{}}\NormalTok{ r11 }\OtherTok{\textless{}{-}}\NormalTok{ LAdepr[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r22 }\OtherTok{\textless{}{-}}\NormalTok{ LAdepr[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r12 }\OtherTok{\textless{}{-}}\NormalTok{ LAdepr[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ r21 }\OtherTok{\textless{}{-}}\NormalTok{ LAdepr[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{), }\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ E1 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}
+\SpecialCharTok{\textgreater{}}\NormalTok{ E2 }\OtherTok{\textless{}{-}} \FunctionTok{solve}\NormalTok{(r22)}\SpecialCharTok{\%*\%}\NormalTok{r21}\SpecialCharTok{\%*\%}\FunctionTok{solve}\NormalTok{(r11)}\SpecialCharTok{\%*\%}\NormalTok{r12}
+\SpecialCharTok{\textgreater{}}\NormalTok{ e1 }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(E1)}\SpecialCharTok{$}\NormalTok{values}
+\SpecialCharTok{\textgreater{}}\NormalTok{ e2 }\OtherTok{\textless{}{-}} \FunctionTok{eigen}\NormalTok{(E2)}\SpecialCharTok{$}\NormalTok{values}
+\SpecialCharTok{\textgreater{}} \FunctionTok{cc\_test}\NormalTok{(e1,}\DecValTok{294}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{4}\NormalTok{)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{1.578454e{-}11}
+\end{Highlighting}
+\end{Shaded}
+
+The p value of a chi-square test at the degree of freedom 8 is far less
+than than the significant level .05. Therefore, we reject the null
+hypothesis. That is, at least one of the canonical correlation is
+significant.
+
 \end{document}

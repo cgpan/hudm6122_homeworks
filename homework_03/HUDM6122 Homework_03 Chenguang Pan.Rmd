@@ -52,6 +52,11 @@ Comparing to the unenhanced scatter plot matrix, this mixed graph can help to ea
 To solve this questions, I used the `ggplot2` to draw each graph.
 
 ```{r,eval=FALSE, include=FALSE}
+###########################################
+## Note: this code chunk won't run !!!!!!##
+##     skip this code chunk!!!!!         ##
+###########################################
+
 # import the dataset
 data(USairpollution)
 library(ggplot2)
@@ -156,5 +161,80 @@ The first two components can explain 91.25% variance of the total. Therefore, I 
 *Not all canonical correlations may be statistically significant. An approximate test proposed by Bartlett (1947) can be used to deter- mine how many significant relationships exist. The test statistic for testing that at least one canonical correlation is significant is*  
 
 **MY SOLUTION**  
+This dataset is called `frets` included in the package `boot`. The `l1` and `l2` variables represent the length and the `b1` and `b2` are for the breadth. The index number `1` represents the first son and `2` for the second son in one family. Note, the code for `headsize.std` provided on *Page.97* in the textbook MVA is **wrong**! Each columns divided by the standard deviation cannot be called "standardized"! One should let each column subtract the mean first!!
+
+First, I write a function to calculate the chi-square value. Although the book does not mention, one should notice that the `n`is the number of observations.
+```{r}
+cc_test <- function(eigenvalues, n, q1,q2){
+  # eigenvalues is a list of a eigenvalues computed by hand.
+  # s_df is the df of the s matrix, ie., the n in the equation
+  # p_q is
+  # write a for-loop to load the sum of log eigenvalues
+  sum_log_eigen <- 0
+  for (i in c(1:min(q1,q2))) {
+    sum_log_eigen <- sum_log_eigen + log(1-eigenvalues[i])
+  }
+
+  phi_2 <- -(n - 0.5*(q1+q2+1))*sum_log_eigen
+  p_value <- pchisq(q = phi_2, df = q1*q2, lower.tail = F)
+  return(p_value)
+}
+```  
+Write separate code chunk to calculate the eigenvalues of `headsize` dataset. Based on the dimension of dataset, we can easily find the `q1` = 2, `q2` = 2, and the df of s matrix is 
+```{r}
+# import the data
+data("frets", package = "boot")
+headsize <- frets
+# use scale to get the standardized headsize dataset
+headsize_std <- as.data.frame(scale(headsize))
+# get the correlation matrix
+R <- cor(headsize_std)
+# subset the correlation matrix to get the cor matrix for all first son
+r11 <- R[1:2, 1:2]
+r22 <- R[-(1:2), -(1:2)]
+r12 <- R[1:2, -(1:2)]
+r21 <- R[-(1:2), 1:2]
+# since the eigenvalues are the same for E1 and E2, here I only compute E1
+E1 <- solve(r11)%*%r12%*%solve(r22)%*%r21
+E2 <- solve(r22)%*%r21%*%solve(r11)%*%r12
+# get the eigenvector of two dataset
+e1 <- eigen(E1)$values
+e2 <- eigen(E2)$values
+```  
+Now, plug the values from the analysis above to the initial `cc_test` function.  
+```{r}
+cc_test(e1, # the eigenvalues are quite identical, here I use e1
+        25, # number of observations
+        2, # number of q1
+        2) # number of q2
+```   
+The p value of a chi-square test at the degree of freedom 4 is far less than than the significant level .05. Therefore, we reject the null hypothesis. That is, at least one of the canonical correlation is significant.   
+
+Follow the same method, I first analyzed the dataset `LAdepr` to get the basic information and then plug them into the `cc_test`.
+```{r}
+# import the data
+depr <- c(
+           0.212,
+           0.124,  0.098,
+          -0.164,  0.308,  0.044,
+          -0.101, -0.207, -0.106, -0.208,
+          -0.158, -0.183, -0.180, -0.192, 0.492)
+LAdepr <- diag(6) / 2
+LAdepr[upper.tri(LAdepr)] <- depr
+LAdepr <- LAdepr + t(LAdepr)
+rownames(LAdepr) <- colnames(LAdepr) <- c("CESD", "Health", "Gender", "Age", "Edu", "Income")
+# LAdepr <- as.data.frame(LAdepr)
+r11 <- LAdepr[1:2, 1:2]
+r22 <- LAdepr[-(1:2), -(1:2)]
+r12 <- LAdepr[1:2, -(1:2)]
+r21 <- LAdepr[-(1:2), 1:2]
+E1 <- solve(r11)%*%r12%*%solve(r22)%*%r21
+E2 <- solve(r22)%*%r21%*%solve(r11)%*%r12
+e1 <- eigen(E1)$values
+e2 <- eigen(E2)$values
+cc_test(e1,294,2,4)
+```  
+The p value of a chi-square test at the degree of freedom 8 is far less than than the significant level .05. Therefore, we reject the null hypothesis. That is, at least one of the canonical correlation is significant.   
+
 
 
