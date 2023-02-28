@@ -1,0 +1,93 @@
+---
+title: "HUDM6122 Homework_03"
+author: "Chenguang Pan"
+date: "2023-02-23"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: true
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```   
+
+## Ex 4.1  
+
+*Consider 51 objects O1, . , O51 assumed to be arranged along a straight line with the jth object being located at a point with coordinate j. Define the similarity sij between object i and object j as...and then apply classical multidimensional scaling to the resulting dissimilarity matrix. Explain the shape of the derived two-dimensional solution.*  
+
+**MY SOLUTION:**  
+First, I define the function of dissimilarities $\delta_{ij}$ as follows, where the input paramter $X$ is a n*1 matrix that contains all the coordination of 51 objects.
+```{r}
+D_dis <- function(X) {
+  n <- dim(X)[1] # to have the length of any input n*1 matrix
+  S <- matrix(0, n, n) # to make a n*n empty matrix 
+  D <- matrix(0, n, n) # to make a n*n empty matrix 
+  # to make the similarity matrix by conditions
+  for (i in c(1:n)) {
+    for (j in c(1:n)){
+      if (i == j){S[i,j] <- 9}
+      else if (abs(i-j) >= 1 & abs(i-j) <= 3){S[i,j] <- 8}
+      else if (abs(i-j) >= 4 & abs(i-j) <= 6){S[i,j] <- 7}
+      else if (abs(i-j) >= 7 & abs(i-j) <= 9){S[i,j] <- 6}
+      else if (abs(i-j) >= 10 & abs(i-j) <= 12){S[i,j] <- 5}
+      else if (abs(i-j) >= 13 & abs(i-j) <= 15){S[i,j] <- 4}
+      else if (abs(i-j) >= 16 & abs(i-j) <= 18){S[i,j] <- 3}
+      else if (abs(i-j) >= 19 & abs(i-j) <= 21){S[i,j] <- 2}
+      else if (abs(i-j) >= 22 & abs(i-j) <= 24){S[i,j] <- 1}
+      else if (abs(i-j) >= 25){S[i,j] <- 0}
+    }
+  } # similarity matrix finished!
+  # using the elements in the Similarity matrix to generate Dissimilarities Matrix
+  for (i in c(1:n)) {
+    for (j in c(1:n)) {
+      D[i,j] <- sqrt(S[i,i] + S[j,j] - 2*S[i,j])
+    }
+  } # dissimilarity matrix finished!
+  return(D)
+}
+```  
+Next, I randomly generate a n*1 matrix with 51 integers by using `sample()` function. And plug this vector to the dissimilarity function above.  
+```{r}
+obs_ <- function(n, # the number of objects you wanna generate
+                     replace=TRUE, # randomly sample with replacement or not
+                     start =1,  # range from start to end; 1-200 by default
+                     end =200){
+  number_vec <- sample(c(start:end),n,replace=replace)
+  # change the number array to matrix
+  return(matrix(number_vec,n,1))
+}
+```  
+The functions above looks good. I try to generate 51 observations and plug them into the dissimilarity matrix function to get the required D matrix.
+```{r}
+set.seed(2023)
+# generate 51 observations
+observations <- obs_(51)
+# plug the n*1 matrix into the dissimilarity martix function
+D <- D_dis(observations)
+# select a part of the dissimilarity matrix
+D[1:5,1:5]
+```  
+This dissimilarity matrix looks good. Then I run the classical multidimensional scaling to this resulting matrix. Note, this is a non-Euclidean case. Some of the eigenvalue may be negative.
+```{r}
+d_mds <- cmdscale(D, k=50, eig = T)
+lam <- d_mds$eig
+lam
+cumsum(abs(lam))/sum(abs(lam))
+cumsum(abs(lam^2))/sum(abs(lam^2))
+```
+
+
+
+
+
