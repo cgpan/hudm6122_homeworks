@@ -163,11 +163,8 @@ function above.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\SpecialCharTok{\textgreater{}}\NormalTok{ obs\_ }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n, }\CommentTok{\# the number of objects you wanna generate}
-\SpecialCharTok{+}                      \AttributeTok{replace=}\ConstantTok{TRUE}\NormalTok{, }\CommentTok{\# randomly sample with replacement or not}
-\SpecialCharTok{+}                      \AttributeTok{start =}\DecValTok{1}\NormalTok{,  }\CommentTok{\# range from start to end; 1{-}200 by default}
-\SpecialCharTok{+}                      \AttributeTok{end =}\DecValTok{200}\NormalTok{)\{}
-\SpecialCharTok{+}\NormalTok{   number\_vec }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\FunctionTok{c}\NormalTok{(start}\SpecialCharTok{:}\NormalTok{end),n,}\AttributeTok{replace=}\NormalTok{replace)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ obs\_ }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(n) \{}
+\SpecialCharTok{+}\NormalTok{   number\_vec }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n)}
 \SpecialCharTok{+}   \CommentTok{\# change the number array to matrix}
 \SpecialCharTok{+}   \FunctionTok{return}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(number\_vec,n,}\DecValTok{1}\NormalTok{))}
 \SpecialCharTok{+}\NormalTok{ \}}
@@ -180,7 +177,6 @@ matrix.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\SpecialCharTok{\textgreater{}} \FunctionTok{set.seed}\NormalTok{(}\DecValTok{2023}\NormalTok{)}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# generate 51 observations}
 \ErrorTok{\textgreater{}}\NormalTok{ observations }\OtherTok{\textless{}{-}} \FunctionTok{obs\_}\NormalTok{(}\DecValTok{51}\NormalTok{)}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# plug the n*1 matrix into the dissimilarity martix function}
@@ -204,19 +200,8 @@ non-Euclidean case. Some of the eigenvalue may be negative.
 \begin{Highlighting}[]
 \SpecialCharTok{\textgreater{}}\NormalTok{ d\_mds }\OtherTok{\textless{}{-}} \FunctionTok{cmdscale}\NormalTok{(D, }\AttributeTok{k=}\DecValTok{50}\NormalTok{, }\AttributeTok{eig =}\NormalTok{ T)}
 \SpecialCharTok{\textgreater{}}\NormalTok{ lam }\OtherTok{\textless{}{-}}\NormalTok{ d\_mds}\SpecialCharTok{$}\NormalTok{eig}
-\SpecialCharTok{\textgreater{}}\NormalTok{ lam}
-\NormalTok{ [}\DecValTok{1}\NormalTok{]  }\FloatTok{1.260857e+02}  \FloatTok{6.593531e+01}  \FloatTok{1.817103e+01}  \FloatTok{7.820841e+00}  \FloatTok{7.610276e+00}
-\NormalTok{ [}\DecValTok{6}\NormalTok{]  }\FloatTok{7.378184e+00}  \FloatTok{7.018378e+00}  \FloatTok{5.283354e+00}  \FloatTok{3.436749e+00}  \FloatTok{3.096003e+00}
-\NormalTok{[}\DecValTok{11}\NormalTok{]  }\FloatTok{3.089512e+00}  \FloatTok{2.697496e+00}  \FloatTok{1.939351e+00}  \FloatTok{1.457605e+00}  \FloatTok{1.427548e+00}
-\NormalTok{[}\DecValTok{16}\NormalTok{]  }\FloatTok{1.401274e+00}  \FloatTok{1.341983e+00}  \FloatTok{1.162903e+00}  \FloatTok{9.675241e{-}01}  \FloatTok{9.495632e{-}01}
-\NormalTok{[}\DecValTok{21}\NormalTok{]  }\FloatTok{9.380593e{-}01}  \FloatTok{8.766031e{-}01}  \FloatTok{7.925229e{-}01}  \FloatTok{7.664407e{-}01}  \FloatTok{7.041554e{-}01}
-\NormalTok{[}\DecValTok{26}\NormalTok{]  }\FloatTok{6.921047e{-}01}  \FloatTok{5.994198e{-}01}  \FloatTok{5.448786e{-}01}  \FloatTok{4.750354e{-}01}  \FloatTok{4.738073e{-}01}
-\NormalTok{[}\DecValTok{31}\NormalTok{]  }\FloatTok{4.017636e{-}01}  \FloatTok{3.996796e{-}01}  \FloatTok{3.607046e{-}01}  \FloatTok{3.046375e{-}01}  \FloatTok{2.892578e{-}01}
-\NormalTok{[}\DecValTok{36}\NormalTok{]  }\FloatTok{2.756293e{-}01}  \FloatTok{2.664975e{-}01}  \FloatTok{2.588366e{-}01}  \FloatTok{2.539959e{-}01}  \FloatTok{2.509620e{-}01}
-\NormalTok{[}\DecValTok{41}\NormalTok{]  }\FloatTok{1.209368e{-}01}  \FloatTok{9.981512e{-}02}  \FloatTok{1.776357e{-}15} \SpecialCharTok{{-}}\FloatTok{9.449958e{-}02} \SpecialCharTok{{-}}\FloatTok{1.060236e{-}01}
-\NormalTok{[}\DecValTok{46}\NormalTok{] }\SpecialCharTok{{-}}\FloatTok{3.067296e{-}01} \SpecialCharTok{{-}}\FloatTok{3.298370e{-}01} \SpecialCharTok{{-}}\FloatTok{6.738433e{-}01} \SpecialCharTok{{-}}\FloatTok{7.105516e{-}01} \SpecialCharTok{{-}}\FloatTok{2.002901e+00}
-\NormalTok{[}\DecValTok{51}\NormalTok{] }\SpecialCharTok{{-}}\FloatTok{2.074323e+00}
-\SpecialCharTok{\textgreater{}} \FunctionTok{cumsum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# d\_mds$points}
+\ErrorTok{\textgreater{}} \FunctionTok{cumsum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}
 \NormalTok{ [}\DecValTok{1}\NormalTok{] }\FloatTok{0.4428488} \FloatTok{0.6744323} \FloatTok{0.7382541} \FloatTok{0.7657231} \FloatTok{0.7924526} \FloatTok{0.8183668} \FloatTok{0.8430174}
 \NormalTok{ [}\DecValTok{8}\NormalTok{] }\FloatTok{0.8615740} \FloatTok{0.8736449} \FloatTok{0.8845189} \FloatTok{0.8953701} \FloatTok{0.9048445} \FloatTok{0.9116561} \FloatTok{0.9167756}
 \NormalTok{[}\DecValTok{15}\NormalTok{] }\FloatTok{0.9217895} \FloatTok{0.9267112} \FloatTok{0.9314246} \FloatTok{0.9355091} \FloatTok{0.9389073} \FloatTok{0.9422424} \FloatTok{0.9455372}
@@ -237,5 +222,32 @@ non-Euclidean case. Some of the eigenvalue may be negative.
 \end{Highlighting}
 \end{Shaded}
 
+These values suggest that the first two coordinates will give an
+adequate representation of the simulated dissimilarity distances. Then,
+I make the scatter plot using the first two scores.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ lim }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ (}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{)) }\SpecialCharTok{*} \FloatTok{1.2}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{]}\SpecialCharTok{*}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{*}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{), }
+\SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Coordinate 1"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Coordinate 2"}\NormalTok{,}
+\SpecialCharTok{+}      \AttributeTok{xlim =}\NormalTok{ lim, }\AttributeTok{ylim =}\NormalTok{ lim)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ lim }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{*} \FloatTok{1.2}
+\SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }
+\SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Coordinate 1"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Coordinate 2"}\NormalTok{,}
+\SpecialCharTok{+}      \AttributeTok{xlim =}\NormalTok{ lim, }\AttributeTok{ylim =}\NormalTok{ lim)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_04-Chenguang-Pan_files/figure-latex/unnamed-chunk-7-1.pdf}
+This two-dimensional plot may use the distance between any two points to
+represent the dissimilarity. That is, the longer the straight line
+between any two points, the larger the dissimilarity.
 
 \end{document}

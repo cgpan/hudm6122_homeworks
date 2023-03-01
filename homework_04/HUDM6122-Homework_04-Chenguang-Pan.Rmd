@@ -58,7 +58,9 @@ D_dis <- function(X) {
 }
 ```  
 Next, I randomly generate a n*1 matrix with 51 integers by using `sample()` function. And plug this vector to the dissimilarity function above.  
-```{r}
+```{r, eval=FALSE, include=FALSE}
+# Note this code chunk won't run! and won't be displayed in the final PDF output!!
+# just a record for wrong function for later reference!
 obs_ <- function(n, # the number of objects you wanna generate
                      replace=TRUE, # randomly sample with replacement or not
                      start =1,  # range from start to end; 1-200 by default
@@ -68,9 +70,15 @@ obs_ <- function(n, # the number of objects you wanna generate
   return(matrix(number_vec,n,1))
 }
 ```  
+```{r}
+obs_ <- function(n) {
+  number_vec <- c(1:n)
+  # change the number array to matrix
+  return(matrix(number_vec,n,1))
+}
+``` 
 The functions above looks good. I try to generate 51 observations and plug them into the dissimilarity matrix function to get the required D matrix.
 ```{r}
-set.seed(2023)
 # generate 51 observations
 observations <- obs_(51)
 # plug the n*1 matrix into the dissimilarity martix function
@@ -82,10 +90,26 @@ This dissimilarity matrix looks good. Then I run the classical multidimensional 
 ```{r}
 d_mds <- cmdscale(D, k=50, eig = T)
 lam <- d_mds$eig
-lam
+# d_mds$points
 cumsum(abs(lam))/sum(abs(lam))
 cumsum(abs(lam^2))/sum(abs(lam^2))
-```
+```  
+These values suggest that the first two coordinates will give an adequate representation of the simulated dissimilarity distances. Then, I make the scatter plot using the first two scores.
+```{r, eval=FALSE, included=FALSE}
+lim <- range(d_mds$points[,1] * (-1)) * 1.2
+
+plot(d_mds$points[,1]*(-1), d_mds$points[,2]*(-1), 
+     xlab = "Coordinate 1", ylab = "Coordinate 2",
+     xlim = lim, ylim = lim)
+```  
+```{r}
+lim <- range(d_mds$points[,1]) * 1.2
+plot(d_mds$points[,1], d_mds$points[,2], 
+     xlab = "Coordinate 1", ylab = "Coordinate 2",
+     xlim = lim, ylim = lim)
+```  
+This two-dimensional plot may use the distance between any two points to represent the dissimilarity. That is, the longer the straight line between any two points, the larger the dissimilarity.
+
 
 
 
