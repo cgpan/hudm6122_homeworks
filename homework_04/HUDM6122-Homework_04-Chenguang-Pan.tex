@@ -98,14 +98,14 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
-  pdftitle={HUDM6122 Homework\_03},
+  pdftitle={HUDM6122 Homework\_04},
   pdfauthor={Chenguang Pan},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 
-\title{HUDM6122 Homework\_03}
+\title{HUDM6122 Homework\_04}
 \author{Chenguang Pan}
-\date{2023-02-23}
+\date{2023-03-01}
 
 \begin{document}
 \maketitle
@@ -242,12 +242,105 @@ I make the scatter plot using the first two scores.
 \SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }
 \SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Coordinate 1"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Coordinate 2"}\NormalTok{,}
 \SpecialCharTok{+}      \AttributeTok{xlim =}\NormalTok{ lim, }\AttributeTok{ylim =}\NormalTok{ lim)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{text}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{51}\NormalTok{), }\AttributeTok{pos=}\DecValTok{2}\NormalTok{,}\AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{HUDM6122-Homework_04-Chenguang-Pan_files/figure-latex/unnamed-chunk-7-1.pdf}
-This two-dimensional plot may use the distance between any two points to
-represent the dissimilarity. That is, the longer the straight line
-between any two points, the larger the dissimilarity.
+This two-dimensional plot has the symmetrical shape, which is reasonable
+since the mid-point,i.e., the 26th point, has the same dissimilarity
+with both the points on its left and right. Therefore, if we project all
+point on y-axis, it actually represent the dissimilarity degree between
+the each point and the 26th point.
+
+\hypertarget{ex.-4.2}{%
+\subsection{Ex. 4.2}\label{ex.-4.2}}
+
+\emph{Write an R function to calculate the chi-squared distance matrices
+for both rows and columns in a two-dimensional contingency table.}
+
+\textbf{MY SOLUTION} Based on the definition of chi-squared distance
+matrices, I write the function as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ chi\_squared\_dist\_matrices }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(tbl)\{}
+\SpecialCharTok{+}   \CommentTok{\# Calculate row sums and column sums}
+\SpecialCharTok{+}\NormalTok{   row\_sums }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(tbl, }\DecValTok{1}\NormalTok{, sum)}
+\SpecialCharTok{+}\NormalTok{   col\_sums }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(tbl, }\DecValTok{2}\NormalTok{, sum)}
+\SpecialCharTok{+}   \CommentTok{\# Calculate total count and expected counts}
+\SpecialCharTok{+}\NormalTok{   total\_count }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(tbl)}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}   \CommentTok{\# to have the dim of the input matrix}
+\SpecialCharTok{+}\NormalTok{   c }\OtherTok{\textless{}{-}} \FunctionTok{ncol}\NormalTok{(tbl)}
+\SpecialCharTok{+}\NormalTok{   r }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(tbl)}
+\SpecialCharTok{+}   \CommentTok{\# make a empty matrix to load all elements}
+\SpecialCharTok{+}\NormalTok{   col\_d\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{,c,c)}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}   \CommentTok{\# using loop to write the each ij entries into this matrix}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{c)) \{}
+\SpecialCharTok{+}     \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{c)) \{}
+\SpecialCharTok{+}\NormalTok{       d\_ij }\OtherTok{\textless{}{-}} \DecValTok{0}
+\SpecialCharTok{+}       \ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{r)) \{}
+\SpecialCharTok{+}\NormalTok{         p\_k\_dot }\OtherTok{\textless{}{-}}\NormalTok{ row\_sums[k]}\SpecialCharTok{/}\NormalTok{total\_count}
+\SpecialCharTok{+}\NormalTok{         p\_k\_i }\OtherTok{\textless{}{-}}\NormalTok{ tbl[k,i]}\SpecialCharTok{/}\NormalTok{col\_sums[i]}
+\SpecialCharTok{+}\NormalTok{         p\_k\_j }\OtherTok{\textless{}{-}}\NormalTok{ tbl[k,j]}\SpecialCharTok{/}\NormalTok{col\_sums[j]}
+\SpecialCharTok{+}\NormalTok{         d\_ij }\OtherTok{\textless{}{-}}\NormalTok{ d\_ij }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{p\_k\_dot)}\SpecialCharTok{*}\NormalTok{(p\_k\_i}\SpecialCharTok{{-}}\NormalTok{p\_k\_j)}\SpecialCharTok{\^{}}\DecValTok{2}
+\SpecialCharTok{+}\NormalTok{       \}}
+\SpecialCharTok{+}\NormalTok{       col\_d\_matrix[i,j] }\OtherTok{\textless{}{-}}\NormalTok{ d\_ij}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}   \CommentTok{\# make a empty matrix to load all elements}
+\SpecialCharTok{+}\NormalTok{   row\_d\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\DecValTok{0}\NormalTok{,r,r)}
+\SpecialCharTok{+}   
+\SpecialCharTok{+}   \CommentTok{\# using loop to write the each ij entries into this matrix}
+\SpecialCharTok{+}   \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{r)) \{}
+\SpecialCharTok{+}     \ControlFlowTok{for}\NormalTok{ (j }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{r)) \{}
+\SpecialCharTok{+}\NormalTok{       d\_ij }\OtherTok{\textless{}{-}} \DecValTok{0}
+\SpecialCharTok{+}       \ControlFlowTok{for}\NormalTok{ (k }\ControlFlowTok{in} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{r)) \{}
+\SpecialCharTok{+}\NormalTok{         p\_dot\_k }\OtherTok{\textless{}{-}}\NormalTok{ col\_sums[k]}\SpecialCharTok{/}\NormalTok{total\_count}
+\SpecialCharTok{+}\NormalTok{         p\_i\_k }\OtherTok{\textless{}{-}}\NormalTok{ tbl[i,k]}\SpecialCharTok{/}\NormalTok{row\_sums[i]}
+\SpecialCharTok{+}\NormalTok{         p\_j\_k }\OtherTok{\textless{}{-}}\NormalTok{ tbl[j,k]}\SpecialCharTok{/}\NormalTok{row\_sums[j]}
+\SpecialCharTok{+}\NormalTok{         d\_ij }\OtherTok{\textless{}{-}}\NormalTok{ d\_ij }\SpecialCharTok{+}\NormalTok{ (}\DecValTok{1}\SpecialCharTok{/}\NormalTok{p\_dot\_k)}\SpecialCharTok{*}\NormalTok{(p\_i\_k}\SpecialCharTok{{-}}\NormalTok{p\_j\_k)}\SpecialCharTok{\^{}}\DecValTok{2}
+\SpecialCharTok{+}\NormalTok{       \}}
+\SpecialCharTok{+}\NormalTok{       row\_d\_matrix[i,j] }\OtherTok{\textless{}{-}}\NormalTok{ d\_ij}
+\SpecialCharTok{+}\NormalTok{     \}}
+\SpecialCharTok{+}\NormalTok{   \}}
+\SpecialCharTok{+}   \FunctionTok{return}\NormalTok{(}\FunctionTok{list}\NormalTok{(col\_d\_matrix, row\_d\_matrix))}
+\SpecialCharTok{+}\NormalTok{ \}}
+\end{Highlighting}
+\end{Shaded}
+
+This function return a list that contains both columns distance matrix
+and rows distance matrix. By using the index, like
+\texttt{{[}{[}1{]}{]}}or \texttt{{[}{[}2{]}{]}}, to extract the columns
+or rows distance matrix, respectively. Next, I created a two-dimensional
+contigency table to test this function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# Create a contingency table}
+\ErrorTok{\textgreater{}}\NormalTok{ tbl }\OtherTok{\textless{}{-}} \FunctionTok{table}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\StringTok{"A"}\NormalTok{, }\StringTok{"B"}\NormalTok{, }\StringTok{"B"}\NormalTok{), }\FunctionTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"X"}\NormalTok{, }\StringTok{"Z"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}}\NormalTok{ tbl}
+   
+\NormalTok{    X Y Z}
+\NormalTok{  A }\DecValTok{1} \DecValTok{1} \DecValTok{0}
+\NormalTok{  B }\DecValTok{1} \DecValTok{0} \DecValTok{1}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# plug this simulated table into the function above}
+\ErrorTok{\textgreater{}}\NormalTok{ dist\_m }\OtherTok{\textless{}{-}}\FunctionTok{chi\_squared\_dist\_matrices}\NormalTok{(tbl)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# the columns distance matrix is}
+\ErrorTok{\textgreater{}}\NormalTok{ dist\_m[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{     [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{] [,}\DecValTok{3}\NormalTok{]}
+\NormalTok{[}\DecValTok{1}\NormalTok{,]    }\DecValTok{0}    \DecValTok{1}    \DecValTok{1}
+\NormalTok{[}\DecValTok{2}\NormalTok{,]    }\DecValTok{1}    \DecValTok{0}    \DecValTok{4}
+\NormalTok{[}\DecValTok{3}\NormalTok{,]    }\DecValTok{1}    \DecValTok{4}    \DecValTok{0}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# the row distance matrix is}
+\ErrorTok{\textgreater{}}\NormalTok{ dist\_m[[}\DecValTok{2}\NormalTok{]]}
+\NormalTok{     [,}\DecValTok{1}\NormalTok{] [,}\DecValTok{2}\NormalTok{]}
+\NormalTok{[}\DecValTok{1}\NormalTok{,]    }\DecValTok{0}    \DecValTok{1}
+\NormalTok{[}\DecValTok{2}\NormalTok{,]    }\DecValTok{1}    \DecValTok{0}
+\end{Highlighting}
+\end{Shaded}
+
 
 \end{document}

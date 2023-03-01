@@ -1,7 +1,7 @@
 ---
-title: "HUDM6122 Homework_03"
+title: "HUDM6122 Homework_04"
 author: "Chenguang Pan"
-date: "2023-02-23"
+date: "2023-03-01"
 output:
   pdf_document:
     toc: false
@@ -107,8 +107,102 @@ lim <- range(d_mds$points[,1]) * 1.2
 plot(d_mds$points[,1], d_mds$points[,2], 
      xlab = "Coordinate 1", ylab = "Coordinate 2",
      xlim = lim, ylim = lim)
+text(d_mds$points[,1], d_mds$points[,2], labels = c(1:51), pos=2,cex = 0.7)
 ```  
-This two-dimensional plot may use the distance between any two points to represent the dissimilarity. That is, the longer the straight line between any two points, the larger the dissimilarity.
+This two-dimensional plot has the symmetrical shape, which is reasonable since the mid-point,i.e., the 26th point, has the same dissimilarity with both the points on its left and right. Therefore, if we project all point on y-axis, it actually represent the dissimilarity degree between the each point and the 26th point.
+
+## Ex. 4.2  
+*Write an R function to calculate the chi-squared distance matrices for both rows and columns in a two-dimensional contingency table.*  
+
+**MY SOLUTION**
+Based on the definition of chi-squared distance matrices, I write the function as follows:
+```{r, eval=FALSE, include=FALSE}
+# note! This code chunk wont run and display in the output pdf!
+# this code chunk is written by chatGPT!!
+chi_squared_dist_matrices <- function(tbl) {
+  
+  # Calculate row sums and column sums
+  row_sums <- apply(tbl, 1, sum)
+  col_sums <- apply(tbl, 2, sum)
+  
+  # Calculate total count and expected counts
+  total_count <- sum(tbl)
+  exp_counts <- outer(row_sums, col_sums) / total_count
+  
+  function(x) sum((x - exp_counts[,match(col_sums[which(x > 0)], col_sums)])^2 / exp_counts[,match(col_sums[which(x > 0)], col_sums)])
+  
+  # Calculate chi-squared distances for rows and columns
+  row_chi_sqdists <- apply(tbl, 1, function(x) sum((x - exp_counts[match(row_sums[which(x > 0)], row_sums),])^2 / exp_counts[match(row_sums[which(x > 0)], row_sums),]))
+  col_chi_sqdists <- apply(tbl, 2, function(x) sum((x - exp_counts[,match(col_sums[which(x > 0)], col_sums)])^2 / exp_counts[,match(col_sums[which(x > 0)], col_sums)]))
+  
+  # Create matrices from row and column chi-squared distances
+  row_chi_sqmat <- as.matrix(dist(rbind(row_chi_sqdists)))
+  col_chi_sqmat <- as.matrix(dist(rbind(col_chi_sqdists)))
+  
+  # Return list of row and column chi-squared distance matrices
+  return(list(row_chi_sqmat, col_chi_sqmat))
+}
+
+```
+```{r}
+chi_squared_dist_matrices <- function(tbl){
+  # Calculate row sums and column sums
+  row_sums <- apply(tbl, 1, sum)
+  col_sums <- apply(tbl, 2, sum)
+  # Calculate total count and expected counts
+  total_count <- sum(tbl)
+  
+  # to have the dim of the input matrix
+  c <- ncol(tbl)
+  r <- nrow(tbl)
+  # make a empty matrix to load all elements
+  col_d_matrix <- matrix(0,c,c)
+  
+  # using loop to write the each ij entries into this matrix
+  for (i in c(1:c)) {
+    for (j in c(1:c)) {
+      d_ij <- 0
+      for (k in c(1:r)) {
+        p_k_dot <- row_sums[k]/total_count
+        p_k_i <- tbl[k,i]/col_sums[i]
+        p_k_j <- tbl[k,j]/col_sums[j]
+        d_ij <- d_ij + (1/p_k_dot)*(p_k_i-p_k_j)^2
+      }
+      col_d_matrix[i,j] <- d_ij
+    }
+  }
+  # make a empty matrix to load all elements
+  row_d_matrix <- matrix(0,r,r)
+  
+  # using loop to write the each ij entries into this matrix
+  for (i in c(1:r)) {
+    for (j in c(1:r)) {
+      d_ij <- 0
+      for (k in c(1:r)) {
+        p_dot_k <- col_sums[k]/total_count
+        p_i_k <- tbl[i,k]/row_sums[i]
+        p_j_k <- tbl[j,k]/row_sums[j]
+        d_ij <- d_ij + (1/p_dot_k)*(p_i_k-p_j_k)^2
+      }
+      row_d_matrix[i,j] <- d_ij
+    }
+  }
+  return(list(col_d_matrix, row_d_matrix))
+}
+```  
+This function return a list that contains both columns distance matrix and rows distance matrix. By using the index, like `[[1]]`or `[[2]]`, to extract the columns or rows distance matrix, respectively. Next, I created a two-dimensional contigency table to test this function.
+```{r}
+# Create a contingency table
+tbl <- table(c("A", "A", "B", "B"), c("X", "Y", "X", "Z"))
+tbl
+# plug this simulated table into the function above
+dist_m <-chi_squared_dist_matrices(tbl)
+# the columns distance matrix is
+dist_m[[1]]
+# the row distance matrix is
+dist_m[[2]]
+```
+It looks good!  
 
 
 
