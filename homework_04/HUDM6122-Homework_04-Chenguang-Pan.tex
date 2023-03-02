@@ -259,8 +259,9 @@ the each point and the 26th point.
 \emph{Write an R function to calculate the chi-squared distance matrices
 for both rows and columns in a two-dimensional contingency table.}
 
-\textbf{MY SOLUTION} Based on the definition of chi-squared distance
-matrices, I write the function as follows:
+\textbf{MY SOLUTION}\\
+Based on the definition of chi-squared distance matrices, I write the
+function as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -342,5 +343,111 @@ contigency table to test this function.
 \end{Highlighting}
 \end{Shaded}
 
+It looks good!
+
+\hypertarget{ex.-4.3}{%
+\subsection{Ex. 4.3}\label{ex.-4.3}}
+
+\emph{In Table 4.7 (from Kaufman and Rousseeuw 1990), the dissimilarity
+matrix of 18 species of garden flowers is shown. Use some form of
+multidimensional scaling to investigate which species share common
+properties.}
+
+\textbf{MY SOLUTION} First, import the dataset and using classical
+multidimensional scaling to investigate the features of flowers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(}\StringTok{"MVA"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{data}\NormalTok{(gardenflower)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# run the classical multidimensional scaling }
+\ErrorTok{\textgreater{}}\NormalTok{ d\_mds }\OtherTok{\textless{}{-}} \FunctionTok{cmdscale}\NormalTok{(gardenflowers, }\AttributeTok{k =} \DecValTok{17}\NormalTok{, }\AttributeTok{eig=}\NormalTok{T)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the eigenvalues}
+\ErrorTok{\textgreater{}}\NormalTok{ lam }\OtherTok{\textless{}{-}}\NormalTok{ d\_mds}\SpecialCharTok{$}\NormalTok{eig}
+\SpecialCharTok{\textgreater{}}\NormalTok{ lam}
+\NormalTok{ [}\DecValTok{1}\NormalTok{]  }\FloatTok{1.173085e+00}  \FloatTok{8.944353e{-}01}  \FloatTok{5.732009e{-}01}  \FloatTok{4.843006e{-}01}  \FloatTok{2.638516e{-}01}
+\NormalTok{ [}\DecValTok{6}\NormalTok{]  }\FloatTok{2.298165e{-}01}  \FloatTok{8.383417e{-}02}  \FloatTok{6.645861e{-}02}  \FloatTok{2.984017e{-}02} \SpecialCharTok{{-}}\FloatTok{5.551115e{-}17}
+\NormalTok{[}\DecValTok{11}\NormalTok{] }\SpecialCharTok{{-}}\FloatTok{2.147959e{-}02} \SpecialCharTok{{-}}\FloatTok{4.094094e{-}02} \SpecialCharTok{{-}}\FloatTok{4.366468e{-}02} \SpecialCharTok{{-}}\FloatTok{8.867401e{-}02} \SpecialCharTok{{-}}\FloatTok{1.045334e{-}01}
+\NormalTok{[}\DecValTok{16}\NormalTok{] }\SpecialCharTok{{-}}\FloatTok{1.275889e{-}01} \SpecialCharTok{{-}}\FloatTok{1.714295e{-}01} \SpecialCharTok{{-}}\FloatTok{2.045124e{-}01}
+\end{Highlighting}
+\end{Shaded}
+
+Some of the eigenvalue are negative, which means the distance is not
+Euclidean distance.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{cumsum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam))}
+\NormalTok{ [}\DecValTok{1}\NormalTok{] }\FloatTok{0.2549273} \FloatTok{0.4493002} \FloatTok{0.5738645} \FloatTok{0.6791096} \FloatTok{0.7364481} \FloatTok{0.7863903} \FloatTok{0.8046086}
+\NormalTok{ [}\DecValTok{8}\NormalTok{] }\FloatTok{0.8190510} \FloatTok{0.8255356} \FloatTok{0.8255356} \FloatTok{0.8302034} \FloatTok{0.8391005} \FloatTok{0.8485894} \FloatTok{0.8678594}
+\NormalTok{[}\DecValTok{15}\NormalTok{] }\FloatTok{0.8905760} \FloatTok{0.9183028} \FloatTok{0.9555567} \FloatTok{1.0000000}
+\SpecialCharTok{\textgreater{}} \FunctionTok{cumsum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{sum}\NormalTok{(}\FunctionTok{abs}\NormalTok{(lam)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{ [}\DecValTok{1}\NormalTok{] }\FloatTok{0.4611160} \FloatTok{0.7291863} \FloatTok{0.8392805} \FloatTok{0.9178730} \FloatTok{0.9412006} \FloatTok{0.9588982} \FloatTok{0.9612532}
+\NormalTok{ [}\DecValTok{8}\NormalTok{] }\FloatTok{0.9627331} \FloatTok{0.9630315} \FloatTok{0.9630315} \FloatTok{0.9631861} \FloatTok{0.9637478} \FloatTok{0.9643866} \FloatTok{0.9670214}
+\NormalTok{[}\DecValTok{15}\NormalTok{] }\FloatTok{0.9706829} \FloatTok{0.9761377} \FloatTok{0.9859851} \FloatTok{1.0000000}
+\end{Highlighting}
+\end{Shaded}
+
+The result suggests that the first two to three coordinate will give an
+adequate representation of the observed distance. But I choose the first
+two coordinates for a better look.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ flower\_matrix }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(gardenflowers)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{colnames}\NormalTok{(flower\_matrix)}\OtherTok{=}\FunctionTok{c}\NormalTok{(}\StringTok{"Bgn"}\NormalTok{, }\StringTok{"Brm"}\NormalTok{,}\StringTok{"Cml"}\NormalTok{,}\StringTok{"Dhl"}\NormalTok{,}\StringTok{"F{-}"}\NormalTok{,}\StringTok{"Fch"}\NormalTok{,}\StringTok{"Grn"}\NormalTok{,}\StringTok{"Gld"}\NormalTok{,}
+\SpecialCharTok{+}                           \StringTok{"Hth"}\NormalTok{,}\StringTok{"Hyd"}\NormalTok{,}\StringTok{"Irs"}\NormalTok{,}\StringTok{"Lly"}\NormalTok{,}\StringTok{"L{-}"}\NormalTok{,}\StringTok{"Pny"}\NormalTok{,}\StringTok{"Pnc"}\NormalTok{,}
+\SpecialCharTok{+}                           \StringTok{"Rdr"}\NormalTok{,}\StringTok{"Scr"}\NormalTok{,}\StringTok{"Tlp"}\NormalTok{) }
+\SpecialCharTok{\textgreater{}}\NormalTok{ lim }\OtherTok{\textless{}{-}} \FunctionTok{range}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{] }\SpecialCharTok{*} \FloatTok{1.2}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }
+\SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Coordinate 1"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Coordinate 2"}\NormalTok{,}\AttributeTok{type=}\StringTok{"n"}\NormalTok{,}
+\SpecialCharTok{+}      \AttributeTok{xlim =}\NormalTok{ lim, }\AttributeTok{ylim =}\NormalTok{ lim)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{text}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }
+\SpecialCharTok{+}      \AttributeTok{labels =} \FunctionTok{colnames}\NormalTok{(flower\_matrix), }
+\SpecialCharTok{+}      \AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_04-Chenguang-Pan_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+Although the names is quite long and therefore is a little hard to tell,
+one can still find that \texttt{Scr/Scotch\ rose},
+\texttt{Rdr/Red\ rose}, and \texttt{Brm/Broom} have the very similar
+properties since they clustered around each other comparing to others
+kinds. However, the two dimensional plot sometimes can not adequately
+represent the actual relations among the points. Here, I continus to
+construct a minimum spanning tree to explore the similarities.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(}\StringTok{"ape"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ st }\OtherTok{\textless{}{-}} \FunctionTok{mst}\NormalTok{(flower\_matrix)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ x }\OtherTok{\textless{}{-}}\NormalTok{ d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{]}
+\SpecialCharTok{\textgreater{}}\NormalTok{ y }\OtherTok{\textless{}{-}}\NormalTok{ d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(x, y, }
+\SpecialCharTok{+}      \AttributeTok{xlab =} \StringTok{"Coordinate 1"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Coordinate 2"}\NormalTok{,}\AttributeTok{type=}\StringTok{"n"}\NormalTok{,}
+\SpecialCharTok{+}      \AttributeTok{xlim =}\NormalTok{ lim, }\AttributeTok{ylim =}\NormalTok{ lim)}
+\SpecialCharTok{\textgreater{}} \ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(flower\_matrix)) \{}
+\SpecialCharTok{+}\NormalTok{   w1 }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(st[i,]}\SpecialCharTok{==}\DecValTok{1}\NormalTok{)}
+\SpecialCharTok{+}   \FunctionTok{segments}\NormalTok{(x[i],y[i],x[w1],y[w1])}
+\SpecialCharTok{+}\NormalTok{ \}}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{text}\NormalTok{(d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{1}\NormalTok{], d\_mds}\SpecialCharTok{$}\NormalTok{points[,}\DecValTok{2}\NormalTok{], }
+\SpecialCharTok{+}      \AttributeTok{labels =} \FunctionTok{colnames}\NormalTok{(flower\_matrix), }
+\SpecialCharTok{+}      \AttributeTok{cex =} \FloatTok{0.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_04-Chenguang-Pan_files/figure-latex/unnamed-chunk-15-1.pdf}
+From the minimum spanning tree, we can see that, comparing to
+\texttt{hyd}'s neighbor like \texttt{Pnc},\texttt{L-}, and \texttt{Lly},
+\texttt{hyd} is more similar to the cluster of
+\texttt{Scr/Scotch\ rose}, \texttt{Rdr/Red\ rose}, and
+\texttt{Brm/Broom}. In addition, the \texttt{Dhl}, \texttt{Gld}, and
+\texttt{Tlp} are more likely to be similar with each other. The
+\texttt{Cml}, \texttt{Fch}, \texttt{Bgn}, and \texttt{Grn} are similar
+with each other. The rest of the kinds can be clustered to a similar
+group.
 
 \end{document}

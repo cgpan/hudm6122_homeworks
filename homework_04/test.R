@@ -1,5 +1,4 @@
-library("MVA")
-demo("Ch-MDS")
+
 
 chi_squared_dist_matrices <- function(tbl){
   # Calculate row sums and column sums
