@@ -2,8 +2,7 @@
 This repo is to record and sync my progress in HUDM6122.
 HUDM 6122 Multivariate Analysis is taught by Prof.Motta, Giovanni in spirng semester 2023 at Teachers College, Columbia University.
 
-Welcome to review and give feedbacks. All the information is for reference only, please don't copy and paste directly.
-
+Welcome to review and give feedbacks. All the information is for reference only, please follow the university's **Honor Code** and don't copy and paste directly.
 
 ## Homework_01 solutions  
 The datasets can be found in the `textbook.R` file.
@@ -25,3 +24,6 @@ Finished at 02.23.2023.
 Honework 04 is about sovling all the exercises of Chapter 4 of the book *An Introduction to Applied Multivariate Analysis with R*. Due to the limited time and weekly workload, some codes may not be the most elegant and concise. Welcome to review and give your comment.
 
 Finished at 03.02.2023.
+
+Author: Chenguang Pan
+@ Teachers College, Columbia University.
