@@ -1,0 +1,33 @@
+---
+title: "HUDM6122 Homework_05"
+author: "Chenguang Pan"
+date: "2023-03-20"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: true
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```   
+
+## Github Address  
+All my up-to-date homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.
+
+
+## Ex 5.1  
+*Show how the result rises from the assumptions of uncorrelated factors, independence of the specific variates, and independence of common factors and specific variances. What form does take if the factors are allowed to be correlated?*  
+  
+  
+**MY SOLUTION:** 
