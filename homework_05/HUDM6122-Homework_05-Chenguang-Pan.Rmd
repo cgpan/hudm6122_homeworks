@@ -45,4 +45,9 @@ This question mentioned that we need to use the transformed factor loadings $\bo
 Using the rule of variance, we can have $$\boldsymbol \Sigma = (\boldsymbol\Lambda \boldsymbol M)(\boldsymbol\Lambda \boldsymbol M)^T + \Psi$$. Since the $\boldsymbol M$ is a orthogonal matrix and $\boldsymbol M \boldsymbol M^T = \boldsymbol I$. Therefore, the variance equation can be written as  $$\boldsymbol \Sigma = \boldsymbol\Lambda \boldsymbol\Lambda^T + \Psi$$. That is, the transformed factor loadings $\boldsymbol \Lambda ^* = \boldsymbol \Lambda \boldsymbol M$ will not influence the communalities (i.e., $\boldsymbol\Lambda \boldsymbol\Lambda^T$) in the a factor analysis model.  
 
 
+## Ex 5.3    
+*Give a formula for the proportion of variance explained by the jth factor estimated by the principal factor approach.*  
+  
+**MY SOLUTION:**   
+The proportion of variance explained by the jth factor represents the proportion of the total variance in the observed variables that is accounted for by that factor alone. Therefore, the formula could be $$Proportion_j = \frac {\sum_{i=1}^{q} \lambda_{ij}^2}{\boldsymbol \Lambda \boldsymbol \Lambda ^T}$$
 
