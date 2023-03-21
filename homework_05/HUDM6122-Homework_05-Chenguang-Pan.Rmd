@@ -49,5 +49,78 @@ Using the rule of variance, we can have $$\boldsymbol \Sigma = (\boldsymbol\Lamb
 *Give a formula for the proportion of variance explained by the jth factor estimated by the principal factor approach.*  
   
 **MY SOLUTION:**   
-The proportion of variance explained by the jth factor represents the proportion of the total variance in the observed variables that is accounted for by that factor alone. Therefore, the formula could be $$Proportion_j = \frac {\sum_{i=1}^{q} \lambda_{ij}^2}{\boldsymbol \Lambda \boldsymbol \Lambda ^T}$$
+The proportion of variance explained by the jth factor represents the proportion of the total variance in the observed variables that is accounted for by that factor alone. Therefore, the formula could be $$Proportion_j = \frac {\sum_{i=1}^{q} \lambda_{ij}^2}{\boldsymbol \Lambda \boldsymbol \Lambda ^T}$$.  
+
+## Ex 5.4    
+*Apply the factor analysis model separately to the life expectancies of men and women and compare the results.*  
+  
+**MY SOLUTION:**   
+The textbook does not provide the original dataset. Based on the code in the `MVA`, I create the dataset via a separated r file named "HW05 Test". This file created the `life.rdata` and `life.csv` dataset in the same file folder. 
+```{r}
+load("life.rdata")
+head(life)
+
+# subset the male and female dataset
+life_male <- life[,1:4]
+life_female <- life[,5:8]
+
+# test the number of factors needed for the male and female dataset separately
+sapply(1, function(f)
+  factanal(life_male, factors=f, method="mle")$PVAL)
+sapply(1, function(f)
+  factanal(life_female, factors=f, method="mle")$PVAL)
+```
+
+When test the number of the factors from 1 to larger number, there is always a warning that `N factors are too many for N variables`. More details can be found on Page 143 of the textbook or here https://stats.stackexchange.com/questions/593452/efa-n-factors-are-too-many-for-n-variables
+
+The results suggest that an one-factor solution might be adequate to account for the observed covariances in the data.   
+
+Next, I run the one-factor solution for both male and female datasets.
+```{r}
+factanal(life_male, factors = 1, method="mle")
+factanal(life_female, factors = 1, method="mle")
+```
+
+
+## Ex 5.6    
+*The matrix below shows the correlations between ratings on nine statements about pain made by 123 people suffering from extreme pain. Each statement was scored on a scale from 1 to 6, ranging from agreement to disagreement. The nine pain statements were as follows:*  
+  
+**MY SOLUTION:**  
+First, to change the lower triangular matrix into the complete correlation matrix.
+```{r}
+library(Matrix)
+# import the correlation matrix
+corr_lower <- matrix(c(1, 0, 0, 0, 0, 0, 0, 0, 0,
+                      -0.04, 1, 0,0,0,0,0,0,0,
+                      0.61, -0.07, 1,0,0,0,0,0,0,
+                      0.45, -0.12, 0.59, 1,0,0,0,0,0,
+                      0.03, 0.49, 0.03, -0.08, 1,0,0,0,0,
+                      -0.29, 0.43, -0.13, -0.21, 0.47, 1,0,0,0,
+                      -0.30, 0.30, -0.24, -0.19, 0.41, 0.63,1,0,0, 
+                      0.45, -0.31,0.59,0.63,-0.14,-0.13,-0.26,1,0,
+                      0.30,-0.17,-0.32,0.37,-0.24,-0.15,-0.29,0.40,1),9,9, byrow = T)
+# generate a complete correlation matrix
+corr_symmetric <- forceSymmetric(corr_lower, uplo="L")
+```   
+The correlation matrix looks good. Next, I run the PCA first.  
+```{r}
+# run the PCA first
+# use prcomp to calculate the principal components
+pca <- prcomp(corr_symmetric, scale. = FALSE)
+# get the PCA results
+summary(pca)
+# draw the scree plot 
+plot(pca, type = "l", 
+     main = "Scree Plot")
+```  
+The scree-plot shows that 3 principle components may be appropriate. However, based on the results from the PCA analysis, the first two components can explain 88.63% variance of the total. Therefore, I choose the first two to represent the data.  
+
+Next, I run maximum likelihood factor analysis.
+```{r}
+# explore the number of factors
+as.matrix(corr_symmetric)
+sapply(1:6, function(nf)
+  factanal(covmat=as.matrix(corr_symmetric), factors=nf, method="mle", n.obs = 123)$PVAL)
+```
+
 
