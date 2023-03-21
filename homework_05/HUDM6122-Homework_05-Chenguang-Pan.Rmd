@@ -23,11 +23,19 @@ knitr::opts_chunk$set(
 ```   
 
 ## Github Address  
-All my up-to-date homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.
+All my latest homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.
 
 
 ## Ex 5.1  
 *Show how the result rises from the assumptions of uncorrelated factors, independence of the specific variates, and independence of common factors and specific variances. What form does take if the factors are allowed to be correlated?*  
   
   
-**MY SOLUTION:** 
+**MY SOLUTION:**   
+Based on the assumption of Exploratory Factor Analysis(EFA), a set of observed variables **x** assumed to be linked to a set of latent variables **f**. Therefore, we can have a regression model in matrix form $$\boldsymbol x=\boldsymbol\Lambda \boldsymbol f + \boldsymbol u$$, where $\boldsymbol \Lambda$ is a $q \times k$ matrix of factor loadings (a.k.a., the coefficients of the regression model), and the *u* is the vector of unexplained error of each observed variables.  
+
+Let's take the variance of the formula above $$V(\boldsymbol x) = V(\boldsymbol\Lambda \boldsymbol f + \boldsymbol u)$$. Based on the operation rule of variance, like $$V(a+b)= V(a) + V(b) + 2Cov(ab)$$, we combined the two formulas above, then $$V(\boldsymbol x) = V(\boldsymbol\Lambda \boldsymbol f + \boldsymbol u) = V(\boldsymbol\Lambda \boldsymbol f) + V(\boldsymbol u) + 2 Cov(\boldsymbol\Lambda \boldsymbol f \boldsymbol u)$$. Since the we assumed that the error terms are uncorrelated with the factors, therefore the $Cov(\boldsymbol\Lambda \boldsymbol f \boldsymbol u)=0$. Then, we can continue to drive the variance formula as $$V(\boldsymbol x) = V(\boldsymbol\Lambda \boldsymbol f) + V(\boldsymbol u) = \boldsymbol\Lambda V(\boldsymbol f) \boldsymbol\Lambda^T + \Psi$$. In addition, we assumed that the factors are uncorrelated with each other. The $V(\boldsymbol f)$ is actually an identity matrix. Therefore, the formula can be written as $$V(\boldsymbol x) = \boldsymbol\Lambda V(\boldsymbol f) \boldsymbol\Lambda^T + \Psi = \boldsymbol\Lambda \boldsymbol\Lambda^T + \Psi$$. Finally, the formula can be written as $$\boldsymbol \Sigma = \boldsymbol\Lambda \boldsymbol\Lambda^T + \Psi$$.  
+
+If we allow the factors to be correlated with each other, then the $V(\boldsymbol f)$ is not an identity matrix. Let's use the greek letter $\Phi$ to represent the variance matrix of loadings **f**. Thus, the formula should be $$\boldsymbol \Sigma = \boldsymbol\Lambda \boldsymbol \Phi \boldsymbol\Lambda^T + \Psi$$.  
+
+
+
