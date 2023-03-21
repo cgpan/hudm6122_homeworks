@@ -119,4 +119,29 @@ letter \(\Phi\) to represent the variance matrix of loadings \textbf{f}.
 Thus, the formula should be
 \[\boldsymbol \Sigma = \boldsymbol\Lambda \boldsymbol \Phi \boldsymbol\Lambda^T + \Psi\].
 
+\hypertarget{ex-5.2}{%
+\subsection{Ex 5.2}\label{ex-5.2}}
+
+\emph{Show that the communalities in a factor analysis model are
+unaffected by the transformation \ldots{}}
+
+\textbf{MY SOLUTION:}\\
+This question mentioned that we need to use the transformed factor
+loadings \(\boldsymbol \Lambda ^* = \boldsymbol \Lambda \boldsymbol M\).
+Let's assume that \(\boldsymbol M\) is an \(k \times k\) orthogonal
+matrix. We can re-write the the basic regression equation linking the
+observed and the factors as:
+\[\boldsymbol x=(\boldsymbol\Lambda \boldsymbol M)( \boldsymbol M^T \boldsymbol f) + \boldsymbol u\].\\
+Using the rule of variance, we can have
+\[\boldsymbol \Sigma = (\boldsymbol\Lambda \boldsymbol M)(\boldsymbol\Lambda \boldsymbol M)^T + \Psi\].
+Since the \(\boldsymbol M\) is a orthogonal matrix and
+\(\boldsymbol M \boldsymbol M^T = \boldsymbol I\). Therefore, the
+variance equation can be written as
+\[\boldsymbol \Sigma = \boldsymbol\Lambda \boldsymbol\Lambda^T + \Psi\].
+That is, the transformed factor loadings
+\(\boldsymbol \Lambda ^* = \boldsymbol \Lambda \boldsymbol M\) will not
+influence the communalities (i.e.,
+\(\boldsymbol\Lambda \boldsymbol\Lambda^T\)) in the a factor analysis
+model.
+
 \end{document}
