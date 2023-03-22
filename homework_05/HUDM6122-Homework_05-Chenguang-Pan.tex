@@ -202,7 +202,17 @@ accounted for by that factor alone. Therefore, the formula could be
 \emph{Apply the factor analysis model separately to the life
 expectancies of men and women and compare the results.}
 
-\textbf{MY SOLUTION:}\\
+\textbf{MY SOLUTION:}
+
+For this question, I present two methods to run factor analysis. The
+first one is similar to the method introduced in textbook. The second
+one is a more rigorous method including the initial dataset checking,
+scree plot analysis, and parallel analysis.
+
+\hypertarget{method-1-using-the-similar-method-introduced-by-textbook}{%
+\subsubsection{Method 1: Using the similar method introduced by
+textbook}\label{method-1-using-the-similar-method-introduced-by-textbook}}
+
 The textbook does not provide the original dataset. Based on the code in
 the \texttt{MVA}, I create the dataset via a separated r file named
 ``HW05 Test''. This file created the \texttt{life.rdata} and
@@ -298,6 +308,219 @@ Next, I run the one-factor solution for both male and female datasets.
 \end{Highlighting}
 \end{Shaded}
 
+The result shows that for the one-factor solution in the male dataset,
+it captures the most variance of age 50 or older. But comparing to the
+EFA on complete dataset, this factor does not have a very clear
+indication for what properties it covers. The factor analysis on female
+dataset has the similar situation.
+
+Is one-factor really appropriate here? Since the P-value is still
+significant. I plan to try another method to search for the right number
+of factors.
+
+\hypertarget{method-2-solve-this-question-in-another-way}{%
+\subsubsection{Method 2: Solve this question in another
+way}\label{method-2-solve-this-question-in-another-way}}
+
+Before running EFA, I run several tests to ensure that this dataset is
+good for factor analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# install.packages("psych")}
+\ErrorTok{\textgreater{}} \FunctionTok{library}\NormalTok{(psych)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ life\_male\_cor }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(life\_male)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ life\_female\_cor }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(life\_female)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# The Kaiser{-}Meyer{-}Olkin (KMO) used to measure sampling adequacy }
+\ErrorTok{\textgreater{}} \CommentTok{\# is a better measure of factorability.}
+\ErrorTok{\textgreater{}} \FunctionTok{KMO}\NormalTok{(life\_male\_cor)}
+\NormalTok{Kaiser}\SpecialCharTok{{-}}\NormalTok{Meyer}\SpecialCharTok{{-}}\NormalTok{Olkin factor adequacy}
+\NormalTok{Call}\SpecialCharTok{:} \FunctionTok{KMO}\NormalTok{(}\AttributeTok{r =}\NormalTok{ life\_male\_cor)}
+\NormalTok{Overall MSA }\OtherTok{=}  \FloatTok{0.66}
+\NormalTok{MSA }\ControlFlowTok{for}\NormalTok{ each item }\OtherTok{=} 
+\NormalTok{  m0  m25  m50  m75 }
+\FloatTok{0.66} \FloatTok{0.77} \FloatTok{0.64} \FloatTok{0.55} 
+\SpecialCharTok{\textgreater{}} \FunctionTok{KMO}\NormalTok{(life\_female\_cor)}
+\NormalTok{Kaiser}\SpecialCharTok{{-}}\NormalTok{Meyer}\SpecialCharTok{{-}}\NormalTok{Olkin factor adequacy}
+\NormalTok{Call}\SpecialCharTok{:} \FunctionTok{KMO}\NormalTok{(}\AttributeTok{r =}\NormalTok{ life\_female\_cor)}
+\NormalTok{Overall MSA }\OtherTok{=}  \FloatTok{0.63}
+\NormalTok{MSA }\ControlFlowTok{for}\NormalTok{ each item }\OtherTok{=} 
+\NormalTok{  w0  w25  w50  w75 }
+\FloatTok{0.54} \FloatTok{0.59} \FloatTok{0.64} \FloatTok{0.82} 
+\end{Highlighting}
+\end{Shaded}
+
+According to Kaiser's (1974) guidelines, a suggested cutoff for
+determining the factorability of the sample data is KMO \textgreater=
+60. The total KMOs are 0.66 and 0.63, indicating that, based on this
+test, we can probably conduct a factor analysis.
+
+Next, Bartlett's Test of Sphericity compares an observed correlation
+matrix to the identity matrix. Essentially it checks to see if there is
+a certain redundancy between the variables that we can summarize with a
+few number of factors. The null hypothesis of the test is that the
+variables are orthogonal, i.e.~not correlated.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# run Bartlett\textquotesingle{}s Test of Sphericity}
+\ErrorTok{\textgreater{}} \FunctionTok{cortest.bartlett}\NormalTok{(life\_male\_cor)}\SpecialCharTok{$}\NormalTok{p.value}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{8.437942e{-}49}
+\SpecialCharTok{\textgreater{}} \FunctionTok{cortest.bartlett}\NormalTok{(life\_female\_cor)}\SpecialCharTok{$}\NormalTok{p.value}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{9.75451e{-}127}
+\end{Highlighting}
+\end{Shaded}
+
+Small p values (\textless{} 0.05) of the significance level indicate
+that a factor analysis may be useful with our data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# get the determinants for both correlation matrix}
+\ErrorTok{\textgreater{}} \FunctionTok{det}\NormalTok{(life\_male\_cor)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{0.08459114}
+\SpecialCharTok{\textgreater{}} \FunctionTok{det}\NormalTok{(life\_female\_cor)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{0.002000542}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, we have positive determinants, which means the factor analysis
+will probably run.
+
+Here, I begin to run EFA by using \texttt{fa()} function and make a
+scree plot to determine the number of factors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(ggplot2)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# run factor analysis using fa() function}
+\ErrorTok{\textgreater{}}\NormalTok{ male\_fa }\OtherTok{\textless{}{-}} \FunctionTok{fa}\NormalTok{(life\_male, }
+\SpecialCharTok{+}               \AttributeTok{nfactors =} \FunctionTok{ncol}\NormalTok{(life\_male\_cor), }
+\SpecialCharTok{+}               \AttributeTok{rotate =} \StringTok{"varimax"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ efa\_model }\OtherTok{\textless{}{-}} \FunctionTok{fa}\NormalTok{(life\_male, }\AttributeTok{nfactors =} \DecValTok{2}\NormalTok{, }\AttributeTok{rotate =} \StringTok{"varimax"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# to get the number of factors}
+\ErrorTok{\textgreater{}}\NormalTok{ n\_factors }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(male\_fa}\SpecialCharTok{$}\NormalTok{e.values)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# to store the data}
+\ErrorTok{\textgreater{}}\NormalTok{ scree }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Factor\_n =} \FunctionTok{as.factor}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_factors), }
+\SpecialCharTok{+}                     \AttributeTok{Eigenvalue =}\NormalTok{ male\_fa}\SpecialCharTok{$}\NormalTok{e.values)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# draw scree plot using ggplot2}
+\ErrorTok{\textgreater{}} \FunctionTok{ggplot}\NormalTok{(scree, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Factor\_n, }\AttributeTok{y =}\NormalTok{ Eigenvalue, }\AttributeTok{group =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+} 
+\SpecialCharTok{+}       \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{xlab}\NormalTok{(}\StringTok{"Number of factors"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{ylab}\NormalTok{(}\StringTok{"Initial eigenvalue"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{labs}\NormalTok{( }\AttributeTok{title =} \StringTok{"Scree Plot"}\NormalTok{, }
+\SpecialCharTok{+}             \AttributeTok{subtitle =} \StringTok{"(Based on the unreduced correlation matrix)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-6-1.pdf}
+From the scree plot, 1 factors maybe appropriate for the male dataset.
+Since only one factor's eigenvalue is greater than 1. However, the
+second factor is above .7. It may be appropriate too.
+
+\emph{Tips} Why I set eigenvalue = 1 as a cutoff?\\
+Here, the eigenvalue is a measure of the amount of variance in the
+observed variables that is accounted for by each factor. If the
+eigenvalue of a factor is less than 1, it indicates that the factor
+explains less variance than one of the original variables and,
+therefore, does not contribute significantly to the explanation of the
+common variance among the variables.
+
+Parallel analysis is a method for determining the number of components
+or factors to retain from pca or factor analysis.I also use perform
+parallel analysis to determine the factors. notice the results in the
+console will provide the suggestion.
+
+From the returned result under the scree plot, it suggests that 2-factor
+solution may be good for the male dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ parallel }\OtherTok{\textless{}{-}} \FunctionTok{fa.parallel}\NormalTok{(life\_male\_cor)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\begin{verbatim}
+Parallel analysis suggests that the number of factors =  2  and the number of components =  1 
+\end{verbatim}
+
+Using the same method on the female dataset.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# run factor analysis using fa() function}
+\ErrorTok{\textgreater{}}\NormalTok{ female\_fa }\OtherTok{\textless{}{-}} \FunctionTok{fa}\NormalTok{(life\_female, }
+\SpecialCharTok{+}               \AttributeTok{nfactors =} \FunctionTok{ncol}\NormalTok{(life\_female\_cor), }
+\SpecialCharTok{+}               \AttributeTok{rotate =} \StringTok{"varimax"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# to get the number of factors}
+\ErrorTok{\textgreater{}}\NormalTok{ n\_factors }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(female\_fa}\SpecialCharTok{$}\NormalTok{e.values)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# to store the data}
+\ErrorTok{\textgreater{}}\NormalTok{ scree }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{Factor\_n =} \FunctionTok{as.factor}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\NormalTok{n\_factors), }
+\SpecialCharTok{+}                     \AttributeTok{Eigenvalue =}\NormalTok{ female\_fa}\SpecialCharTok{$}\NormalTok{e.values)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# draw scree plot using ggplot2}
+\ErrorTok{\textgreater{}} \FunctionTok{ggplot}\NormalTok{(scree, }\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ Factor\_n, }\AttributeTok{y =}\NormalTok{ Eigenvalue, }\AttributeTok{group =} \DecValTok{1}\NormalTok{)) }\SpecialCharTok{+} 
+\SpecialCharTok{+}       \FunctionTok{geom\_point}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{geom\_line}\NormalTok{() }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{xlab}\NormalTok{(}\StringTok{"Number of factors"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{ylab}\NormalTok{(}\StringTok{"Initial eigenvalue"}\NormalTok{) }\SpecialCharTok{+}
+\SpecialCharTok{+}       \FunctionTok{labs}\NormalTok{( }\AttributeTok{title =} \StringTok{"Scree Plot"}\NormalTok{, }
+\SpecialCharTok{+}             \AttributeTok{subtitle =} \StringTok{"(Based on the unreduced correlation matrix)"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}}\NormalTok{ parallel }\OtherTok{\textless{}{-}} \FunctionTok{fa.parallel}\NormalTok{(life\_male\_cor)}
+\NormalTok{Parallel analysis suggests that the number of factors }\OtherTok{=}  \DecValTok{2}\NormalTok{  and the number of components }\OtherTok{=}  \DecValTok{1} 
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth,height=0.5\textheight]{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-8-1}
+\includegraphics[width=0.5\linewidth,height=0.5\textheight]{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-8-2}
+The results also suggest that 2-factor solution is good for female
+dataset.
+
+Finally, I checked the factor loadings of both male and female datasets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ male\_fa}\SpecialCharTok{$}\NormalTok{loadings}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{    MR1    MR2    MR3    MR4   }
+\NormalTok{m0   }\FloatTok{0.869}  \FloatTok{0.189}  \FloatTok{0.104}       
+\NormalTok{m25  }\FloatTok{0.803}  \FloatTok{0.310}              
+\NormalTok{m50  }\FloatTok{0.540}  \FloatTok{0.792}  \FloatTok{0.152}       
+\NormalTok{m75  }\FloatTok{0.153}  \FloatTok{0.853}              
+
+\NormalTok{                 MR1   MR2   MR3   MR4}
+\NormalTok{SS loadings    }\FloatTok{1.716} \FloatTok{1.488} \FloatTok{0.043} \FloatTok{0.000}
+\NormalTok{Proportion Var }\FloatTok{0.429} \FloatTok{0.372} \FloatTok{0.011} \FloatTok{0.000}
+\NormalTok{Cumulative Var }\FloatTok{0.429} \FloatTok{0.801} \FloatTok{0.812} \FloatTok{0.812}
+\SpecialCharTok{\textgreater{}}\NormalTok{ female\_fa}\SpecialCharTok{$}\NormalTok{loadings}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{    MR1    MR2    MR3    MR4   }
+\NormalTok{w0   }\FloatTok{0.958}  \FloatTok{0.210}              
+\NormalTok{w25  }\FloatTok{0.793}  \FloatTok{0.605}              
+\NormalTok{w50  }\FloatTok{0.560}  \FloatTok{0.818}              
+\NormalTok{w75  }\FloatTok{0.187}  \FloatTok{0.887}              
+
+\NormalTok{                 MR1   MR2   MR3   MR4}
+\NormalTok{SS loadings    }\FloatTok{1.896} \FloatTok{1.866} \FloatTok{0.009} \FloatTok{0.000}
+\NormalTok{Proportion Var }\FloatTok{0.474} \FloatTok{0.466} \FloatTok{0.002} \FloatTok{0.000}
+\NormalTok{Cumulative Var }\FloatTok{0.474} \FloatTok{0.940} \FloatTok{0.942} \FloatTok{0.942}
+\end{Highlighting}
+\end{Shaded}
+
+This two-factor solution looks more reasonable than the one-factor.
+Since in both dataset, the first factor captures the 0-25 age's life
+expectations and the second factor covers the 50-75 age's life
+expectations. We can call the first factor ``Life force under middle
+age'' and the second factor ``life force of or above middle age''.
+
 \hypertarget{ex-5.6}{%
 \subsection{Ex 5.6}\label{ex-5.6}}
 
@@ -352,6 +575,21 @@ The correlation matrix looks good. Next, I run the PCA first.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-4-1.pdf}
+\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-1.pdf}
+The scree-plot shows that 3 principle components may be appropriate.
+However, based on the results from the PCA analysis, the first two
+components can explain 88.63\% variance of the total. Therefore, I
+choose the first two to represent the data.
+
+Next, I run maximum likelihood factor analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# explore the number of factors}
+\ErrorTok{\textgreater{}} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(f) }\FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{factors=}\NormalTok{f, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}\SpecialCharTok{$}\NormalTok{PVAL)}
+\end{Highlighting}
+\end{Shaded}
+
 
 \end{document}

@@ -45,6 +45,7 @@ install.packages(c('tinytex', 'rmarkdown'))
 tinytex::install_tinytex()
 
 
+
 ```{r}
 # import the dataset
 load("life.rdata")

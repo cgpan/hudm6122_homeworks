@@ -54,7 +54,11 @@ The proportion of variance explained by the jth factor represents the proportion
 ## Ex 5.4    
 *Apply the factor analysis model separately to the life expectancies of men and women and compare the results.*  
   
-**MY SOLUTION:**   
+**MY SOLUTION:**  
+
+For this question, I present two methods to run factor analysis. The first one is similar to the method introduced in textbook. The second one is a more rigorous method including the initial dataset checking, scree plot analysis, and parallel analysis.  
+
+### Method 1: Using the similar method introduced by textbook
 The textbook does not provide the original dataset. Based on the code in the `MVA`, I create the dataset via a separated r file named "HW05 Test". This file created the `life.rdata` and `life.csv` dataset in the same file folder. 
 ```{r}
 load("life.rdata")
@@ -79,7 +83,107 @@ Next, I run the one-factor solution for both male and female datasets.
 ```{r}
 factanal(life_male, factors = 1, method="mle")
 factanal(life_female, factors = 1, method="mle")
+```  
+The result shows that for the one-factor solution in the male dataset, it captures the most variance of age 50 or older. But comparing to the EFA on complete dataset, this factor does not have a very clear indication for what properties it covers. The factor analysis on female dataset has the similar situation.
+
+Is one-factor really appropriate here? Since the P-value is still significant. I plan to try another method to search for the right number of factors.
+
+### Method 2: Solve this question in another way  
+Before running EFA, I run several tests to ensure that this dataset is good for factor analysis.
+```{r}
+# install.packages("psych")
+library(psych)
+# get the correlation matrix
+life_male_cor <- cor(life_male)
+life_female_cor <- cor(life_female)
+
+# The Kaiser-Meyer-Olkin (KMO) used to measure sampling adequacy 
+# is a better measure of factorability.
+KMO(life_male_cor)
+KMO(life_female_cor)
+```  
+According to Kaiser's (1974) guidelines, a suggested cutoff for determining the factorability of the sample data is KMO >= 60. The total KMOs are 0.66 and 0.63, indicating that, based on this test, we can probably conduct a factor analysis.  
+
+Next, Bartlett's Test of Sphericity compares an observed correlation matrix to the identity matrix. Essentially it checks to see if there is a certain redundancy between the variables that we can summarize with a few number of factors. The null hypothesis of the test is that the variables are orthogonal, i.e. not correlated.  
+```{r}
+# run Bartlett's Test of Sphericity
+cortest.bartlett(life_male_cor)$p.value
+cortest.bartlett(life_female_cor)$p.value
+```  
+Small p values (< 0.05) of the significance level indicate that a factor analysis may be useful with our data.  
+```{r}
+# get the determinants for both correlation matrix
+det(life_male_cor)
+det(life_female_cor)
 ```
+Finally, we have positive determinants, which means the factor analysis will probably run.  
+
+Here, I begin to run EFA by using `fa()` function and make a scree plot to determine the number of factors.
+```{r}
+library(ggplot2)
+# run factor analysis using fa() function
+male_fa <- fa(life_male, 
+              nfactors = ncol(life_male_cor), 
+              rotate = "varimax")
+efa_model <- fa(life_male, nfactors = 2, rotate = "varimax")
+# to get the number of factors
+n_factors <- length(male_fa$e.values)
+
+# to store the data
+scree <- data.frame(Factor_n = as.factor(1:n_factors), 
+                    Eigenvalue = male_fa$e.values)
+# draw scree plot using ggplot2
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+      geom_point() + geom_line() +
+      xlab("Number of factors") +
+      ylab("Initial eigenvalue") +
+      labs( title = "Scree Plot", 
+            subtitle = "(Based on the unreduced correlation matrix)")
+```  
+From the scree plot, 1 factors maybe appropriate for the male dataset. Since only one factor's eigenvalue is greater than 1. However, the second factor is above .7. It may be appropriate too. 
+
+*Tips* Why I set eigenvalue = 1 as a cutoff?  
+Here, the eigenvalue is a measure of the amount of variance in the observed variables that is accounted for by each factor. If the eigenvalue of a factor is less than 1, it indicates that the factor explains less variance than one of the original variables and, therefore, does not contribute significantly to the explanation of the common variance among the variables.
+
+
+Parallel analysis is a method for determining the number of components or factors to retain from pca or factor analysis.I also use perform parallel analysis to determine the factors. notice the results in the console will provide the suggestion.
+
+From the returned result under the scree plot, it suggests that 2-factor solution may be good for the male dataset.
+```{r}
+parallel <- fa.parallel(life_male_cor)
+```  
+
+Using the same method on the female dataset.
+```{r,fig.show='hold',out.width="50%",out.height= "50%"}
+# run factor analysis using fa() function
+female_fa <- fa(life_female, 
+              nfactors = ncol(life_female_cor), 
+              rotate = "varimax")
+# to get the number of factors
+n_factors <- length(female_fa$e.values)
+
+# to store the data
+scree <- data.frame(Factor_n = as.factor(1:n_factors), 
+                    Eigenvalue = female_fa$e.values)
+par(mfrow=c(1, 2))
+# draw scree plot using ggplot2
+ggplot(scree, aes(x = Factor_n, y = Eigenvalue, group = 1)) + 
+      geom_point() + geom_line() +
+      xlab("Number of factors") +
+      ylab("Initial eigenvalue") +
+      labs( title = "Scree Plot", 
+            subtitle = "(Based on the unreduced correlation matrix)")
+
+parallel <- fa.parallel(life_male_cor)
+```  
+The results also suggest that 2-factor solution is good for female dataset.
+
+Finally, I checked the factor loadings of both male and female datasets.
+```{r}
+male_fa$loadings
+female_fa$loadings
+```  
+This two-factor solution looks more reasonable than the one-factor. Since in both dataset, the first factor captures the 0-25 age's life expectations and the second factor covers the 50-75 age's life expectations. We can call the first factor "Life force under middle age" and the second factor "life force of or above middle age".
 
 
 ## Ex 5.6    
@@ -116,7 +220,7 @@ plot(pca, type = "l",
 The scree-plot shows that 3 principle components may be appropriate. However, based on the results from the PCA analysis, the first two components can explain 88.63% variance of the total. Therefore, I choose the first two to represent the data.  
 
 Next, I run maximum likelihood factor analysis.
-```{r}
+```{r, eval=FALSE}
 # explore the number of factors
 as.matrix(corr_symmetric)
 sapply(1:6, function(f) factanal(covmat=as.matrix(corr_symmetric), factors=f, method="mle", n.obs = 123)$PVAL)
