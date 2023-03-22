@@ -119,8 +119,7 @@ Next, I run maximum likelihood factor analysis.
 ```{r}
 # explore the number of factors
 as.matrix(corr_symmetric)
-sapply(1:6, function(nf)
-  factanal(covmat=as.matrix(corr_symmetric), factors=nf, method="mle", n.obs = 123)$PVAL)
+sapply(1:6, function(f) factanal(covmat=as.matrix(corr_symmetric), factors=f, method="mle", n.obs = 123)$PVAL)
 ```
 
 
