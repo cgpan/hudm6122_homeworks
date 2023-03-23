@@ -596,11 +596,17 @@ result from the two-factor varimax solution are obtained from
 \SpecialCharTok{+}      \AttributeTok{type=}\StringTok{"n"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{"Factor 1"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Factor 2"}\NormalTok{)}
 \SpecialCharTok{\textgreater{}} \FunctionTok{text}\NormalTok{(loadings[,}\DecValTok{1}\NormalTok{], loadings[,}\DecValTok{2}\NormalTok{],}
 \SpecialCharTok{+}      \FunctionTok{abbreviate}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"French"}\NormalTok{,}\StringTok{"English"}\NormalTok{,}\StringTok{"History"}\NormalTok{,}
-\SpecialCharTok{+}                   \StringTok{"Arithmetic"}\NormalTok{,}\StringTok{"Algebra"}\NormalTok{,}\StringTok{"Geometry"}\NormalTok{),}\DecValTok{3}\NormalTok{),}\AttributeTok{cex=}\FloatTok{0.7}\NormalTok{)}
+\SpecialCharTok{+}                   \StringTok{"Arithmetic"}\NormalTok{,}\StringTok{"Algebra"}\NormalTok{,}\StringTok{"Geometry"}\NormalTok{),}\DecValTok{3}\NormalTok{),}\AttributeTok{cex=}\DecValTok{1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-12-1.pdf}
+The R built-in function \texttt{factanal()} uses the \emph{Varimax}
+orthogonal rotation by default. The graph clearly shows that the first
+factor captures the variance of math-related abilities and the second
+one covers the most of the variance of social-science related abilities.
+Therefore, we can call the first factor ``Quantitative Ability'' and the
+second ``Verbal Ability''. The result is intuitively reasonable.
 
 \hypertarget{ex-5.6}{%
 \subsection{Ex 5.6}\label{ex-5.6}}
@@ -626,7 +632,7 @@ correlation matrix.
 \SpecialCharTok{+}                       \SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{, }\FloatTok{0.43}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.13}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.21}\NormalTok{, }\FloatTok{0.47}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
 \SpecialCharTok{+}                       \SpecialCharTok{{-}}\FloatTok{0.30}\NormalTok{, }\FloatTok{0.30}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.19}\NormalTok{, }\FloatTok{0.41}\NormalTok{, }\FloatTok{0.63}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{, }
 \SpecialCharTok{+}                       \FloatTok{0.45}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.31}\NormalTok{,}\FloatTok{0.59}\NormalTok{,}\FloatTok{0.63}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.14}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.13}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.26}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}
-\SpecialCharTok{+}                       \FloatTok{0.30}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.17}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.32}\NormalTok{,}\FloatTok{0.37}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.15}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{,}\FloatTok{0.40}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
+\SpecialCharTok{+}                       \FloatTok{0.30}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.17}\NormalTok{,}\FloatTok{0.32}\NormalTok{,}\FloatTok{0.37}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.15}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{,}\FloatTok{0.40}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# generate a complete correlation matrix}
 \ErrorTok{\textgreater{}}\NormalTok{ corr\_symmetric }\OtherTok{\textless{}{-}} \FunctionTok{forceSymmetric}\NormalTok{(corr\_lower, }\AttributeTok{uplo=}\StringTok{"L"}\NormalTok{)}
 \end{Highlighting}
@@ -642,13 +648,13 @@ The correlation matrix looks good. Next, I run the PCA first.
 \SpecialCharTok{\textgreater{}} \CommentTok{\# get the PCA results}
 \ErrorTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(pca)}
 \NormalTok{Importance of components}\SpecialCharTok{:}
-\NormalTok{                          PC1    PC2     PC3     PC4    PC5     PC6     PC7}
-\NormalTok{Standard deviation     }\FloatTok{1.1594} \FloatTok{0.5014} \FloatTok{0.31822} \FloatTok{0.18698} \FloatTok{0.1734} \FloatTok{0.15725} \FloatTok{0.09446}
-\NormalTok{Proportion of Variance }\FloatTok{0.7466} \FloatTok{0.1396} \FloatTok{0.05624} \FloatTok{0.01942} \FloatTok{0.0167} \FloatTok{0.01373} \FloatTok{0.00496}
-\NormalTok{Cumulative Proportion  }\FloatTok{0.7466} \FloatTok{0.8863} \FloatTok{0.94250} \FloatTok{0.96192} \FloatTok{0.9786} \FloatTok{0.99235} \FloatTok{0.99730}
+\NormalTok{                          PC1     PC2     PC3     PC4     PC5    PC6     PC7}
+\NormalTok{Standard deviation     }\FloatTok{1.1929} \FloatTok{0.35339} \FloatTok{0.28547} \FloatTok{0.18364} \FloatTok{0.17072} \FloatTok{0.1496} \FloatTok{0.12066}
+\NormalTok{Proportion of Variance }\FloatTok{0.8195} \FloatTok{0.07192} \FloatTok{0.04693} \FloatTok{0.01942} \FloatTok{0.01678} \FloatTok{0.0129} \FloatTok{0.00838}
+\NormalTok{Cumulative Proportion  }\FloatTok{0.8195} \FloatTok{0.89142} \FloatTok{0.93835} \FloatTok{0.95777} \FloatTok{0.97456} \FloatTok{0.9875} \FloatTok{0.99584}
 \NormalTok{                           PC8       PC9}
-\NormalTok{Standard deviation     }\FloatTok{0.06968} \FloatTok{3.631e{-}17}
-\NormalTok{Proportion of Variance }\FloatTok{0.00270} \FloatTok{0.000e+00}
+\NormalTok{Standard deviation     }\FloatTok{0.08504} \FloatTok{3.367e{-}17}
+\NormalTok{Proportion of Variance }\FloatTok{0.00416} \FloatTok{0.000e+00}
 \NormalTok{Cumulative Proportion  }\FloatTok{1.00000} \FloatTok{1.000e+00}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# draw the scree plot }
 \ErrorTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(pca, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }
@@ -656,8 +662,9 @@ The correlation matrix looks good. Next, I run the PCA first.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-14-1.pdf}
-The scree-plot shows that 3 principle components may be appropriate.
+\includegraphics[width=0.5\linewidth,height=0.75\textheight]{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-14-1}
+
+The scree-plot shows that 3 principle components may be adequate.
 However, based on the results from the PCA analysis, the first two
 components can explain 88.63\% variance of the total. Therefore, I
 choose the first two to represent the data.
@@ -667,11 +674,15 @@ Next, I run maximum likelihood factor analysis.
 \begin{Shaded}
 \begin{Highlighting}[]
 \SpecialCharTok{\textgreater{}} \CommentTok{\# explore the number of factors}
-\ErrorTok{\textgreater{}} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric)}
-\SpecialCharTok{\textgreater{}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(f) }\FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{factors=}\NormalTok{f, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}\SpecialCharTok{$}\NormalTok{PVAL)}
-\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(f) }
+\SpecialCharTok{+}   \FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }
+\SpecialCharTok{+}            \AttributeTok{factors=}\NormalTok{f, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}\SpecialCharTok{$}\NormalTok{PVAL)}
+\NormalTok{   objective    objective    objective    objective    objective }
+\FloatTok{3.582705e{-}23} \FloatTok{3.330276e{-}06} \FloatTok{8.377428e{-}02} \FloatTok{1.370264e{-}01} \FloatTok{3.166230e{-}01} 
 \end{Highlighting}
 \end{Shaded}
 
+The result shows that three-factor solution might be adequate to account
+for the observed covariances in the data.
 
 \end{document}

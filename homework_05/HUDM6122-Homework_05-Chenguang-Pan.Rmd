@@ -244,12 +244,12 @@ corr_lower <- matrix(c(1, 0, 0, 0, 0, 0, 0, 0, 0,
                       -0.29, 0.43, -0.13, -0.21, 0.47, 1,0,0,0,
                       -0.30, 0.30, -0.24, -0.19, 0.41, 0.63,1,0,0, 
                       0.45, -0.31,0.59,0.63,-0.14,-0.13,-0.26,1,0,
-                      0.30,-0.17,-0.32,0.37,-0.24,-0.15,-0.29,0.40,1),9,9, byrow = T)
+                      0.30,-0.17,0.32,0.37,-0.24,-0.15,-0.29,0.40,1),9,9, byrow = T)
 # generate a complete correlation matrix
 corr_symmetric <- forceSymmetric(corr_lower, uplo="L")
 ```   
 The correlation matrix looks good. Next, I run the PCA first.  
-```{r}
+```{r,fig.show='hold',out.width="50%",out.height= "75%"}
 # run the PCA first
 # use prcomp to calculate the principal components
 pca <- prcomp(corr_symmetric, scale. = FALSE)
@@ -259,15 +259,17 @@ summary(pca)
 plot(pca, type = "l", 
      main = "Scree Plot")
 ```  
-The scree-plot shows that 3 principle components may be appropriate. However, based on the results from the PCA analysis, the first two components can explain 88.63% variance of the total. Therefore, I choose the first two to represent the data.  
+
+The scree-plot shows that 3 principle components may be adequate. However, based on the results from the PCA analysis, the first two components can explain 88.63% variance of the total. Therefore, I choose the first two to represent the data.  
 
 Next, I run maximum likelihood factor analysis.
-```{r, eval=FALSE}
+```{r}
 # explore the number of factors
-as.matrix(corr_symmetric)
-sapply(1:6, function(f) factanal(covmat=as.matrix(corr_symmetric), factors=f, method="mle", n.obs = 123)$PVAL)
-
+sapply(1:5, function(f) 
+  factanal(covmat=as.matrix(corr_symmetric), 
+           factors=f, method="mle", n.obs = 123)$PVAL)
 ```  
+The result shows that three-factor solution might be adequate to account for the observed covariances in the data.
 
 
 
