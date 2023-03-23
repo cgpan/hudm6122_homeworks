@@ -23,7 +23,14 @@ Finished at 02.23.2023.
 
 Honework 04 is about sovling all the exercises of Chapter 4 of the book *An Introduction to Applied Multivariate Analysis with R*. Due to the limited time and weekly workload, some codes may not be the most elegant and concise. Welcome to review and give your comment.
 
-Finished at 03.02.2023.
+Finished at 03.02.2023.  
+
+
+## Homework_05 solutions - Exploratory Factor Analysis
+
+Homework 05 focuses on praticing the exploratory factor analysis techniques. The method introduced from textbook might be not enough for more complex situation. Before running factor analysis, doing some assumption checking would be more rigorous. Therefore, I tried two methods in Exercises 5.4. Welcome to review and give your feedback.
+
+Finished at 03.23.2023.
 
 Author: Chenguang Pan  
 @ Teachers College, Columbia University.
