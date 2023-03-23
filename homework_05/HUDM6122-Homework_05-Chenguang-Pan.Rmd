@@ -186,6 +186,48 @@ female_fa$loadings
 This two-factor solution looks more reasonable than the one-factor. Since in both dataset, the first factor captures the 0-25 age's life expectations and the second factor covers the 50-75 age's life expectations. We can call the first factor "Life force under middle age" and the second factor "life force of or above middle age".
 
 
+## Ex 5.5    
+*The correlation matrix given below arises from the scores of 220 boys in six school subjects: (1) French, (2) English, (3) History, (4) Arithmetic, (5) Algebra, and (6) Geometry. Find the two-factor solution from a maximum likelihood factor analysis. By plotting the derived loadings, find an orthogonal rotation that allows easier interpretation of the results.*  
+  
+**MY SOLUTION:**   
+```{r}
+# import the data
+library(Matrix)
+# import the correlation matrix
+corr_lower <- matrix(c(1, 0, 0, 0, 0, 0, 
+                      0.44, 1, 0,0,0,0,
+                      0.41, 0.35, 1,0,0,0,
+                      0.29, 0.35, 0.16, 1,0,0,
+                      0.33, 0.32, 0.19, 0.59, 1,0,
+                      0.25, 0.33, 0.18, 0.47, 0.46, 1),6,6, byrow = T)
+# generate a complete correlation matrix
+corr_symmetric <- forceSymmetric(corr_lower, uplo="L")
+class(corr_symmetric)
+```  
+
+Although the question has told that we can use two-factor solution to conduct factor analysis, I still checked the right number of factors
+```{r}
+# test for the right number of factors
+sapply(1:2, function(f) 
+  factanal(covmat=as.matrix(corr_symmetric), factors = f, 
+           method = "mle", n.obs = 220)$PVAL)
+```  
+The result shows that the two-factor solution is adequate here. The result from the two-factor varimax solution are obtained from  
+```{r}
+fa_ <- factanal(covmat = as.matrix(corr_symmetric), factors = 2,
+          method="mle", n.obs = 220)
+fa_$loadings
+
+# plot the derived loadings
+loadings <- fa_$loadings[,1:2]
+plot(loadings[,1], loadings[,2], 
+     type="n",xlab="Factor 1",ylab="Factor 2")
+text(loadings[,1], loadings[,2],
+     abbreviate(c("French","English","History",
+                  "Arithmetic","Algebra","Geometry"),3),cex=1)
+```  
+The R built-in function `factanal()` uses the *Varimax* orthogonal rotation by default. The graph clearly shows that the first factor captures the variance of math-related abilities and the second one covers the most of the variance of social-science related abilities. Therefore, we can call the first factor "Quantitative Ability" and the second "Verbal Ability". The result is intuitively reasonable.
+
 ## Ex 5.6    
 *The matrix below shows the correlations between ratings on nine statements about pain made by 123 people suffering from extreme pain. Each statement was scored on a scale from 1 to 6, ranging from agreement to disagreement. The nine pain statements were as follows:*  
   
@@ -224,6 +266,9 @@ Next, I run maximum likelihood factor analysis.
 # explore the number of factors
 as.matrix(corr_symmetric)
 sapply(1:6, function(f) factanal(covmat=as.matrix(corr_symmetric), factors=f, method="mle", n.obs = 123)$PVAL)
-```
+
+```  
+
+
 
 

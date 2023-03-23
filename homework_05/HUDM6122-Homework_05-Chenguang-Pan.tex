@@ -521,6 +521,87 @@ expectations and the second factor covers the 50-75 age's life
 expectations. We can call the first factor ``Life force under middle
 age'' and the second factor ``life force of or above middle age''.
 
+\hypertarget{ex-5.5}{%
+\subsection{Ex 5.5}\label{ex-5.5}}
+
+\emph{The correlation matrix given below arises from the scores of 220
+boys in six school subjects: (1) French, (2) English, (3) History, (4)
+Arithmetic, (5) Algebra, and (6) Geometry. Find the two-factor solution
+from a maximum likelihood factor analysis. By plotting the derived
+loadings, find an orthogonal rotation that allows easier interpretation
+of the results.}
+
+\textbf{MY SOLUTION:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}} \FunctionTok{library}\NormalTok{(Matrix)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ corr\_lower }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{0}\NormalTok{, }
+\SpecialCharTok{+}                       \FloatTok{0.44}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.41}\NormalTok{, }\FloatTok{0.35}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.29}\NormalTok{, }\FloatTok{0.35}\NormalTok{, }\FloatTok{0.16}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.33}\NormalTok{, }\FloatTok{0.32}\NormalTok{, }\FloatTok{0.19}\NormalTok{, }\FloatTok{0.59}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}
+\SpecialCharTok{+}                       \FloatTok{0.25}\NormalTok{, }\FloatTok{0.33}\NormalTok{, }\FloatTok{0.18}\NormalTok{, }\FloatTok{0.47}\NormalTok{, }\FloatTok{0.46}\NormalTok{, }\DecValTok{1}\NormalTok{),}\DecValTok{6}\NormalTok{,}\DecValTok{6}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# generate a complete correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ corr\_symmetric }\OtherTok{\textless{}{-}} \FunctionTok{forceSymmetric}\NormalTok{(corr\_lower, }\AttributeTok{uplo=}\StringTok{"L"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{class}\NormalTok{(corr\_symmetric)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\StringTok{"dsyMatrix"}
+\FunctionTok{attr}\NormalTok{(,}\StringTok{"package"}\NormalTok{)}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\StringTok{"Matrix"}
+\end{Highlighting}
+\end{Shaded}
+
+Although the question has told that we can use two-factor solution to
+conduct factor analysis, I still checked the right number of factors
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# test for the right number of factors}
+\ErrorTok{\textgreater{}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(f) }
+\SpecialCharTok{+}   \FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{factors =}\NormalTok{ f, }
+\SpecialCharTok{+}            \AttributeTok{method =} \StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{220}\NormalTok{)}\SpecialCharTok{$}\NormalTok{PVAL)}
+\NormalTok{   objective    objective }
+\FloatTok{5.369962e{-}08} \FloatTok{7.026721e{-}01} 
+\end{Highlighting}
+\end{Shaded}
+
+The result shows that the two-factor solution is adequate here. The
+result from the two-factor varimax solution are obtained from
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}}\NormalTok{ fa\_ }\OtherTok{\textless{}{-}} \FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat =} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{factors =} \DecValTok{2}\NormalTok{,}
+\SpecialCharTok{+}           \AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{220}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ fa\_}\SpecialCharTok{$}\NormalTok{loadings}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{     Factor1 Factor2}
+\NormalTok{[}\DecValTok{1}\NormalTok{,] }\FloatTok{0.233}   \FloatTok{0.661}  
+\NormalTok{[}\DecValTok{2}\NormalTok{,] }\FloatTok{0.319}   \FloatTok{0.551}  
+\NormalTok{[}\DecValTok{3}\NormalTok{,]         }\FloatTok{0.591}  
+\NormalTok{[}\DecValTok{4}\NormalTok{,] }\FloatTok{0.770}   \FloatTok{0.172}  
+\NormalTok{[}\DecValTok{5}\NormalTok{,] }\FloatTok{0.715}   \FloatTok{0.220}  
+\NormalTok{[}\DecValTok{6}\NormalTok{,] }\FloatTok{0.570}   \FloatTok{0.215}  
+
+\NormalTok{               Factor1 Factor2}
+\NormalTok{SS loadings      }\FloatTok{1.593}   \FloatTok{1.215}
+\NormalTok{Proportion Var   }\FloatTok{0.265}   \FloatTok{0.202}
+\NormalTok{Cumulative Var   }\FloatTok{0.265}   \FloatTok{0.468}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# plot the derived loadings}
+\ErrorTok{\textgreater{}}\NormalTok{ loadings }\OtherTok{\textless{}{-}}\NormalTok{ fa\_}\SpecialCharTok{$}\NormalTok{loadings[,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{]}
+\SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(loadings[,}\DecValTok{1}\NormalTok{], loadings[,}\DecValTok{2}\NormalTok{], }
+\SpecialCharTok{+}      \AttributeTok{type=}\StringTok{"n"}\NormalTok{,}\AttributeTok{xlab=}\StringTok{"Factor 1"}\NormalTok{,}\AttributeTok{ylab=}\StringTok{"Factor 2"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{text}\NormalTok{(loadings[,}\DecValTok{1}\NormalTok{], loadings[,}\DecValTok{2}\NormalTok{],}
+\SpecialCharTok{+}      \FunctionTok{abbreviate}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\StringTok{"French"}\NormalTok{,}\StringTok{"English"}\NormalTok{,}\StringTok{"History"}\NormalTok{,}
+\SpecialCharTok{+}                   \StringTok{"Arithmetic"}\NormalTok{,}\StringTok{"Algebra"}\NormalTok{,}\StringTok{"Geometry"}\NormalTok{),}\DecValTok{3}\NormalTok{),}\AttributeTok{cex=}\FloatTok{0.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-12-1.pdf}
+
 \hypertarget{ex-5.6}{%
 \subsection{Ex 5.6}\label{ex-5.6}}
 
@@ -575,7 +656,7 @@ The correlation matrix looks good. Next, I run the PCA first.
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-11-1.pdf}
+\includegraphics{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-14-1.pdf}
 The scree-plot shows that 3 principle components may be appropriate.
 However, based on the results from the PCA analysis, the first two
 components can explain 88.63\% variance of the total. Therefore, I
@@ -588,6 +669,7 @@ Next, I run maximum likelihood factor analysis.
 \SpecialCharTok{\textgreater{}} \CommentTok{\# explore the number of factors}
 \ErrorTok{\textgreater{}} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric)}
 \SpecialCharTok{\textgreater{}} \FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{6}\NormalTok{, }\ControlFlowTok{function}\NormalTok{(f) }\FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{factors=}\NormalTok{f, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}\SpecialCharTok{$}\NormalTok{PVAL)}
+\SpecialCharTok{\textgreater{}} 
 \end{Highlighting}
 \end{Shaded}
 

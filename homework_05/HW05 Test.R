@@ -44,7 +44,7 @@ tinytex::tlmgr_update()
 install.packages(c('tinytex', 'rmarkdown'))
 tinytex::install_tinytex()
 
-
+?fa()
 
 ```{r}
 # import the dataset
@@ -61,3 +61,6 @@ sapply(1, function(f)
 sapply(1, function(f)
   factanal(life_female, factors=f, method="mle")$PVAL)
 ```  
+
+library(MVA)
+demo("Ch-EFA")
