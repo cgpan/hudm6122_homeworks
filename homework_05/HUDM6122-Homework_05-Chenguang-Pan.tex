@@ -632,7 +632,7 @@ correlation matrix.
 \SpecialCharTok{+}                       \SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{, }\FloatTok{0.43}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.13}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.21}\NormalTok{, }\FloatTok{0.47}\NormalTok{, }\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}
 \SpecialCharTok{+}                       \SpecialCharTok{{-}}\FloatTok{0.30}\NormalTok{, }\FloatTok{0.30}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.19}\NormalTok{, }\FloatTok{0.41}\NormalTok{, }\FloatTok{0.63}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{, }
 \SpecialCharTok{+}                       \FloatTok{0.45}\NormalTok{, }\SpecialCharTok{{-}}\FloatTok{0.31}\NormalTok{,}\FloatTok{0.59}\NormalTok{,}\FloatTok{0.63}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.14}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.13}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.26}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}
-\SpecialCharTok{+}                       \FloatTok{0.30}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.17}\NormalTok{,}\FloatTok{0.32}\NormalTok{,}\FloatTok{0.37}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.15}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{,}\FloatTok{0.40}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
+\SpecialCharTok{+}                      \FloatTok{0.30}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.17}\NormalTok{,}\FloatTok{0.32}\NormalTok{,}\FloatTok{0.37}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.24}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.15}\NormalTok{,}\SpecialCharTok{{-}}\FloatTok{0.29}\NormalTok{,}\FloatTok{0.40}\NormalTok{,}\DecValTok{1}\NormalTok{),}\DecValTok{9}\NormalTok{,}\DecValTok{9}\NormalTok{, }\AttributeTok{byrow =}\NormalTok{ T)}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# generate a complete correlation matrix}
 \ErrorTok{\textgreater{}}\NormalTok{ corr\_symmetric }\OtherTok{\textless{}{-}} \FunctionTok{forceSymmetric}\NormalTok{(corr\_lower, }\AttributeTok{uplo=}\StringTok{"L"}\NormalTok{)}
 \end{Highlighting}
@@ -665,9 +665,9 @@ The correlation matrix looks good. Next, I run the PCA first.
 \includegraphics[width=0.5\linewidth,height=0.75\textheight]{HUDM6122-Homework_05-Chenguang-Pan_files/figure-latex/unnamed-chunk-14-1}
 
 The scree-plot shows that 3 principle components may be adequate.
-However, based on the results from the PCA analysis, the first two
-components can explain 88.63\% variance of the total. Therefore, I
-choose the first two to represent the data.
+However, based on the results from the PCA analysis, the first 1
+components can explain 81.95\% variance of the total. Therefore, I
+choose the first one to represent the data.
 
 Next, I run maximum likelihood factor analysis.
 
@@ -684,5 +684,91 @@ Next, I run maximum likelihood factor analysis.
 
 The result shows that three-factor solution might be adequate to account
 for the observed covariances in the data.
+
+Finally, I rotate the 3-factor solution using both orthogonal and an
+oblique procedure.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# using the varimax bu default}
+\ErrorTok{\textgreater{}} \FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }
+\SpecialCharTok{+}            \AttributeTok{factors=}\DecValTok{3}\NormalTok{, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}
+
+\NormalTok{Call}\SpecialCharTok{:}
+\FunctionTok{factanal}\NormalTok{(}\AttributeTok{factors =} \DecValTok{3}\NormalTok{, }\AttributeTok{covmat =} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{,     }\AttributeTok{method =} \StringTok{"mle"}\NormalTok{)}
+
+\NormalTok{Uniquenesses}\SpecialCharTok{:}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{0.404} \FloatTok{0.518} \FloatTok{0.336} \FloatTok{0.455} \FloatTok{0.499} \FloatTok{0.171} \FloatTok{0.496} \FloatTok{0.239} \FloatTok{0.754}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{      Factor1 Factor2 Factor3}
+\NormalTok{ [}\DecValTok{1}\NormalTok{,]  }\FloatTok{0.649}  \SpecialCharTok{{-}}\FloatTok{0.372}   \FloatTok{0.190} 
+\NormalTok{ [}\DecValTok{2}\NormalTok{,] }\SpecialCharTok{{-}}\FloatTok{0.126}   \FloatTok{0.194}   \FloatTok{0.655} 
+\NormalTok{ [}\DecValTok{3}\NormalTok{,]  }\FloatTok{0.794}  \SpecialCharTok{{-}}\FloatTok{0.144}   \FloatTok{0.116} 
+\NormalTok{ [}\DecValTok{4}\NormalTok{,]  }\FloatTok{0.725}  \SpecialCharTok{{-}}\FloatTok{0.106}         
+\NormalTok{ [}\DecValTok{5}\NormalTok{,]          }\FloatTok{0.292}   \FloatTok{0.645} 
+\NormalTok{ [}\DecValTok{6}\NormalTok{,]          }\FloatTok{0.825}   \FloatTok{0.377} 
+\NormalTok{ [}\DecValTok{7}\NormalTok{,] }\SpecialCharTok{{-}}\FloatTok{0.225}   \FloatTok{0.590}   \FloatTok{0.325} 
+\NormalTok{ [}\DecValTok{8}\NormalTok{,]  }\FloatTok{0.815}          \SpecialCharTok{{-}}\FloatTok{0.304} 
+\NormalTok{ [}\DecValTok{9}\NormalTok{,]  }\FloatTok{0.437}          \SpecialCharTok{{-}}\FloatTok{0.221} 
+
+\NormalTok{               Factor1 Factor2 Factor3}
+\NormalTok{SS loadings      }\FloatTok{2.507}   \FloatTok{1.331}   \FloatTok{1.291}
+\NormalTok{Proportion Var   }\FloatTok{0.279}   \FloatTok{0.148}   \FloatTok{0.143}
+\NormalTok{Cumulative Var   }\FloatTok{0.279}   \FloatTok{0.426}   \FloatTok{0.570}
+
+\NormalTok{Test of the hypothesis that }\DecValTok{3}\NormalTok{ factors are sufficient.}
+\NormalTok{The chi square statistic is }\FloatTok{19.2}\NormalTok{ on }\DecValTok{12}\NormalTok{ degrees of freedom.}
+\NormalTok{The p}\SpecialCharTok{{-}}\NormalTok{value is }\FloatTok{0.0838} 
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# using the varimax}
+\ErrorTok{\textgreater{}} \FunctionTok{factanal}\NormalTok{(}\AttributeTok{covmat=}\FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }
+\SpecialCharTok{+}            \AttributeTok{factors=}\DecValTok{3}\NormalTok{, }\AttributeTok{method=}\StringTok{"mle"}\NormalTok{, }\AttributeTok{rotation=} \StringTok{"promax"}\NormalTok{, }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{)}
+
+\NormalTok{Call}\SpecialCharTok{:}
+\FunctionTok{factanal}\NormalTok{(}\AttributeTok{factors =} \DecValTok{3}\NormalTok{, }\AttributeTok{covmat =} \FunctionTok{as.matrix}\NormalTok{(corr\_symmetric), }\AttributeTok{n.obs =} \DecValTok{123}\NormalTok{,     }\AttributeTok{rotation =} \StringTok{"promax"}\NormalTok{, }\AttributeTok{method =} \StringTok{"mle"}\NormalTok{)}
+
+\NormalTok{Uniquenesses}\SpecialCharTok{:}
+\NormalTok{[}\DecValTok{1}\NormalTok{] }\FloatTok{0.404} \FloatTok{0.518} \FloatTok{0.336} \FloatTok{0.455} \FloatTok{0.499} \FloatTok{0.171} \FloatTok{0.496} \FloatTok{0.239} \FloatTok{0.754}
+
+\NormalTok{Loadings}\SpecialCharTok{:}
+\NormalTok{      Factor1 Factor2 Factor3}
+\NormalTok{ [}\DecValTok{1}\NormalTok{,]  }\FloatTok{0.580}  \SpecialCharTok{{-}}\FloatTok{0.322}   \FloatTok{0.284} 
+\NormalTok{ [}\DecValTok{2}\NormalTok{,]          }\FloatTok{0.112}   \FloatTok{0.635} 
+\NormalTok{ [}\DecValTok{3}\NormalTok{,]  }\FloatTok{0.800}           \FloatTok{0.182} 
+\NormalTok{ [}\DecValTok{4}\NormalTok{,]  }\FloatTok{0.743}                 
+\NormalTok{ [}\DecValTok{5}\NormalTok{,]          }\FloatTok{0.248}   \FloatTok{0.617} 
+\NormalTok{ [}\DecValTok{6}\NormalTok{,]  }\FloatTok{0.134}   \FloatTok{0.855}   \FloatTok{0.260} 
+\NormalTok{ [}\DecValTok{7}\NormalTok{,]          }\FloatTok{0.576}   \FloatTok{0.233} 
+\NormalTok{ [}\DecValTok{8}\NormalTok{,]  }\FloatTok{0.891}   \FloatTok{0.251}  \SpecialCharTok{{-}}\FloatTok{0.277} 
+\NormalTok{ [}\DecValTok{9}\NormalTok{,]  }\FloatTok{0.448}          \SpecialCharTok{{-}}\FloatTok{0.192} 
+
+\NormalTok{               Factor1 Factor2 Factor3}
+\NormalTok{SS loadings      }\FloatTok{2.564}   \FloatTok{1.305}   \FloatTok{1.135}
+\NormalTok{Proportion Var   }\FloatTok{0.285}   \FloatTok{0.145}   \FloatTok{0.126}
+\NormalTok{Cumulative Var   }\FloatTok{0.285}   \FloatTok{0.430}   \FloatTok{0.556}
+
+\NormalTok{Factor Correlations}\SpecialCharTok{:}
+\NormalTok{        Factor1 Factor2 Factor3}
+\NormalTok{Factor1  }\FloatTok{1.0000}   \FloatTok{0.415}  \FloatTok{0.0992}
+\NormalTok{Factor2  }\FloatTok{0.4149}   \FloatTok{1.000}  \FloatTok{0.2578}
+\NormalTok{Factor3  }\FloatTok{0.0992}   \FloatTok{0.258}  \FloatTok{1.0000}
+
+\NormalTok{Test of the hypothesis that }\DecValTok{3}\NormalTok{ factors are sufficient.}
+\NormalTok{The chi square statistic is }\FloatTok{19.2}\NormalTok{ on }\DecValTok{12}\NormalTok{ degrees of freedom.}
+\NormalTok{The p}\SpecialCharTok{{-}}\NormalTok{value is }\FloatTok{0.0838} 
+\end{Highlighting}
+\end{Shaded}
+
+The orthogonal results show that the first factor capture the covariance
+of items all related with patient's belief on their doctors. The second
+one covers the personal carelessness. The third one captures the
+covraince about personal cause. And all three factors are reasonable.
+
+As for the oblique rotation, it indicates that there might be some
+correlations among the factors. The results are reasonable, since the
+correlation between the factor 1 and the factor 3 is relatively low.
+Because if people think that pain is mostly from the doctor's skills,
+they may not always attribute the pain to themselves.
 
 \end{document}

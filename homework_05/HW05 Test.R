@@ -45,6 +45,7 @@ install.packages(c('tinytex', 'rmarkdown'))
 tinytex::install_tinytex()
 
 ?fa()
+?factanal()
 
 ```{r}
 # import the dataset

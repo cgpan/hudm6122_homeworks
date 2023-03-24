@@ -244,7 +244,7 @@ corr_lower <- matrix(c(1, 0, 0, 0, 0, 0, 0, 0, 0,
                       -0.29, 0.43, -0.13, -0.21, 0.47, 1,0,0,0,
                       -0.30, 0.30, -0.24, -0.19, 0.41, 0.63,1,0,0, 
                       0.45, -0.31,0.59,0.63,-0.14,-0.13,-0.26,1,0,
-                      0.30,-0.17,0.32,0.37,-0.24,-0.15,-0.29,0.40,1),9,9, byrow = T)
+                     0.30,-0.17,0.32,0.37,-0.24,-0.15,-0.29,0.40,1),9,9, byrow = T)
 # generate a complete correlation matrix
 corr_symmetric <- forceSymmetric(corr_lower, uplo="L")
 ```   
@@ -260,7 +260,7 @@ plot(pca, type = "l",
      main = "Scree Plot")
 ```  
 
-The scree-plot shows that 3 principle components may be adequate. However, based on the results from the PCA analysis, the first two components can explain 88.63% variance of the total. Therefore, I choose the first two to represent the data.  
+The scree-plot shows that 3 principle components may be adequate. However, based on the results from the PCA analysis, the first 1 components can explain 81.95% variance of the total. Therefore, I choose the first one to represent the data.  
 
 Next, I run maximum likelihood factor analysis.
 ```{r}
@@ -269,7 +269,26 @@ sapply(1:5, function(f)
   factanal(covmat=as.matrix(corr_symmetric), 
            factors=f, method="mle", n.obs = 123)$PVAL)
 ```  
-The result shows that three-factor solution might be adequate to account for the observed covariances in the data.
+The result shows that three-factor solution might be adequate to account for the observed covariances in the data.  
+
+Finally, I rotate the 3-factor solution using both orthogonal and an oblique procedure.  
+```{r}
+# using the varimax bu default
+factanal(covmat=as.matrix(corr_symmetric), 
+           factors=3, method="mle", n.obs = 123)
+
+# using the varimax
+factanal(covmat=as.matrix(corr_symmetric), 
+           factors=3, method="mle", rotation= "promax", n.obs = 123)
+```  
+
+The orthogonal results show that the first factor capture the covariance of items all related with patient's belief on their doctors. The second one covers the personal carelessness. The third one captures the covraince about personal cause. And all three factors are reasonable.
+
+As for the oblique rotation, it indicates that there might be some correlations among the factors. The results are reasonable, since the correlation between the factor 1 and the factor 3 is relatively low. Because if people think that pain is mostly from the doctor's skills, they may not always attribute the pain to themselves.
+
+
+
+
 
 
 
