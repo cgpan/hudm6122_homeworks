@@ -32,5 +32,9 @@ Homework 05 focuses on praticing the exploratory factor analysis techniques. The
 
 Finished at 03.23.2023.
 
+HW05 Solutions V1.1 updated at 03.24.2023:
+- added the omitted solutions for ex5.6.  
+- Revised the answer to the question (a) for ex5.6.
+
 Author: Chenguang Pan  
 @ Teachers College, Columbia University.
