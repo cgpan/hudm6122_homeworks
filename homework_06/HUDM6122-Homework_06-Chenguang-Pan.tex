@@ -268,18 +268,17 @@ construct the scatterplot matrix of the scores.
 \SpecialCharTok{+}         \FunctionTok{contour}\NormalTok{(den, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{,}\AttributeTok{col=}\StringTok{"red"}\NormalTok{,}\AttributeTok{lwd=}\DecValTok{1}\NormalTok{)}
 \SpecialCharTok{+}\NormalTok{       \},}
 \SpecialCharTok{+}       \AttributeTok{diag.panel =} \ControlFlowTok{function}\NormalTok{(x) \{}
-\SpecialCharTok{+}         \FunctionTok{boxplot}\NormalTok{(x, }\AttributeTok{horizontal =}\NormalTok{ F, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{)}
+\SpecialCharTok{+}         \FunctionTok{boxplot}\NormalTok{(x, }\AttributeTok{horizontal =}\NormalTok{ T, }\AttributeTok{add =} \ConstantTok{TRUE}\NormalTok{)}
 \SpecialCharTok{+}\NormalTok{       \},}
 \SpecialCharTok{+}       \AttributeTok{lower.panel =} \ControlFlowTok{function}\NormalTok{(x, y) \{}
-\SpecialCharTok{+}         \FunctionTok{points}\NormalTok{(x, y)\})}
+\SpecialCharTok{+}         \FunctionTok{points}\NormalTok{(x, y)}
+\SpecialCharTok{+}         \FunctionTok{text}\NormalTok{(x, y, pottery}\SpecialCharTok{$}\NormalTok{kiln, }\AttributeTok{pch =} \DecValTok{16}\NormalTok{, }\AttributeTok{col =} \FunctionTok{adjustcolor}\NormalTok{(}\StringTok{"blue"}\NormalTok{, .}\DecValTok{5}\NormalTok{))\})}
 \SpecialCharTok{\textgreater{}} \CommentTok{\# Add kiln number labels to the scatterplot matrix}
 \ErrorTok{\textgreater{}} \FunctionTok{text}\NormalTok{(scores, }\AttributeTok{labels =}\NormalTok{ pottery}\SpecialCharTok{$}\NormalTok{kiln, }\AttributeTok{pos =} \DecValTok{1}\NormalTok{, }\AttributeTok{cex =} \FloatTok{0.1}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{HUDM6122-Homework_06-Chenguang-Pan_files/figure-latex/unnamed-chunk-5-1.pdf}
-I do not know why I can't label the point with the \texttt{kiln}
-categorical variable.
 
 \hypertarget{ex-6.3}{%
 \subsection{Ex 6.3}\label{ex-6.3}}

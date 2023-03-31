@@ -110,14 +110,14 @@ pairs(scores,
         contour(den, add = TRUE,col="red",lwd=1)
       },
       diag.panel = function(x) {
-        boxplot(x, horizontal = F, add = TRUE)
+        boxplot(x, horizontal = T, add = TRUE)
       },
       lower.panel = function(x, y) {
-        points(x, y)})
+        points(x, y)
+        text(x, y, pottery$kiln, pch = 16, col = adjustcolor("blue", .5))})
 # Add kiln number labels to the scatterplot matrix
 text(scores, labels = pottery$kiln, pos = 1, cex = 0.1)
 ```   
-I do not know why I can't label the point with the `kiln` categorical variable.  
 
 ## Ex 6.3  
 *Return to the air pollution data given in Chapter 1 and use finite mixtures to cluster the data on the basis of the six climate and ecology variables (i.e., excluding the sulphur dioxide concentration). Investigate how sulphur dioxide concentration varies in the clusters you find both graphically and by formal significance testing.*  
