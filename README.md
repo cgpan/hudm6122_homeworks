@@ -46,5 +46,5 @@ Welcome to review and give your feedback
 
 
 Author: Chenguang Pan  
-E-mail: cp3280@tc.columbia.edu
+E-mail: cp3280@tc.columbia.edu  
 @ Teachers College, Columbia University.
