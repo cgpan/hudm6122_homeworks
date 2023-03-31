@@ -41,7 +41,9 @@ HW05 Solutions V1.1 updated at 03.24.2023:
 Homework 06 focuses on praticing the clustering methods like K-means and finite mixture approach. For the question Ex 6.2, the graph I created is not that elegant and easy-to-read.  Welcome to share your idea(s)! Thanks a lot!  
 
 For the second part of Ex6.3's solution, I asked Xue Yu for help and I think her method is reasonable!  
+
 V1.0 Finished at 03.31.2023.  
+
 Welcome to review and give your feedback
 
 
