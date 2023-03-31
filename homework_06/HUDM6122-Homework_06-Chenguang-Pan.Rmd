@@ -123,6 +123,11 @@ I do not know why I can't label the point with the `kiln` categorical variable.
 *Return to the air pollution data given in Chapter 1 and use finite mixtures to cluster the data on the basis of the six climate and ecology variables (i.e., excluding the sulphur dioxide concentration). Investigate how sulphur dioxide concentration varies in the clusters you find both graphically and by formal significance testing.*  
 
 **MY SOLUTION:**  
+One thing that is quite tricky here is how to rely on BIC to choose the best model. It seems to be conflicting to our normal understanding about AIC and BIC. I'd like to write down some understanding here for my future reference.  
+
+AIC and BIC are commonly used to compare the fit of different models, and to select the best model among a set of candidate models. The basic idea behind AIC and BIC is that they attempt to balance the goodness-of-fit of the model with the complexity of the model. AIC and BIC both penalize models that are too complex, but BIC applies a stronger penalty for model complexity than AIC. The model with the lowest AIC or BIC is generally considered the best model among the set of candidate models.  
+
+However, in finite mixture approach, the larger the value of the BIC, the stronger the evidence for the model and number of clusters. But why? I did some literature review and did not find any clues. I will continue to figure out this issue.
 
 ```{r}
 # import the data
@@ -130,17 +135,26 @@ data("USairpollution", package = "HSAUR2")
 dim(USairpollution)
 colnames(USairpollution)
 
-# before running the finite mixture approach, standardize the data first
-air_s <- scale(USairpollution[,-1])
+# before running the finite mixture approach, standardize the data first;
+# air_sdz <- sweep(USairpollution,2,apply(USairpollution[,-1], 2, sd), FUN = "/")
+air_s <- scale(USairpollution)
 
 # run the finite mixtures to the cluster the data
 # install.packages("mclust")
 library(mclust)
-mc <- Mclust(air_s)
+mc <- Mclust(air_s[,-1])
 plot(mc$BIC)
 ```  
-The BIC criterion selects model EVV and two clusters as the optimal solution.
-
+The BIC criterion selects model EVV and two clusters as the optimal solution.  
+```{r}
+# For the following method, I refereed to Xue Yu's idea. Thanks for her help.
+boxplot(USairpollution$SO2~ mc$classification)
+```    
+The boxplot shows that there seems no significant difference between the two clusters in SO2 concentration. Next, I will run a two sample t test to figure out the relation.   
+```{r}
+t.test(USairpollution$SO2~mc$classification)
+```  
+The test result also indicates that there is no significant difference in SO2 concentration in the two clusters, *t*= .305, *p* =.765.
 
 
 

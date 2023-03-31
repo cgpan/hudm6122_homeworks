@@ -290,7 +290,25 @@ variables (i.e., excluding the sulphur dioxide concentration).
 Investigate how sulphur dioxide concentration varies in the clusters you
 find both graphically and by formal significance testing.}
 
-\textbf{MY SOLUTION:}
+\textbf{MY SOLUTION:}\\
+One thing that is quite tricky here is how to rely on BIC to choose the
+best model. It seems to be conflicting to our normal understanding about
+AIC and BIC. I'd like to write down some understanding here for my
+future reference.
+
+AIC and BIC are commonly used to compare the fit of different models,
+and to select the best model among a set of candidate models. The basic
+idea behind AIC and BIC is that they attempt to balance the
+goodness-of-fit of the model with the complexity of the model. AIC and
+BIC both penalize models that are too complex, but BIC applies a
+stronger penalty for model complexity than AIC. The model with the
+lowest AIC or BIC is generally considered the best model among the set
+of candidate models.
+
+However, in finite mixture approach, the larger the value of the BIC,
+the stronger the evidence for the model and number of clusters. But why?
+I did some literature review and did not find any clues. I will continue
+to figure out this issue.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -301,17 +319,53 @@ find both graphically and by formal significance testing.}
 \SpecialCharTok{\textgreater{}} \FunctionTok{colnames}\NormalTok{(USairpollution)}
 \NormalTok{[}\DecValTok{1}\NormalTok{] }\StringTok{"SO2"}     \StringTok{"temp"}    \StringTok{"manu"}    \StringTok{"popul"}   \StringTok{"wind"}    \StringTok{"precip"}  \StringTok{"predays"}
 \SpecialCharTok{\textgreater{}} 
-\ErrorTok{\textgreater{}} \CommentTok{\# before running the finite mixture approach, standardize the data first}
-\ErrorTok{\textgreater{}}\NormalTok{ air\_s }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(USairpollution[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
+\ErrorTok{\textgreater{}} \CommentTok{\# before running the finite mixture approach, standardize the data first;}
+\ErrorTok{\textgreater{}} \CommentTok{\# air\_sdz \textless{}{-} sweep(USairpollution,2,apply(USairpollution[,{-}1], 2, sd), FUN = "/")}
+\ErrorTok{\textgreater{}}\NormalTok{ air\_s }\OtherTok{\textless{}{-}} \FunctionTok{scale}\NormalTok{(USairpollution)}
 \SpecialCharTok{\textgreater{}} 
 \ErrorTok{\textgreater{}} \CommentTok{\# run the finite mixtures to the cluster the data}
 \ErrorTok{\textgreater{}} \CommentTok{\# install.packages("mclust")}
 \ErrorTok{\textgreater{}} \FunctionTok{library}\NormalTok{(mclust)}
-\SpecialCharTok{\textgreater{}}\NormalTok{ mc }\OtherTok{\textless{}{-}} \FunctionTok{Mclust}\NormalTok{(air\_s)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ mc }\OtherTok{\textless{}{-}} \FunctionTok{Mclust}\NormalTok{(air\_s[,}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{])}
 \SpecialCharTok{\textgreater{}} \FunctionTok{plot}\NormalTok{(mc}\SpecialCharTok{$}\NormalTok{BIC)}
 \end{Highlighting}
 \end{Shaded}
 
 \includegraphics{HUDM6122-Homework_06-Chenguang-Pan_files/figure-latex/unnamed-chunk-6-1.pdf}
+The BIC criterion selects model EVV and two clusters as the optimal
+solution.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# For the following method, I refereed to Xue Yu\textquotesingle{}s idea. Thanks for her help.}
+\ErrorTok{\textgreater{}} \FunctionTok{boxplot}\NormalTok{(USairpollution}\SpecialCharTok{$}\NormalTok{SO2}\SpecialCharTok{\textasciitilde{}}\NormalTok{ mc}\SpecialCharTok{$}\NormalTok{classification)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HUDM6122-Homework_06-Chenguang-Pan_files/figure-latex/unnamed-chunk-7-1.pdf}
+The boxplot shows that there seems no significant difference between the
+two clusters in SO2 concentration. Next, I will run a two sample t test
+to figure out the relation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{t.test}\NormalTok{(USairpollution}\SpecialCharTok{$}\NormalTok{SO2}\SpecialCharTok{\textasciitilde{}}\NormalTok{mc}\SpecialCharTok{$}\NormalTok{classification)}
+
+\NormalTok{    Welch Two Sample t}\SpecialCharTok{{-}}\NormalTok{test}
+
+\NormalTok{data}\SpecialCharTok{:}\NormalTok{  USairpollution}\SpecialCharTok{$}\NormalTok{SO2 by mc}\SpecialCharTok{$}\NormalTok{classification}
+\NormalTok{t }\OtherTok{=} \FloatTok{0.30473}\NormalTok{, df }\OtherTok{=} \FloatTok{12.88}\NormalTok{, p}\SpecialCharTok{{-}}\NormalTok{value }\OtherTok{=} \FloatTok{0.7654}
+\NormalTok{alternative hypothesis}\SpecialCharTok{:}\NormalTok{ true difference }\ControlFlowTok{in}\NormalTok{ means between group }\DecValTok{1}\NormalTok{ and group }\DecValTok{2}\NormalTok{ is not equal to }\DecValTok{0}
+\DecValTok{95}\NormalTok{ percent confidence interval}\SpecialCharTok{:}
+ \SpecialCharTok{{-}}\FloatTok{19.34158}  \FloatTok{25.68703}
+\NormalTok{sample estimates}\SpecialCharTok{:}
+\NormalTok{mean }\ControlFlowTok{in}\NormalTok{ group }\DecValTok{1}\NormalTok{ mean }\ControlFlowTok{in}\NormalTok{ group }\DecValTok{2} 
+       \FloatTok{30.90000}        \FloatTok{27.72727} 
+\end{Highlighting}
+\end{Shaded}
+
+The test result also indicates that there is no significant difference
+in SO2 concentration in the two clusters, \emph{t}= .305, \emph{p}
+=.765.
 
 \end{document}
