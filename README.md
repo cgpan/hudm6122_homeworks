@@ -44,6 +44,8 @@ For the second part of Ex6.3's solution, I asked Xue Yu for help and I think her
 
 V1.0 Finished at 03.31.2023.  
 
+V1.1 add one line of code to Ex6.2 to add the value lable to each point.
+
 Welcome to review and give your feedback
 
 
