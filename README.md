@@ -46,7 +46,15 @@ V1.0 Finished at 03.31.2023.
 
 V1.1 add one line of code to Ex6.2 to add the value lable to each point.
 
-Welcome to review and give your feedback
+Welcome to review and give your feedback  
+
+## Homework_07 solutions - Clustering
+
+Homework 07 is about practicing the clustering methods.  
+
+For the first question, I gave two methods to solve the first question: the first is more rigorous via pure algebra (MATH IS SEXY!!!); the second is to validate it through data calculation.   
+
+V1.0 finished at 04.13.2023.
 
 
 Author: Chenguang Pan  
