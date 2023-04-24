@@ -1,0 +1,198 @@
+---
+title: "HUDM6122 Homework_08"
+author: "Chenguang Pan"
+date: "2023-04-22"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: true
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```   
+
+## Github Address  
+All my latest homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.  
+
+## Exercise 1  
+
+*Do a correspondence analysis for the car-ratings (file cars.txt). Explain how this table can be considered as a contingency table.The data are averaged ratings for 24 car types from a sample of 40 persons. The marks range from 1 (very good) to 6 (very bad).*  
+
+**MY SOLUTION:**  
+```{r}
+# import the data
+df <- read.table("cars.txt", header = T)
+head(df)
+```  
+This dataset is a two-way table that shows the values of different attributes or characteristics (columns) for each type or model of a car (rows). Each row represents a different car model and each column represents a different attribute or characteristic of the car. Therefore, it can be seen as a contingency table.  
+
+```{r}
+# import the packages
+library(FactoMineR)
+library(factoextra)
+
+# combine the first two columns into one
+df[,1] <- paste(df$Type,df$Model)
+df <- df[,-2]
+
+# write a function to calculate the chi-squared distance  
+D <- function(x){
+  a <- t(t(x)/colSums(x))
+  ret <- sqrt(colSums((a[,rep(1:ncol(x),ncol(x))]- 
+                         a[,rep(1:ncol(x),rep(ncol(x), ncol(x)))])^2*
+                        sum(x)/rowSums(x)))
+  matrix(ret, ncol = ncol(x))
+}
+# chi-squared distance for columns
+dcols <- D(df[,-1])
+drows <- D(t(df[,-1]))
+
+# run CA
+r1 <- cmdscale(dcols, eig=T)
+c1 <- cmdscale(drows, eig=T)
+plot(r1$points, xlim = range(r1$points[,1], c1$points[,1]) * 1.5,
+     ylim = range(r1$points[,1], c1$points[,1]) * 1.5, type = "n",  
+     xlab = "Coordinate 1", ylab = "Coordinate 2", lwd = 2)
+text(r1$points, labels = colnames(df[,-1]), cex = 0.3, col="blue")
+text(c1$points, labels = df[,1], cex = 0.3)
+```  
+
+## Exercise 2  
+
+*Write an R function to compute the chi-square statistic of independence. Test the null using for the bachelor data (file bachelors.txt). The data consists of observations of 202,100 bachelors from France and give the frequencies for different sets of modalities classified into regions.*  
+
+**MY SOLUTION:**  
+Write the function first.
+```{r}
+# Function to compute chi-square statistic of independence
+chi_square <- function(table) {
+  # Compute row and column totals
+  row_totals <- apply(table, 1, sum)
+  col_totals <- apply(table, 2, sum)
+  n <- sum(table) # Total number of observations
+  
+  # Compute expected values
+  expected <- outer(row_totals, col_totals) / n
+  
+  # Compute chi-square statistic
+  chi_sq <- sum((table - expected)^2 / expected)
+  
+  # Return result
+  return(chi_sq)
+}
+```  
+Next, import the data and get the test.  
+```{r}
+# import and clean the data
+df <- read.table("bachelors.txt", header = T)
+rownames(df) <- df$Abbrev.
+df <- df[,-c(1,2,ncol(df))]
+
+# run the function on this cleaned data
+(chi_sq <- chi_square(df))
+```  
+The function looks good. Next, get the pvalue.  
+```{r}
+# get the degree of freedom
+dg_fd <- (nrow(df) - 1) * (ncol(df) - 1)
+# get the p-value
+(p_value <- 1 - pchisq(chi_sq, dg_fd))
+```  
+Finally, compare the result with R-built-in function.
+```{r}
+test <- chisq.test(df)
+test
+```  
+The results are identical.That is, we reject the null hypothesis. The variables are not independent with each other!   
+
+
+## Exercise 3  
+
+*Do correspondence analysis of the U.S. crime data (file UScrime.txt), and determine the absolute contributions for the first three axes. How can you interpret the third axis? Try to identify the states with one of the four regions to which it belongs. Do you think the four regions have a different behavior with respect to crime?*  
+
+**MY SOLUTION:**  
+
+```{r}
+# import the data
+df <- read.table("UScrime-1.txt", header = T)
+rownames(df) <- df$state
+# RUN CA
+library(FactoMineR)
+ca_ <- CA(df[4:10], graph = F)
+summary(ca_)
+# table of eigenvalues
+row_coord <- ca_$row$coord[,3]
+row_coord[order(row_coord, decreasing = TRUE)[1:7]]
+ca_$col$coord[,3]
+```   
+[Refer to Xue Yu's solution]  
+The absolute contributions for the first three axes are 50.63%, 20.03%, and 17.91% respectively. The third axis can better represent crimes related to personal injury (murder, robbery, and assault) in states such as GA, MS, W, MD, etc.
+```{r}
+plot(ca_, col.row = df$region, col.col="purple")
+```  
+Northeast region (black points) is more related to auto.theft and robbery. Some states in mid-west (red points), such as ND, IA, WI, and SD are more related to larcery, while there are still some states in mid-west, such as IN, OH,and IL are more related to auto.theft and robbery. Most states from south (green points) are more related to roe, burglary, murder and assault, Most states from west (blue points) are more related to larcery.
+
+
+## Exercise 4  
+
+*Consider the food data (file food.txt). Given that all of the variables are measured in the same units (dollars), explain how this table can be considered as a contingency table. Perform a correspondence analysis and compare the results to those obtained with the PCA analysis of the correlation matrix. The data set consists of the average expenditures on food for several different types of families (manual workers = MA, employees = EM, managers = CA) with different numbers of children (2,3,4 or 5 children).*  
+
+**MY SOLUTION:**  
+Since the rows represent different workertypes and the columns represent different food categories, and the values in the table can be seen as the count or frequency of observations in each category for each workertype, therefore this dataset can be considered as a contingency table.
+
+```{r}
+# import the data
+df <- read.table("food.txt", header = T)
+rownames(df) <- df$Workertype
+df <- df[,-c(1,2)]
+colnames(df)
+dim(df)
+# RUN CA
+library(FactoMineR)
+ca <- CA(df,graph=T)
+ca$eig
+```
+
+```{r}
+# run PCA
+df_scale <- scale(df)
+pca <- princomp(df, cor=T)
+summary(pca)
+```  
+I will choose the first two components to represent the data.  
+```{r}
+xlim <- range(pca$scores[,1])
+plot(pca$scores, xlim=xlim, ylim=xlim)
+text(pca$scores, rownames(df))
+```  
+
+The two graphs show very similar results, since they all captures the similarity between the workertypes, although the data points are shown at different location.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
