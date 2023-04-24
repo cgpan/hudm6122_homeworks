@@ -54,8 +54,12 @@ Homework 07 is about practicing the clustering methods.
 
 For the first question, I gave two methods to solve the first question: the first is more rigorous via pure algebra (MATH IS SEXY!!!); the second is to validate it through data calculation.   
 
-V1.0 finished at 04.13.2023.
+V1.0 finished at 04.13.2023.  
 
+## Homework_08 solutions - Correspondence Analysis  
+
+I referred and cited Xue Yu's solution in question 3.  
+Due to the **heavy workload during this final**, I finished this hw without enough carefullness.  
 
 Author: Chenguang Pan  
 E-mail: cp3280@tc.columbia.edu  
