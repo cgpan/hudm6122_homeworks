@@ -59,7 +59,7 @@ V1.0 finished at 04.13.2023.
 ## Homework_08 solutions - Correspondence Analysis  
 
 I referred and cited Xue Yu's solution in question 3.  
-Due to the **heavy workload during this final**, I finished this hw without enough carefullness.  
+Due to the **heavy workload during this final**, I finished this hw with no enough carefullness.  
 
 Author: Chenguang Pan  
 E-mail: cp3280@tc.columbia.edu  
