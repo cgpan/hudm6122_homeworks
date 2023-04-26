@@ -61,7 +61,7 @@ V1.0 finished at 04.13.2023.
 I referred and cited Xue Yu's solution in question 3.  
 Due to the **heavy workload during this final**, I finished this hw with no enough carefullness.  
 
-## Homework_09 solutions - Structual Equational modeling  
+## Homework_09 solutions - Structural Equational modeling  
 
 This assignment provided solutions for the questions in Chapter 7 for the book *An Instroduction to Applied Multivariate Analysis with R*  
 
