@@ -1,0 +1,7 @@
+library(MVA)
+install.packages("sem")
+demo("Ch-SEM")
+library(HSAUR2)
+library(sem)
+alien_cov <- as.data.frame(alienation)
+write.csv(alien_cov, "alien_cov_size932.csv",row.names = F)

@@ -6,7 +6,7 @@ output:
   pdf_document:
     toc: false
     toc_depth: 4
-    number_sections: true
+    number_sections: false
     keep_tex: true
     highlight: tango
 ---
@@ -22,8 +22,131 @@ knitr::opts_chunk$set(
   message = FALSE)
 ```   
 
-## Github Address  
+## 0.0 Github Address  
 All my latest homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.  
 
-## Exercise 1  
+## 1.0 Exercise 1  
+*The matrix below shows the correlations between ratings on nine statements about pain made by 123 people suffering from extreme pain. Each statement was scored on a scale from 1 to 6, ranging from agreement to disagreement. The nine pain statements were as follows:*  
+**MY SOLUTION: **  
+
+To solve the question, I chose to use the package `lavaan`. This question only provides the correlation matrix, we **have to make a assumption that all variables are standardized**. Then, the covariance's value equals to the correlation and the variance of a centered and standardized variable is equal to one. 
+```{r}
+# import the correlation matrix first
+corr <- '
+1
+-0.04 1
+0.61  -0.07 1
+0.45  -0.12 0.59  1
+0.03  0.49  0.03  -0.08 1
+-0.29 0.43  -0.13 -0.21 0.47  1
+-0.3  0.3 -0.24 -0.19 0.41  0.63  1
+0.45  -0.31 0.59  0.63  -0.14 -0.13 -0.26 1
+0.30  -0.17 0.32  0.37  -0.24 -0.15 -0.29 0.4 1
+'
+
+cov_stded <- getCov(corr,
+                    names = c("Q1","Q2","Q3","Q4","Q5",
+                              "Q6","Q7","Q8","Q9"))
+head(cov_stded)
+```  
+The complete correlation matrix looks good. Next, I fitted the SEM model.  
+
+```{r}
+library(lavaan)
+model_01 <- 'DocRes =~ Q1 + Q3 + Q4 + Q8
+             PatRes =~ Q2 + Q5 + Q6 + Q7
+             DocRes ~~ PatRes'
+model_01_fit <- sem(model_01, sample.cov = cov_stded, sample.nobs = 123)
+summary(model_01_fit)
+```  
+The results show that the correlation between the two latent variables is $-.107$, $p =.016$. The standard error is $.044$. Therefore, the 95% confidence interval of this correlation is $-.107 \pm 1.96 \times .044 = [-.193, -.021]$.  
+
+
+## 2.0 Exercise 2  
+*For the stability of alienation example, fit the model in which the measurement errors for anomia in 1967 and anomia in 1971 are allowed to be correlated.*  
+
+**MY SOLUTION: **  
+
+This dataset shown in the 7.4.1 section is included in the package `MVA`. I do not know why the authors did not provide an easier way to find the data rather than hiding it in the package!! I found the covariance data and save it as an csv file.
+
+```{r}
+# import the data
+cov_df <-read.csv("alien_cov_size932.csv")
+cov_m <- as.matrix(cov_df)
+# convert the covariance matrix into correlation matrix
+cor_m <- cov2cor(cov_m)
+round(cor_m,2)
+```  
+Based on the description from the book, the sample size is 932. Next, I specified the model.  
+```{r}
+# specificy the model
+model_alien <- '# measurement models
+                SES =~ 1*Educ + SEI
+                Alienation67 =~ 1*Anomia67 + Powles67
+                Alienation71 =~ 1*Anomia71 + Powles71
+                
+                # structural model
+                Alienation67 ~ SES
+                Alienation71 ~ Alienation67 + SES
+                
+                # add correlation
+                Anomia67 ~~ Anomia71
+                '
+# fit the model
+model_alien_fit <- sem(model_alien, 
+                       sample.cov = cov_m, 
+                       sample.nobs = 932)
+# check the result
+summary(model_alien_fit, fit.measure = T)
+```  
+This model looks good. Please note, here I use the variance covariance matrix to fit the model. If we standardize everything in this model, the loadings will become correlation coefficients.  
+
+## 3.0 Exercise 3  
+*Meyer and Bendig (1961) administered the five Thurstone Primary Mental Ability tests, verbal meaning (V), space (S), reasoning (R), numerical (N), and word fluency (W), to 49 boys and 61 girls in grade 8 and again three and a half years later in grade 11. The observed correlation matrix is shown below. Fit a single-factor model to the correlations that allows the factor at time one to be correlated with the factor at time two.*  
+
+**MY SOLUTION: **  
+```{r}
+# import the data
+corr <- '
+1
+0.37 1
+0.42  0.33 1
+0.53  0.14 0.38  1
+0.38  0.10  0.20  0.24 1
+0.81  0.34  0.49  0.58 0.32  1
+0.35  0.65 0.20 -0.04 0.11  0.34  1
+0.42  0.32 0.75  0.46  0.26 0.46 0.18 1
+0.40  0.14 0.39  0.73  0.19 0.55 0.06 0.54 1
+0.24  0.15 0.17  0.15  0.43 0.24 0.15 0.20  0.16 1
+'
+
+cov_stded <- getCov(corr,
+                    names = c("V1","S1","R1","N1","W1",
+                              "V2","S2","R2","N2","W2"))
+cov_stded
+```  
+Correlation matrix looks good. Next, I specified the model. 
+```{r}
+# specify the model
+model_spe <- '# the measurement model
+              LV1 =~ V1 + S1 + R1 + N1 + W1
+              LV2 =~ V2 + S2 + R2 + N2 + W2
+
+              # add the correlation
+              LV1 ~~ LV2 '
+# fit the model
+model_fit <- sem(model_spe, sample.cov = cov_stded, sample.nobs = 110)  
+
+# extract the results
+summary(model_fit, fit.measure=T)
+```  
+Since we inputted the correlation matrix here, the `covariance` shown in the result is actually the correlation coefficient between the the factor at two time points, which is .706, p < .001.
+
+
+
+
+
+
+
+
 

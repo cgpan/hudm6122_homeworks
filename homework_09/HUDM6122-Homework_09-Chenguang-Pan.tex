@@ -34,6 +34,46 @@
 \makeatother
 \usepackage{xcolor}
 \usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -50,7 +90,7 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
@@ -71,13 +111,430 @@
 \maketitle
 
 \hypertarget{github-address}{%
-\subsection{Github Address}\label{github-address}}
+\subsection{0.0 Github Address}\label{github-address}}
 
 All my latest homework can be found on Github:
 \url{https://github.com/cgpan/hudm6122_homeworks} . Thanks for checking
 if interested.
 
 \hypertarget{exercise-1}{%
-\subsection{Exercise 1}\label{exercise-1}}
+\subsection{1.0 Exercise 1}\label{exercise-1}}
+
+\emph{The matrix below shows the correlations between ratings on nine
+statements about pain made by 123 people suffering from extreme pain.
+Each statement was scored on a scale from 1 to 6, ranging from agreement
+to disagreement. The nine pain statements were as follows:}\\
+\textbf{MY SOLUTION: }
+
+To solve the question, I chose to use the package \texttt{lavaan}. This
+question only provides the correlation matrix, we \textbf{have to make a
+assumption that all variables are standardized}. Then, the covariance's
+value equals to the correlation and the variance of a centered and
+standardized variable is equal to one.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the correlation matrix first}
+\ErrorTok{\textgreater{}}\NormalTok{ corr }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}}
+\StringTok{+ 1}
+\StringTok{+ {-}0.04 1}
+\StringTok{+ 0.61  {-}0.07 1}
+\StringTok{+ 0.45  {-}0.12 0.59  1}
+\StringTok{+ 0.03  0.49  0.03  {-}0.08 1}
+\StringTok{+ {-}0.29 0.43  {-}0.13 {-}0.21 0.47  1}
+\StringTok{+ {-}0.3  0.3 {-}0.24 {-}0.19 0.41  0.63  1}
+\StringTok{+ 0.45  {-}0.31 0.59  0.63  {-}0.14 {-}0.13 {-}0.26 1}
+\StringTok{+ 0.30  {-}0.17 0.32  0.37  {-}0.24 {-}0.15 {-}0.29 0.4 1}
+\StringTok{+ \textquotesingle{}}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}}\NormalTok{ cov\_stded }\OtherTok{\textless{}{-}} \FunctionTok{getCov}\NormalTok{(corr,}
+\SpecialCharTok{+}                     \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"Q1"}\NormalTok{,}\StringTok{"Q2"}\NormalTok{,}\StringTok{"Q3"}\NormalTok{,}\StringTok{"Q4"}\NormalTok{,}\StringTok{"Q5"}\NormalTok{,}
+\SpecialCharTok{+}                               \StringTok{"Q6"}\NormalTok{,}\StringTok{"Q7"}\NormalTok{,}\StringTok{"Q8"}\NormalTok{,}\StringTok{"Q9"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}} \FunctionTok{head}\NormalTok{(cov\_stded)}
+\NormalTok{      Q1    Q2    Q3    Q4    Q5    Q6    Q7    Q8    Q9}
+\NormalTok{Q1  }\FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.04}  \FloatTok{0.61}  \FloatTok{0.45}  \FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.29} \SpecialCharTok{{-}}\FloatTok{0.30}  \FloatTok{0.45}  \FloatTok{0.30}
+\NormalTok{Q2 }\SpecialCharTok{{-}}\FloatTok{0.04}  \FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.07} \SpecialCharTok{{-}}\FloatTok{0.12}  \FloatTok{0.49}  \FloatTok{0.43}  \FloatTok{0.30} \SpecialCharTok{{-}}\FloatTok{0.31} \SpecialCharTok{{-}}\FloatTok{0.17}
+\NormalTok{Q3  }\FloatTok{0.61} \SpecialCharTok{{-}}\FloatTok{0.07}  \FloatTok{1.00}  \FloatTok{0.59}  \FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.13} \SpecialCharTok{{-}}\FloatTok{0.24}  \FloatTok{0.59}  \FloatTok{0.32}
+\NormalTok{Q4  }\FloatTok{0.45} \SpecialCharTok{{-}}\FloatTok{0.12}  \FloatTok{0.59}  \FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.08} \SpecialCharTok{{-}}\FloatTok{0.21} \SpecialCharTok{{-}}\FloatTok{0.19}  \FloatTok{0.63}  \FloatTok{0.37}
+\NormalTok{Q5  }\FloatTok{0.03}  \FloatTok{0.49}  \FloatTok{0.03} \SpecialCharTok{{-}}\FloatTok{0.08}  \FloatTok{1.00}  \FloatTok{0.47}  \FloatTok{0.41} \SpecialCharTok{{-}}\FloatTok{0.14} \SpecialCharTok{{-}}\FloatTok{0.24}
+\NormalTok{Q6 }\SpecialCharTok{{-}}\FloatTok{0.29}  \FloatTok{0.43} \SpecialCharTok{{-}}\FloatTok{0.13} \SpecialCharTok{{-}}\FloatTok{0.21}  \FloatTok{0.47}  \FloatTok{1.00}  \FloatTok{0.63} \SpecialCharTok{{-}}\FloatTok{0.13} \SpecialCharTok{{-}}\FloatTok{0.15}
+\end{Highlighting}
+\end{Shaded}
+
+The complete correlation matrix looks good. Next, I fitted the SEM
+model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \FunctionTok{library}\NormalTok{(lavaan)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ model\_01 }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}DocRes =\textasciitilde{} Q1 + Q3 + Q4 + Q8}
+\StringTok{+              PatRes =\textasciitilde{} Q2 + Q5 + Q6 + Q7}
+\StringTok{+              DocRes \textasciitilde{}\textasciitilde{} PatRes\textquotesingle{}}
+\SpecialCharTok{\textgreater{}}\NormalTok{ model\_01\_fit }\OtherTok{\textless{}{-}} \FunctionTok{sem}\NormalTok{(model\_01, }\AttributeTok{sample.cov =}\NormalTok{ cov\_stded, }\AttributeTok{sample.nobs =} \DecValTok{123}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(model\_01\_fit)}
+\NormalTok{lavaan }\DecValTok{0}\NormalTok{.}\FloatTok{6.15}\NormalTok{ ended normally after }\DecValTok{28}\NormalTok{ iterations}
+
+\NormalTok{  Estimator                                         ML}
+\NormalTok{  Optimization method                           NLMINB}
+\NormalTok{  Number of model parameters                        }\DecValTok{17}
+
+\NormalTok{  Number of observations                           }\DecValTok{123}
+
+\NormalTok{Model Test User Model}\SpecialCharTok{:}
+                                                      
+\NormalTok{  Test statistic                                }\FloatTok{63.749}
+\NormalTok{  Degrees of freedom                                }\DecValTok{19}
+\NormalTok{  P}\SpecialCharTok{{-}}\FunctionTok{value}\NormalTok{ (Chi}\SpecialCharTok{{-}}\NormalTok{square)                           }\FloatTok{0.000}
+
+\NormalTok{Parameter Estimates}\SpecialCharTok{:}
+
+\NormalTok{  Standard errors                             Standard}
+\NormalTok{  Information                                 Expected}
+\NormalTok{  Information }\FunctionTok{saturated}\NormalTok{ (h1) model          Structured}
+
+\NormalTok{Latent Variables}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  DocRes }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                           
+\NormalTok{    Q1                }\FloatTok{1.000}                           
+\NormalTok{    Q3                }\FloatTok{1.209}    \FloatTok{0.169}    \FloatTok{7.158}    \FloatTok{0.000}
+\NormalTok{    Q4                }\FloatTok{1.131}    \FloatTok{0.165}    \FloatTok{6.873}    \FloatTok{0.000}
+\NormalTok{    Q8                }\FloatTok{1.134}    \FloatTok{0.165}    \FloatTok{6.884}    \FloatTok{0.000}
+\NormalTok{  PatRes }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                           
+\NormalTok{    Q2                }\FloatTok{1.000}                           
+\NormalTok{    Q5                }\FloatTok{1.116}    \FloatTok{0.240}    \FloatTok{4.649}    \FloatTok{0.000}
+\NormalTok{    Q6                }\FloatTok{1.572}    \FloatTok{0.296}    \FloatTok{5.304}    \FloatTok{0.000}
+\NormalTok{    Q7                }\FloatTok{1.381}    \FloatTok{0.266}    \FloatTok{5.198}    \FloatTok{0.000}
+
+\NormalTok{Covariances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  DocRes }\SpecialCharTok{\textasciitilde{}}\ErrorTok{\textasciitilde{}}                                           
+\NormalTok{    PatRes           }\SpecialCharTok{{-}}\FloatTok{0.107}    \FloatTok{0.044}   \SpecialCharTok{{-}}\FloatTok{2.409}    \FloatTok{0.016}
+
+\NormalTok{Variances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{   .Q1                }\FloatTok{0.551}    \FloatTok{0.083}    \FloatTok{6.640}    \FloatTok{0.000}
+\NormalTok{   .Q3                }\FloatTok{0.347}    \FloatTok{0.070}    \FloatTok{4.990}    \FloatTok{0.000}
+\NormalTok{   .Q4                }\FloatTok{0.427}    \FloatTok{0.073}    \FloatTok{5.812}    \FloatTok{0.000}
+\NormalTok{   .Q8                }\FloatTok{0.425}    \FloatTok{0.073}    \FloatTok{5.790}    \FloatTok{0.000}
+\NormalTok{   .Q2                }\FloatTok{0.714}    \FloatTok{0.100}    \FloatTok{7.114}    \FloatTok{0.000}
+\NormalTok{   .Q5                }\FloatTok{0.645}    \FloatTok{0.095}    \FloatTok{6.816}    \FloatTok{0.000}
+\NormalTok{   .Q6                }\FloatTok{0.305}    \FloatTok{0.087}    \FloatTok{3.521}    \FloatTok{0.000}
+\NormalTok{   .Q7                }\FloatTok{0.461}    \FloatTok{0.086}    \FloatTok{5.394}    \FloatTok{0.000}
+\NormalTok{    DocRes            }\FloatTok{0.441}    \FloatTok{0.114}    \FloatTok{3.868}    \FloatTok{0.000}
+\NormalTok{    PatRes            }\FloatTok{0.278}    \FloatTok{0.097}    \FloatTok{2.854}    \FloatTok{0.004}
+\end{Highlighting}
+\end{Shaded}
+
+The results show that the correlation between the two latent variables
+is \(-.107\), \(p =.016\). The standard error is \(.044\). Therefore,
+the 95\% confidence interval of this correlation is
+\(-.107 \pm 1.96 \times .044 = [-.193, -.021]\).
+
+\hypertarget{exercise-2}{%
+\subsection{2.0 Exercise 2}\label{exercise-2}}
+
+\emph{For the stability of alienation example, fit the model in which
+the measurement errors for anomia in 1967 and anomia in 1971 are allowed
+to be correlated.}
+
+\textbf{MY SOLUTION: }
+
+This dataset shown in the 7.4.1 section is included in the package
+\texttt{MVA}. I do not know why the authors did not provide an easier
+way to find the data rather than hiding it in the package!! I found the
+covariance data and save it as an csv file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}}\NormalTok{ cov\_df }\OtherTok{\textless{}{-}}\FunctionTok{read.csv}\NormalTok{(}\StringTok{"alien\_cov\_size932.csv"}\NormalTok{)}
+\SpecialCharTok{\textgreater{}}\NormalTok{ cov\_m }\OtherTok{\textless{}{-}} \FunctionTok{as.matrix}\NormalTok{(cov\_df)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# convert the covariance matrix into correlation matrix}
+\ErrorTok{\textgreater{}}\NormalTok{ cor\_m }\OtherTok{\textless{}{-}} \FunctionTok{cov2cor}\NormalTok{(cov\_m)}
+\SpecialCharTok{\textgreater{}} \FunctionTok{round}\NormalTok{(cor\_m,}\DecValTok{2}\NormalTok{)}
+\NormalTok{     Anomia67 Powles67 Anomia71 Powles71  Educ   SEI}
+\NormalTok{[}\DecValTok{1}\NormalTok{,]     }\FloatTok{1.00}     \FloatTok{0.66}     \FloatTok{0.56}     \FloatTok{0.44} \SpecialCharTok{{-}}\FloatTok{0.36} \SpecialCharTok{{-}}\FloatTok{0.30}
+\NormalTok{[}\DecValTok{2}\NormalTok{,]     }\FloatTok{0.66}     \FloatTok{1.00}     \FloatTok{0.47}     \FloatTok{0.52} \SpecialCharTok{{-}}\FloatTok{0.41} \SpecialCharTok{{-}}\FloatTok{0.29}
+\NormalTok{[}\DecValTok{3}\NormalTok{,]     }\FloatTok{0.56}     \FloatTok{0.47}     \FloatTok{1.00}     \FloatTok{0.67} \SpecialCharTok{{-}}\FloatTok{0.35} \SpecialCharTok{{-}}\FloatTok{0.29}
+\NormalTok{[}\DecValTok{4}\NormalTok{,]     }\FloatTok{0.44}     \FloatTok{0.52}     \FloatTok{0.67}     \FloatTok{1.00} \SpecialCharTok{{-}}\FloatTok{0.37} \SpecialCharTok{{-}}\FloatTok{0.28}
+\NormalTok{[}\DecValTok{5}\NormalTok{,]    }\SpecialCharTok{{-}}\FloatTok{0.36}    \SpecialCharTok{{-}}\FloatTok{0.41}    \SpecialCharTok{{-}}\FloatTok{0.35}    \SpecialCharTok{{-}}\FloatTok{0.37}  \FloatTok{1.00}  \FloatTok{0.54}
+\NormalTok{[}\DecValTok{6}\NormalTok{,]    }\SpecialCharTok{{-}}\FloatTok{0.30}    \SpecialCharTok{{-}}\FloatTok{0.29}    \SpecialCharTok{{-}}\FloatTok{0.29}    \SpecialCharTok{{-}}\FloatTok{0.28}  \FloatTok{0.54}  \FloatTok{1.00}
+\end{Highlighting}
+\end{Shaded}
+
+Based on the description from the book, the sample size is 932. Next, I
+specified the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# specificy the model}
+\ErrorTok{\textgreater{}}\NormalTok{ model\_alien }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\# measurement models}
+\StringTok{+                 SES =\textasciitilde{} 1*Educ + SEI}
+\StringTok{+                 Alienation67 =\textasciitilde{} 1*Anomia67 + Powles67}
+\StringTok{+                 Alienation71 =\textasciitilde{} 1*Anomia71 + Powles71}
+\StringTok{+                 }
+\StringTok{+                 \# structural model}
+\StringTok{+                 Alienation67 \textasciitilde{} SES}
+\StringTok{+                 Alienation71 \textasciitilde{} Alienation67 + SES}
+\StringTok{+                 }
+\StringTok{+                 \# add correlation}
+\StringTok{+                 Anomia67 \textasciitilde{}\textasciitilde{} Anomia71}
+\StringTok{+                 \textquotesingle{}}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# fit the model}
+\ErrorTok{\textgreater{}}\NormalTok{ model\_alien\_fit }\OtherTok{\textless{}{-}} \FunctionTok{sem}\NormalTok{(model\_alien, }
+\SpecialCharTok{+}                        \AttributeTok{sample.cov =}\NormalTok{ cov\_m, }
+\SpecialCharTok{+}                        \AttributeTok{sample.nobs =} \DecValTok{932}\NormalTok{)}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# check the result}
+\ErrorTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(model\_alien\_fit, }\AttributeTok{fit.measure =}\NormalTok{ T)}
+\NormalTok{lavaan }\DecValTok{0}\NormalTok{.}\FloatTok{6.15}\NormalTok{ ended normally after }\DecValTok{78}\NormalTok{ iterations}
+
+\NormalTok{  Estimator                                         ML}
+\NormalTok{  Optimization method                           NLMINB}
+\NormalTok{  Number of model parameters                        }\DecValTok{16}
+
+\NormalTok{  Number of observations                           }\DecValTok{932}
+
+\NormalTok{Model Test User Model}\SpecialCharTok{:}
+                                                      
+\NormalTok{  Test statistic                                 }\FloatTok{6.366}
+\NormalTok{  Degrees of freedom                                 }\DecValTok{5}
+\NormalTok{  P}\SpecialCharTok{{-}}\FunctionTok{value}\NormalTok{ (Chi}\SpecialCharTok{{-}}\NormalTok{square)                           }\FloatTok{0.272}
+
+\NormalTok{Model Test Baseline Model}\SpecialCharTok{:}
+
+\NormalTok{  Test statistic                              }\FloatTok{2133.833}
+\NormalTok{  Degrees of freedom                                }\DecValTok{15}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value                                        }\FloatTok{0.000}
+
+\NormalTok{User Model versus Baseline Model}\SpecialCharTok{:}
+
+\NormalTok{  Comparative Fit }\FunctionTok{Index}\NormalTok{ (CFI)                    }\FloatTok{0.999}
+\NormalTok{  Tucker}\SpecialCharTok{{-}}\NormalTok{Lewis }\FunctionTok{Index}\NormalTok{ (TLI)                       }\FloatTok{0.998}
+
+\NormalTok{Loglikelihood and Information Criteria}\SpecialCharTok{:}
+
+\NormalTok{  Loglikelihood user }\FunctionTok{model}\NormalTok{ (H0)             }\SpecialCharTok{{-}}\FloatTok{15213.740}
+\NormalTok{  Loglikelihood unrestricted }\FunctionTok{model}\NormalTok{ (H1)     }\SpecialCharTok{{-}}\FloatTok{15210.558}
+                                                      
+  \FunctionTok{Akaike}\NormalTok{ (AIC)                               }\FloatTok{30459.481}
+  \FunctionTok{Bayesian}\NormalTok{ (BIC)                             }\FloatTok{30536.878}
+\NormalTok{  Sample}\SpecialCharTok{{-}}\NormalTok{size adjusted }\FunctionTok{Bayesian}\NormalTok{ (SABIC)      }\FloatTok{30486.063}
+
+\NormalTok{Root Mean Square Error of Approximation}\SpecialCharTok{:}
+
+\NormalTok{  RMSEA                                          }\FloatTok{0.017}
+  \DecValTok{90}\NormalTok{ Percent confidence interval }\SpecialCharTok{{-}}\NormalTok{ lower         }\FloatTok{0.000}
+  \DecValTok{90}\NormalTok{ Percent confidence interval }\SpecialCharTok{{-}}\NormalTok{ upper         }\FloatTok{0.051}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value H\_0}\SpecialCharTok{:}\NormalTok{ RMSEA }\SpecialCharTok{\textless{}=} \FloatTok{0.050}                    \FloatTok{0.943}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value H\_0}\SpecialCharTok{:}\NormalTok{ RMSEA }\SpecialCharTok{\textgreater{}=} \FloatTok{0.080}                    \FloatTok{0.000}
+
+\NormalTok{Standardized Root Mean Square Residual}\SpecialCharTok{:}
+
+\NormalTok{  SRMR                                           }\FloatTok{0.011}
+
+\NormalTok{Parameter Estimates}\SpecialCharTok{:}
+
+\NormalTok{  Standard errors                             Standard}
+\NormalTok{  Information                                 Expected}
+\NormalTok{  Information }\FunctionTok{saturated}\NormalTok{ (h1) model          Structured}
+
+\NormalTok{Latent Variables}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  SES }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                              
+\NormalTok{    Educ              }\FloatTok{1.000}                           
+\NormalTok{    SEI               }\FloatTok{5.163}    \FloatTok{0.421}   \FloatTok{12.263}    \FloatTok{0.000}
+\NormalTok{  Alienation67 }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                     
+\NormalTok{    Anomia67          }\FloatTok{1.000}                           
+\NormalTok{    Powles67          }\FloatTok{1.027}    \FloatTok{0.053}   \FloatTok{19.319}    \FloatTok{0.000}
+\NormalTok{  Alienation71 }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                     
+\NormalTok{    Anomia71          }\FloatTok{1.000}                           
+\NormalTok{    Powles71          }\FloatTok{0.971}    \FloatTok{0.049}   \FloatTok{19.660}    \FloatTok{0.000}
+
+\NormalTok{Regressions}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  Alienation67 }\SpecialCharTok{\textasciitilde{}}                                      
+\NormalTok{    SES              }\SpecialCharTok{{-}}\FloatTok{0.549}    \FloatTok{0.053}  \SpecialCharTok{{-}}\FloatTok{10.296}    \FloatTok{0.000}
+\NormalTok{  Alienation71 }\SpecialCharTok{\textasciitilde{}}                                      
+\NormalTok{    Alienation67      }\FloatTok{0.617}    \FloatTok{0.050}   \FloatTok{12.428}    \FloatTok{0.000}
+\NormalTok{    SES              }\SpecialCharTok{{-}}\FloatTok{0.212}    \FloatTok{0.049}   \SpecialCharTok{{-}}\FloatTok{4.302}    \FloatTok{0.000}
+
+\NormalTok{Covariances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{ .Anomia67 }\SpecialCharTok{\textasciitilde{}}\ErrorTok{\textasciitilde{}}                                         
+\NormalTok{   .Anomia71          }\FloatTok{1.886}    \FloatTok{0.240}    \FloatTok{7.869}    \FloatTok{0.000}
+
+\NormalTok{Variances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{   .Educ              }\FloatTok{2.718}    \FloatTok{0.515}    \FloatTok{5.276}    \FloatTok{0.000}
+\NormalTok{   .SEI             }\FloatTok{266.579}   \FloatTok{18.160}   \FloatTok{14.679}    \FloatTok{0.000}
+\NormalTok{   .Anomia67          }\FloatTok{5.067}    \FloatTok{0.371}   \FloatTok{13.669}    \FloatTok{0.000}
+\NormalTok{   .Powles67          }\FloatTok{2.209}    \FloatTok{0.317}    \FloatTok{6.962}    \FloatTok{0.000}
+\NormalTok{   .Anomia71          }\FloatTok{4.807}    \FloatTok{0.395}   \FloatTok{12.184}    \FloatTok{0.000}
+\NormalTok{   .Powles71          }\FloatTok{2.681}    \FloatTok{0.329}    \FloatTok{8.141}    \FloatTok{0.000}
+\NormalTok{    SES               }\FloatTok{6.872}    \FloatTok{0.656}   \FloatTok{10.469}    \FloatTok{0.000}
+\NormalTok{   .Alienation67      }\FloatTok{4.700}    \FloatTok{0.432}   \FloatTok{10.868}    \FloatTok{0.000}
+\NormalTok{   .Alienation71      }\FloatTok{3.862}    \FloatTok{0.343}   \FloatTok{11.262}    \FloatTok{0.000}
+\end{Highlighting}
+\end{Shaded}
+
+This model looks good. Please note, here I use the variance covariance
+matrix to fit the model. If we standardize everything in this model, the
+loadings will become correlation coefficients.
+
+\hypertarget{exercise-3}{%
+\subsection{3.0 Exercise 3}\label{exercise-3}}
+
+\emph{Meyer and Bendig (1961) administered the five Thurstone Primary
+Mental Ability tests, verbal meaning (V), space (S), reasoning (R),
+numerical (N), and word fluency (W), to 49 boys and 61 girls in grade 8
+and again three and a half years later in grade 11. The observed
+correlation matrix is shown below. Fit a single-factor model to the
+correlations that allows the factor at time one to be correlated with
+the factor at time two.}
+
+\textbf{MY SOLUTION: }
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# import the data}
+\ErrorTok{\textgreater{}}\NormalTok{ corr }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}}
+\StringTok{+ 1}
+\StringTok{+ 0.37 1}
+\StringTok{+ 0.42  0.33 1}
+\StringTok{+ 0.53  0.14 0.38  1}
+\StringTok{+ 0.38  0.10  0.20  0.24 1}
+\StringTok{+ 0.81  0.34  0.49  0.58 0.32  1}
+\StringTok{+ 0.35  0.65 0.20 {-}0.04 0.11  0.34  1}
+\StringTok{+ 0.42  0.32 0.75  0.46  0.26 0.46 0.18 1}
+\StringTok{+ 0.40  0.14 0.39  0.73  0.19 0.55 0.06 0.54 1}
+\StringTok{+ 0.24  0.15 0.17  0.15  0.43 0.24 0.15 0.20  0.16 1}
+\StringTok{+ \textquotesingle{}}
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}}\NormalTok{ cov\_stded }\OtherTok{\textless{}{-}} \FunctionTok{getCov}\NormalTok{(corr,}
+\SpecialCharTok{+}                     \AttributeTok{names =} \FunctionTok{c}\NormalTok{(}\StringTok{"V1"}\NormalTok{,}\StringTok{"S1"}\NormalTok{,}\StringTok{"R1"}\NormalTok{,}\StringTok{"N1"}\NormalTok{,}\StringTok{"W1"}\NormalTok{,}
+\SpecialCharTok{+}                               \StringTok{"V2"}\NormalTok{,}\StringTok{"S2"}\NormalTok{,}\StringTok{"R2"}\NormalTok{,}\StringTok{"N2"}\NormalTok{,}\StringTok{"W2"}\NormalTok{))}
+\SpecialCharTok{\textgreater{}}\NormalTok{ cov\_stded}
+\NormalTok{     V1   S1   R1    N1   W1   V2    S2   R2   N2   W2}
+\NormalTok{V1 }\FloatTok{1.00} \FloatTok{0.37} \FloatTok{0.42}  \FloatTok{0.53} \FloatTok{0.38} \FloatTok{0.81}  \FloatTok{0.35} \FloatTok{0.42} \FloatTok{0.40} \FloatTok{0.24}
+\NormalTok{S1 }\FloatTok{0.37} \FloatTok{1.00} \FloatTok{0.33}  \FloatTok{0.14} \FloatTok{0.10} \FloatTok{0.34}  \FloatTok{0.65} \FloatTok{0.32} \FloatTok{0.14} \FloatTok{0.15}
+\NormalTok{R1 }\FloatTok{0.42} \FloatTok{0.33} \FloatTok{1.00}  \FloatTok{0.38} \FloatTok{0.20} \FloatTok{0.49}  \FloatTok{0.20} \FloatTok{0.75} \FloatTok{0.39} \FloatTok{0.17}
+\NormalTok{N1 }\FloatTok{0.53} \FloatTok{0.14} \FloatTok{0.38}  \FloatTok{1.00} \FloatTok{0.24} \FloatTok{0.58} \SpecialCharTok{{-}}\FloatTok{0.04} \FloatTok{0.46} \FloatTok{0.73} \FloatTok{0.15}
+\NormalTok{W1 }\FloatTok{0.38} \FloatTok{0.10} \FloatTok{0.20}  \FloatTok{0.24} \FloatTok{1.00} \FloatTok{0.32}  \FloatTok{0.11} \FloatTok{0.26} \FloatTok{0.19} \FloatTok{0.43}
+\NormalTok{V2 }\FloatTok{0.81} \FloatTok{0.34} \FloatTok{0.49}  \FloatTok{0.58} \FloatTok{0.32} \FloatTok{1.00}  \FloatTok{0.34} \FloatTok{0.46} \FloatTok{0.55} \FloatTok{0.24}
+\NormalTok{S2 }\FloatTok{0.35} \FloatTok{0.65} \FloatTok{0.20} \SpecialCharTok{{-}}\FloatTok{0.04} \FloatTok{0.11} \FloatTok{0.34}  \FloatTok{1.00} \FloatTok{0.18} \FloatTok{0.06} \FloatTok{0.15}
+\NormalTok{R2 }\FloatTok{0.42} \FloatTok{0.32} \FloatTok{0.75}  \FloatTok{0.46} \FloatTok{0.26} \FloatTok{0.46}  \FloatTok{0.18} \FloatTok{1.00} \FloatTok{0.54} \FloatTok{0.20}
+\NormalTok{N2 }\FloatTok{0.40} \FloatTok{0.14} \FloatTok{0.39}  \FloatTok{0.73} \FloatTok{0.19} \FloatTok{0.55}  \FloatTok{0.06} \FloatTok{0.54} \FloatTok{1.00} \FloatTok{0.16}
+\NormalTok{W2 }\FloatTok{0.24} \FloatTok{0.15} \FloatTok{0.17}  \FloatTok{0.15} \FloatTok{0.43} \FloatTok{0.24}  \FloatTok{0.15} \FloatTok{0.20} \FloatTok{0.16} \FloatTok{1.00}
+\end{Highlighting}
+\end{Shaded}
+
+Correlation matrix looks good. Next, I specified the model.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\SpecialCharTok{\textgreater{}} \CommentTok{\# specify the model}
+\ErrorTok{\textgreater{}}\NormalTok{ model\_spe }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}\# the measurement model}
+\StringTok{+               LV1 =\textasciitilde{} V1 + S1 + R1 + N1 + W1}
+\StringTok{+               LV2 =\textasciitilde{} V2 + S2 + R2 + N2 + W2}
+\StringTok{+ }
+\StringTok{+               \# add the correlation}
+\StringTok{+               LV1 \textasciitilde{}\textasciitilde{} LV2 \textquotesingle{}}
+\SpecialCharTok{\textgreater{}} \CommentTok{\# fit the model}
+\ErrorTok{\textgreater{}}\NormalTok{ model\_fit }\OtherTok{\textless{}{-}} \FunctionTok{sem}\NormalTok{(model\_spe, }\AttributeTok{sample.cov =}\NormalTok{ cov\_stded, }\AttributeTok{sample.nobs =} \DecValTok{110}\NormalTok{)  }
+\SpecialCharTok{\textgreater{}} 
+\ErrorTok{\textgreater{}} \CommentTok{\# extract the results}
+\ErrorTok{\textgreater{}} \FunctionTok{summary}\NormalTok{(model\_fit, }\AttributeTok{fit.measure=}\NormalTok{T)}
+\NormalTok{lavaan }\DecValTok{0}\NormalTok{.}\FloatTok{6.15}\NormalTok{ ended normally after }\DecValTok{26}\NormalTok{ iterations}
+
+\NormalTok{  Estimator                                         ML}
+\NormalTok{  Optimization method                           NLMINB}
+\NormalTok{  Number of model parameters                        }\DecValTok{21}
+
+\NormalTok{  Number of observations                           }\DecValTok{110}
+
+\NormalTok{Model Test User Model}\SpecialCharTok{:}
+                                                      
+\NormalTok{  Test statistic                               }\FloatTok{211.828}
+\NormalTok{  Degrees of freedom                                }\DecValTok{34}
+\NormalTok{  P}\SpecialCharTok{{-}}\FunctionTok{value}\NormalTok{ (Chi}\SpecialCharTok{{-}}\NormalTok{square)                           }\FloatTok{0.000}
+
+\NormalTok{Model Test Baseline Model}\SpecialCharTok{:}
+
+\NormalTok{  Test statistic                               }\FloatTok{553.443}
+\NormalTok{  Degrees of freedom                                }\DecValTok{45}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value                                        }\FloatTok{0.000}
+
+\NormalTok{User Model versus Baseline Model}\SpecialCharTok{:}
+
+\NormalTok{  Comparative Fit }\FunctionTok{Index}\NormalTok{ (CFI)                    }\FloatTok{0.650}
+\NormalTok{  Tucker}\SpecialCharTok{{-}}\NormalTok{Lewis }\FunctionTok{Index}\NormalTok{ (TLI)                       }\FloatTok{0.537}
+
+\NormalTok{Loglikelihood and Information Criteria}\SpecialCharTok{:}
+
+\NormalTok{  Loglikelihood user }\FunctionTok{model}\NormalTok{ (H0)              }\SpecialCharTok{{-}}\FloatTok{1385.002}
+\NormalTok{  Loglikelihood unrestricted }\FunctionTok{model}\NormalTok{ (H1)      }\SpecialCharTok{{-}}\FloatTok{1279.088}
+                                                      
+  \FunctionTok{Akaike}\NormalTok{ (AIC)                                }\FloatTok{2812.004}
+  \FunctionTok{Bayesian}\NormalTok{ (BIC)                              }\FloatTok{2868.714}
+\NormalTok{  Sample}\SpecialCharTok{{-}}\NormalTok{size adjusted }\FunctionTok{Bayesian}\NormalTok{ (SABIC)       }\FloatTok{2802.353}
+
+\NormalTok{Root Mean Square Error of Approximation}\SpecialCharTok{:}
+
+\NormalTok{  RMSEA                                          }\FloatTok{0.218}
+  \DecValTok{90}\NormalTok{ Percent confidence interval }\SpecialCharTok{{-}}\NormalTok{ lower         }\FloatTok{0.190}
+  \DecValTok{90}\NormalTok{ Percent confidence interval }\SpecialCharTok{{-}}\NormalTok{ upper         }\FloatTok{0.247}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value H\_0}\SpecialCharTok{:}\NormalTok{ RMSEA }\SpecialCharTok{\textless{}=} \FloatTok{0.050}                    \FloatTok{0.000}
+\NormalTok{  P}\SpecialCharTok{{-}}\NormalTok{value H\_0}\SpecialCharTok{:}\NormalTok{ RMSEA }\SpecialCharTok{\textgreater{}=} \FloatTok{0.080}                    \FloatTok{1.000}
+
+\NormalTok{Standardized Root Mean Square Residual}\SpecialCharTok{:}
+
+\NormalTok{  SRMR                                           }\FloatTok{0.120}
+
+\NormalTok{Parameter Estimates}\SpecialCharTok{:}
+
+\NormalTok{  Standard errors                             Standard}
+\NormalTok{  Information                                 Expected}
+\NormalTok{  Information }\FunctionTok{saturated}\NormalTok{ (h1) model          Structured}
+
+\NormalTok{Latent Variables}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  LV1 }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                              
+\NormalTok{    V1                }\FloatTok{1.000}                           
+\NormalTok{    S1                }\FloatTok{0.523}    \FloatTok{0.122}    \FloatTok{4.270}    \FloatTok{0.000}
+\NormalTok{    R1                }\FloatTok{0.827}    \FloatTok{0.118}    \FloatTok{6.991}    \FloatTok{0.000}
+\NormalTok{    N1                }\FloatTok{0.871}    \FloatTok{0.118}    \FloatTok{7.414}    \FloatTok{0.000}
+\NormalTok{    W1                }\FloatTok{0.466}    \FloatTok{0.123}    \FloatTok{3.793}    \FloatTok{0.000}
+\NormalTok{  LV2 }\OtherTok{=}\ErrorTok{\textasciitilde{}}                                              
+\NormalTok{    V2                }\FloatTok{1.000}                           
+\NormalTok{    S2                }\FloatTok{0.390}    \FloatTok{0.113}    \FloatTok{3.451}    \FloatTok{0.001}
+\NormalTok{    R2                }\FloatTok{0.790}    \FloatTok{0.102}    \FloatTok{7.759}    \FloatTok{0.000}
+\NormalTok{    N2                }\FloatTok{0.735}    \FloatTok{0.104}    \FloatTok{7.078}    \FloatTok{0.000}
+\NormalTok{    W2                }\FloatTok{0.351}    \FloatTok{0.114}    \FloatTok{3.086}    \FloatTok{0.002}
+
+\NormalTok{Covariances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{  LV1 }\SpecialCharTok{\textasciitilde{}}\ErrorTok{\textasciitilde{}}                                              
+\NormalTok{    LV2               }\FloatTok{0.706}    \FloatTok{0.115}    \FloatTok{6.146}    \FloatTok{0.000}
+
+\NormalTok{Variances}\SpecialCharTok{:}
+\NormalTok{                   Estimate  Std.Err  z}\SpecialCharTok{{-}}\NormalTok{value  }\FunctionTok{P}\NormalTok{(}\SpecialCharTok{\textgreater{}}\ErrorTok{|}\NormalTok{z}\SpecialCharTok{|}\NormalTok{)}
+\NormalTok{   .V1                }\FloatTok{0.419}    \FloatTok{0.063}    \FloatTok{6.604}    \FloatTok{0.000}
+\NormalTok{   .S1                }\FloatTok{0.835}    \FloatTok{0.113}    \FloatTok{7.405}    \FloatTok{0.000}
+\NormalTok{   .R1                }\FloatTok{0.600}    \FloatTok{0.083}    \FloatTok{7.215}    \FloatTok{0.000}
+\NormalTok{   .N1                }\FloatTok{0.557}    \FloatTok{0.078}    \FloatTok{7.128}    \FloatTok{0.000}
+\NormalTok{   .W1                }\FloatTok{0.866}    \FloatTok{0.117}    \FloatTok{7.411}    \FloatTok{0.000}
+\NormalTok{   .V2                }\FloatTok{0.305}    \FloatTok{0.054}    \FloatTok{5.629}    \FloatTok{0.000}
+\NormalTok{   .S2                }\FloatTok{0.886}    \FloatTok{0.120}    \FloatTok{7.382}    \FloatTok{0.000}
+\NormalTok{   .R2                }\FloatTok{0.563}    \FloatTok{0.080}    \FloatTok{7.054}    \FloatTok{0.000}
+\NormalTok{   .N2                }\FloatTok{0.620}    \FloatTok{0.087}    \FloatTok{7.159}    \FloatTok{0.000}
+\NormalTok{   .W2                }\FloatTok{0.906}    \FloatTok{0.123}    \FloatTok{7.390}    \FloatTok{0.000}
+\NormalTok{    LV1               }\FloatTok{0.572}    \FloatTok{0.124}    \FloatTok{4.596}    \FloatTok{0.000}
+\NormalTok{    LV2               }\FloatTok{0.686}    \FloatTok{0.132}    \FloatTok{5.198}    \FloatTok{0.000}
+\end{Highlighting}
+\end{Shaded}
+
+Since we inputted the correlation matrix here, the \texttt{covariance}
+shown in the result is actually the correlation coefficient between the
+the factor at two time points, which is .706, p \textless{} .001.
 
 \end{document}
