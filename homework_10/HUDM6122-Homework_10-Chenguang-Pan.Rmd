@@ -1,0 +1,212 @@
+---
+title: "HUDM6122 Homework_10"
+author: "Chenguang Pan"
+date: "2023-05-06"
+output:
+  pdf_document:
+    toc: false
+    toc_depth: 4
+    number_sections: false
+    keep_tex: true
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+## Global options
+knitr::opts_chunk$set(
+  cache = TRUE,
+  prompt = TRUE,
+  comment = '',
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE)
+```   
+
+## 0.1 Github Address  
+All my latest homework can be found on Github: https://github.com/cgpan/hudm6122_homeworks . Thanks for checking if interested.  
+
+## 0.2 Homework Reference  
+Due to the heavy workload during this final and given the difficulty of the last two questions, part of the Ex 8.4 and Ex 8.5 solutions of this assignment has referred to the answers from [this webpage(click here)](https://rstudio-pubs-static.s3.amazonaws.com/529736_55aeb8cb60a44adf948c1457e6a00262.html).   
+
+## Ex. 8.1   
+
+*The final model fitted to the timber data did not constrain the fitted curves to go through the origin, although this is clearly necessary. Fit an amended model where this constraint is satisfied, and plot the new predicted values.*  
+
+**MY SOLUTION:**  
+
+To make this homework's layout beautiful, I wrote a separate R script to load all the required dataset.  
+```{r}
+# import the R script containing the dataset
+source("hw_10_data_source.r")
+df <- timber()
+head(df)
+dim(df)
+```  
+The data looks good. To constrain the fitted curve to go through the origin, one simply need to remove the intercept term from the model. Then, Y will be zero if all predictors are zero.  
+```{r}
+library(nlme)
+# import the final model
+timber.lme2 <- lme(loads ~ slippage + I(slippage^2),
+                   random = ~slippage|specimen,
+                   data = df,method = "ML")
+# remove the intercept from the model or just set the intercept to 0
+timber.lme3 <- lme(loads ~ 0 + slippage + I(slippage^2),
+                   random = ~slippage|specimen,
+                   data = df,method = "ML")
+# see the result
+summary(timber.lme3)
+```  
+It looks good.  
+```{r}
+# get the predicted value
+df$pred1 <- predict(timber.lme3)
+# plot the graph
+library(lattice)
+pfun <- function(x, y) {
+    panel.xyplot(x, y[1:length(x)])
+    panel.lines(x, y[1:length(x) + length(x)], lty = 1)
+}
+
+plot(xyplot(cbind(loads, pred1) ~ slippage | specimen, data = df,
+     panel = pfun, layout = c(4, 2), ylab = "loads"))
+```
+Great! All fitted curve goes through the origin!
+
+## Ex. 8.2  
+
+*Investigate a further model for the glucose challenge data that allows a random quadratic effect.*  
+
+```{r}
+# import the data
+plasma <- plasma()
+head(plasma)
+dim(plasma)
+```  
+The data looks good.
+```{r}
+# write a new model with random quadratic effect
+plasma.lme3 <- lme(plasma ~ time*group + I(time^2),
+                   random = ~time+I(time^2)|Subject,
+                   data = plasma, method = "ML")
+summary(plasma.lme3)
+```  
+The model looks good. Next, use Likelihood ratio test to compare the model fit.
+```{r}
+plasma.lme2 <- lme(plasma ~ time*group + I(time^2),
+                   random = ~time|Subject,
+                   data = plasma, method = "ML")
+anova(plasma.lme2,plasma.lme3)
+```
+Note, the p-value associated with the likelihood ratio test is .2253, indicating that the random quadratic effect is not better than the nested model. Therefore, I prefer not to add the random quadratic effect into the model.  
+
+
+## Ex. 8.3  
+
+*Fit an independence model to the Beat the Blues data, and compare the estimated treatment effect confidence interval with that from the random intercept model described in the text.*  
+
+```{r}
+# import the data
+data("BtheB", package = "HSAUR2")
+BtheB$subject <- factor(rownames(BtheB))
+nobs <- nrow(BtheB)
+BtheB_long <- reshape(BtheB, idvar = "subject",
+    varying = c("bdi.2m", "bdi.3m", "bdi.5m", "bdi.8m"),
+    direction = "long")
+BtheB_long$time <- rep(c(2, 3, 5, 8), rep(nobs, 4))
+head(BtheB_long)
+dim(BtheB_long)
+```  
+The data looks good. Next, fit an independence model. In an independence model, the observations at each time point are assumed to be independent of each other, meaning that there is no correlation between them.  
+
+```{r}
+BtheB_lme3 <- lm(bdi ~ bdi.pre + time + treatment+ drug+ length +subject, 
+                 data = BtheB_long, na.action = na.omit)
+summary(BtheB_lme3)$coefficients["treatmentBtheB", c("Estimate","Std. Error", 
+                                                     "t value", "Pr(>|t|)")]
+```  
+
+From the result, one can have the 95% confidence interval(CI) is $-17.19 \pm 1.96\times11.75= (-40.24, 5.86)$. This treatment effect is not statistically significant. The 95% CI from the random intercept model is $-2.315 \pm 1.96\times1.72= (-5.69, 1.06)$
+
+
+
+## Ex. 8.4  
+
+*Construct a plot of the mean profiles of the two treatment groups in the Beat the Blues study showing also the predicted mean profiles under the model used in the chapter. Repeat the exercise with a model that includes only a time effect.*  
+
+```{r}
+library(ggplot2)
+treatmentlabels <-c('TAU'='Treatment As Usuaul', 'BtheB'='Beat The Blues')
+ggplot(BtheB_long, aes(time, bdi)) + 
+  stat_boxplot(geom='errorbar', linetype=1, width=0.5) + 
+  geom_boxplot( aes(time, bdi),outlier.shape=1) + 
+  facet_grid(~treatment, labeller = as_labeller(treatmentlabels)) +  
+  stat_summary(fun.y=mean, geom='point', size=2) + 
+  stat_summary(fun.data=mean_se, geom='errorbar') + 
+  labs(title='DBI vs Time For Each Treatment Group With Error bars', 
+       x='Time (Months)',y='BDI')
+```
+
+
+## Ex. 8.5  
+
+*Investigate whether there is any evidence of an interaction between treatment and time for the Beat the Blues data.*  
+  
+
+Reference Note:  
+The following solution refers to the answers on [this webpage](https://rstudio-pubs-static.s3.amazonaws.com/529736_55aeb8cb60a44adf948c1457e6a00262.html). Please click the hyperlink for more detail.  
+
+```{r}
+library("HSAUR3")
+library("ggplot2")
+library("lme4")
+layout(matrix(1:2, nrow=1))
+ylim <- range(BtheB[,grep('bdi', names(BtheB))],
+              na.rm=TRUE)
+
+
+#subsetting the data for treatment as usual group
+tau <- subset(BtheB, treatment=='TAU')[,grep('bdi', names(BtheB))]
+#developing box plots for each time interval for the treatment as usual group based on BDI values
+boxplot(tau, main='Treatment As Usual',xlab='Time (Months)', ylab='BDI', ylim=ylim, 
+names=c(0,2,3,5,8))
+
+#subseting the data for BtheB group
+btb <- subset(BtheB, treatment=='BtheB')[,grep('bdi', names(BtheB))]
+#developing box plots for each time interval for the treatment as usual group based on BDI values
+boxplot(btb, main='Beat The Blues', xlab='Time (Months)', ylab='BDI', ylim=ylim, names=c(0,2,3,5,8))
+```  
+
+```{r}
+#ggplot can now easily divide the categorical variable (treatment) into its groups TAU vs BtheB
+treatmentlabels <-c('TAU'='Treatment As Usuaul', 'BtheB'='Beat The Blues')
+
+ggplot(BtheB_long, aes(time,bdi)) + geom_boxplot() + facet_grid(~treatment, labeller = as_labeller(treatmentlabels)) + labs(title='DBI vs Time For Each Treatment Group', x='Time (Months)',y='BDI')
+```  
+Over time, the BDI values show a decreasing trend, while the dispersion of data in the TAU group appears to be wider than the BtheB group. To investigate the effect of treatment and its interaction with time, I will fit both a fixed and mixed model with the same covariates used in the previous models.  
+```{r}
+#Fitting linear model
+btheb_lm2 <- lm(bdi ~ bdi.pre + time + drug + length + treatment + subject + treatment*time, data= BtheB_long)
+
+#Fitting mixed Model
+btheb_lmer2 <- lmer(bdi ~ bdi.pre + time + drug + length + treatment + treatment*time + (1 | subject), data=BtheB_long, REML=FALSE, na.action=na.omit)
+anova(btheb_lmer2, btheb_lm2)
+```  
+From the results, the fixed model is prefered. Next, checking the interacion coefficient,
+```{r}
+summary(btheb_lm2)$coefficients["time:treatmentBtheB", c("Estimate","Std. Error", 
+                                                     "t value", "Pr(>|t|)")]
+```  
+The interaction effect is significant in the fixed model.  
+
+
+
+
+
+
+
+
+
+
+
+
+
